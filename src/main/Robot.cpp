@@ -10,6 +10,7 @@ Robot::Robot() {}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
+ * 
  * this for items like diagnostics that you want to run during disabled,
  * autonomous, teleoperated and test.
  *
@@ -37,7 +38,7 @@ void Robot::AutonomousInit() {
   m_autonomousCommand = m_container.GetAutonomousCommand();
 
     if (m_autonomousCommand) {
-        m_autonomousCommand->Schedule();
+        m_autonomousCommand->frc2::Command::Schedule();
     }
 }
 
