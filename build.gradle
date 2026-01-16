@@ -75,7 +75,7 @@ model {
                 }
             }
 
-            // Set deploy task to deploy this component
+            // Set deploy task to deploy this component LOLAZO 
             deployArtifact.component = it
 
             // Enable run tasks for this component
