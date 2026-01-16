@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
+#include <ctre/phoenix6/CANBus.hpp>
 
 /**
  * The Constants header provides a convenient place for teams to hold robot-wide
@@ -19,3 +20,8 @@ namespace OperatorConstants {
 inline constexpr int kDriverControllerPort = 0;
 
 }  // namespace OperatorConstants
+
+//General robot constants
+namespace robotConstants {
+    constexpr static const ctre::phoenix6::CANBus rio {"rio"};
+}
