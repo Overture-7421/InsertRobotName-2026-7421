@@ -20,7 +20,7 @@ Chassis::Chassis() : SwerveChassis() {
 }
 
 units::meters_per_second_t Chassis::getMaxModuleSpeed() {
-    return 5_mps; //5mps
+    return 5.12_mps; //5mps
 }
 
 units::meter_t Chassis::getDriveBaseRadius() {
@@ -67,7 +67,7 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = -0.398193359375_tr;
+	config.EncoderConfig.Offset = 0.0_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(53);
     config.TurnMotorConfig.Inverted = true;
@@ -87,7 +87,7 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.066650390625_tr;
+	config.EncoderConfig.Offset = 0.0_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(53);
     config.TurnMotorConfig.Inverted = true;
@@ -108,7 +108,7 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.495361328125_tr;
+	config.EncoderConfig.Offset = 0.0_tr;
 #endif
     config.TurnMotorConfig.PIDConfigs.WithKP(53);
     config.TurnMotorConfig.Inverted = true;
@@ -128,7 +128,7 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.29833984375_tr;
+	config.EncoderConfig.Offset = 0.0_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(53);
     config.TurnMotorConfig.Inverted = true;

@@ -45,7 +45,8 @@
         frc::ChassisSpeeds desiredSpeeds;
         ChassisAccels currentAccels;
         frc::Pose2d latestPose;
-        frc::SwerveDriveKinematics<4> kinematics { {frc::Translation2d {9.144061_in, 9.880374_in},   // FrontLeftModule
+        frc::SwerveDriveKinematics<4> kinematics { {
+                frc::Translation2d {9.144061_in, 9.880374_in},   // FrontLeftModule
                 frc::Translation2d {9.144061_in, -9.880374_in},  // FrontRightModule
                 frc::Translation2d {-9.144061_in, 9.880374_in}, // BackLeftModule
                 frc::Translation2d {-9.144061_in, -9.880374_in} // BackRightModule
