@@ -11,7 +11,9 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
-
+#include "Subsystems/Chassis/Chassis.h"
+#include "Commands/DriveCommand/DriveCommand.h"
+#include "Commands/ResetHeading/ResetHeading.h"
 #include "Constants.h"
 
 /**
@@ -28,6 +30,9 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
+  OverXboxController driver{ 0, 0.05, 0.2 };
+
+  Chassis chassis;
 
 
   // The robot's subsystems are defined here...

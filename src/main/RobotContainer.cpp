@@ -28,9 +28,8 @@ void RobotContainer::ConfigureBindings() {
 }
 
 void RobotContainer::ConfigDriverBindings() {
-    // Driver Controller Bindings
-
-    // Reset Heading
+  chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
+	driver.Back().OnTrue(ResetHeading(&chassis));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
