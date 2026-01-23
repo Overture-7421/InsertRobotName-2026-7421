@@ -62,14 +62,14 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
     config.EncoderConfig.CanCoderId = 9;
     config.CanBus = robotConstants::rio;
     config.DriveGearRatio = 6.03;
-    config.TurnGearRatio = 287 / 11;
+    config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.0_tr;
+	config.EncoderConfig.Offset = 0.216796875_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(53);
+    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
     config.TurnMotorConfig.Inverted = true;
     config.ModuleName = "Front Left";
     return config;
@@ -82,14 +82,14 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
     config.EncoderConfig.CanCoderId = 12;
     config.CanBus = robotConstants::rio;
     config.DriveGearRatio = 6.03;
-    config.TurnGearRatio = 287 / 11;
+    config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.0_tr;
+	config.EncoderConfig.Offset = 0.10400390625_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(53);
+    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
     config.TurnMotorConfig.Inverted = true;
     config.ModuleName = "Front Right";
     return config;
@@ -103,14 +103,14 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
     config.EncoderConfig.CanCoderId = 10;
     config.CanBus = robotConstants::rio;
     config.DriveGearRatio = 6.03;
-    config.TurnGearRatio = 287 / 11;
+    config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.0_tr;
+	config.EncoderConfig.Offset = -0.3662109375_tr;
 #endif
-    config.TurnMotorConfig.PIDConfigs.WithKP(53);
+    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
     config.TurnMotorConfig.Inverted = true;
     config.ModuleName = "Back Left";
     return config;
@@ -123,14 +123,14 @@ SwerveModuleConfig Chassis::BackRightConfig() {
     config.EncoderConfig.CanCoderId = 11;
     config.CanBus = robotConstants::rio;
     config.DriveGearRatio = 6.03;
-    config.TurnGearRatio = 287 / 11;
+    config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.0_tr;
+	config.EncoderConfig.Offset = 0.364501953125_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(53);
+    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
     config.TurnMotorConfig.Inverted = true;
     config.ModuleName = "Back Right";
     return config;
