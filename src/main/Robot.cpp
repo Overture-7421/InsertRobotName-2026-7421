@@ -6,8 +6,55 @@
 
 #include <frc2/command/CommandScheduler.h>
 
-Robot::Robot() {}
 
+// Gearings
+// Motores correctos cantidad
+// Agregar motores en init
+// Cancoders correctos ()
+
+// Elevador
+
+
+void Robot::RobotInit() {
+  #ifndef __FRC_ROBORIO__
+    simMotorManager.Init({
+      {2, "Rebuilt2026/motors/back_right_drive"},
+      {4, "Rebuilt2026/motors/back_left_drive"},
+      {6, "Rebuilt2026/motors/front_left_drive"},
+      {8, "Rebuilt2026/motors/front_right_drive"},
+
+      {1, "Rebuilt2026/motors/back_right_rotation"},
+      {3, "Rebuilt2026/motors/back_left_rotation"},
+      {5, "Rebuilt2026/motors/front_left_rotation"},
+      {7, "Rebuilt2026/motors/front_right_rotation"},
+
+      {13,"Rebuilt2026/motors/turret"},
+      {14,"Rebuilt2026/motors/spindexer"},
+      {15,"Rebuilt2026/motors/shooterWheels"},
+      {16,"Rebuilt2026/motors/intakeRollers"},
+      {17,"Rebuilt2026/motors/intake"},
+      {18,"Rebuilt2026/motors/hood"},
+      {19,"Rebuilt2026/motors/elevator"}
+  
+        });
+
+    simPigeonManager.Init("Rebuilt2026/imu");
+
+    simCANCoderManager.Init({
+      {9, "Rebuilt2026/cancoders/back_right_cancoder"},
+      {10, "Rebuilt2026/cancoders/back_left_cancoder"},
+      {11, "Rebuilt2026/cancoders/front_left_cancoder"},
+      {12, "Rebuilt2026/cancoders/front_right_cancoder"},
+
+      {20, "Rebuilt2026/cancoders/hood"},
+      {21, "Rebuilt2026/cancoders/intake"},
+      {22, "Rebuilt2026/cancoders/turret"}
+        });
+
+    simDutyCycleEncoderManager.Init({});
+#endif
+
+}
 /**
  * This function is called every 20 ms, no matter the mode. Use
  * 
@@ -19,6 +66,7 @@ Robot::Robot() {}
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+
 }
 
 /**
@@ -35,11 +83,7 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_autonomousCommand = m_container.GetAutonomousCommand();
 
-    if (m_autonomousCommand) {
-		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
-    }
 }
 
 void Robot::AutonomousPeriodic() {}
@@ -49,15 +93,15 @@ void Robot::TeleopInit() {
   // teleop starts running. If you want the autonomous to
   // continue until interrupted by another command, remove
   // this line or comment it out.
-  if (m_autonomousCommand) {
-    m_autonomousCommand->Cancel();
-  }
+
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic() {
+  turret.SetVoltage(12_V);
+}
 
 /**
  * This function is called periodically during test mode.
