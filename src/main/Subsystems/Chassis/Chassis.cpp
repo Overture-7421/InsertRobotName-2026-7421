@@ -67,10 +67,10 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.216796875_tr;
+	config.EncoderConfig.Offset = 0.218994140625_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
+    config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
+    config.TurnMotorConfig.Inverted = false;
     config.ModuleName = "Front Left";
     return config;
 }
@@ -87,10 +87,10 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.10400390625_tr;
+	config.EncoderConfig.Offset = 0.105712890625_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
+    config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
+    config.TurnMotorConfig.Inverted = false;
     config.ModuleName = "Front Right";
     return config;
 }
@@ -108,10 +108,10 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = -0.3662109375_tr;
+	config.EncoderConfig.Offset = -0.37109375_tr;
 #endif
-    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
+    config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
+    config.TurnMotorConfig.Inverted = false;
     config.ModuleName = "Back Left";
     return config;
 }
@@ -128,10 +128,10 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.364501953125_tr;
+	config.EncoderConfig.Offset = 0.3681640625_tr;
 #endif 
-    config.TurnMotorConfig.PIDConfigs.WithKP(1.3).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
+    config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
+    config.TurnMotorConfig.Inverted = false;
     config.ModuleName = "Back Right";
     return config;
 }
