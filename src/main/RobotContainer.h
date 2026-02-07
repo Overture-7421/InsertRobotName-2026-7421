@@ -11,10 +11,9 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
-
 #include "Constants.h"
 
-/**
+/**   
  * This class is where the bulk of the robot should be declared.  Since
  * Command-based is a "declarative" paradigm, very little robot logic should
  * actually be handled in the {@link Robot} periodic methods (other than the
@@ -28,12 +27,13 @@ class RobotContainer {
   frc2::Command* GetAutonomousCommand();
 
  private:
-
-
-  // The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;
+
+  // necessary robot controllers and subsystems
+  OverXboxController driver{ 0, 0.05, 0.2 };
 
   void ConfigureBindings();
   void ConfigDriverBindings();
+
 
 };
