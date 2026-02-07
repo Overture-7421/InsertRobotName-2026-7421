@@ -20,10 +20,6 @@ struct ShooterConstants {
   constexpr static const int ShooterLeftMotorId = 21;
   constexpr static const int ShooterRightMotorId = 22;
 
-  constexpr static const int TurretMotorId = 23;
-  constexpr static const int Turret1CANCoderId = 24;
-  constexpr static const int Turret2CANCoderId = 00; //Poner
-
   constexpr static const int HoodMotorId = 19;
   constexpr static const int HoodCANCoderId = 20;
 
@@ -63,40 +59,6 @@ struct ShooterConstants {
 
 
         return shooterRightConfig;
-    }
-
-    constexpr static const OverTalonFXConfig TurretConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
-        OverTalonFXConfig turretConfig;
-        turretConfig.MotorId = TurretMotorId;
-        turretConfig.NeutralMode = ControllerNeutralMode::Brake;
-        turretConfig.Inverted = false;
-
-        turretConfig.CurrentLimit = 20_A;
-        turretConfig.StatorCurrentLimit = 60_A;
-        turretConfig.TriggerThreshold = 30_A;
-        turretConfig.TriggerThresholdTime = 0.5_s;
-        turretConfig.ClosedLoopRampRate = 0.0_s;
-        turretConfig.OpenLoopRampRate = 0.05_s;
-        turretConfig.PIDConfigs.WithKV(0.0).WithKP(0.0);
-
-        return turretConfig;
-    }
-
-    constexpr static const CanCoderConfig Turret1CANConfig() {
-        CanCoderConfig turret1CANConfig;
-        turret1CANConfig.CanCoderId = Turret1CANCoderId;
-        turret1CANConfig.Offset = 0.0_tr;
-        turret1CANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
-
-        return turret1CANConfig;
-    }
-
-    constexpr static const CanCoderConfig Turret2CANConfig() {
-        CanCoderConfig turret2CANConfig;
-        turret2CANConfig.CanCoderId = Turret2CANCoderId;
-        turret2CANConfig.Offset = 0.0_tr;
-        turret2CANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
-        return turret2CANConfig;
     }
 
     constexpr static const OverTalonFXConfig HoodConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR

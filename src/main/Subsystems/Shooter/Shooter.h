@@ -32,14 +32,10 @@ class Shooter : public frc2::SubsystemBase {
  OverTalonFX shooterLeftMotor{ShooterConstants::ShooterLeftConfig(), robotConstants::rio};
  OverTalonFX shooterRightMotor{ShooterConstants::ShooterRightConfig(), robotConstants::rio};
 
- OverTalonFX turretMotor{ShooterConstants::TurretConfig(), robotConstants::rio};
- OverCANCoder turret1CANCoder{ShooterConstants::Turret1CANConfig(), robotConstants::rio};
- OverCANCoder turret2CANCoder{ShooterConstants::Turret2CANConfig(), robotConstants::rio};
-
  OverTalonFX hoodMotor{ShooterConstants::HoodConfig(), robotConstants::rio};
  OverCANCoder hoodCANCoder{ShooterConstants::HoodCANConfig(), robotConstants::rio};
 
- ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
+  ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
   ctre::phoenix6::controls::MotionMagicVoltage hoodVoltageRequest{0.0_tr};
   
 };
