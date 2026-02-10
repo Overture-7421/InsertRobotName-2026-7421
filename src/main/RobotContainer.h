@@ -11,10 +11,16 @@
 #include <pathplanner/lib/auto/AutoBuilder.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
+#include "OvertureLib/Gamepads/OverConsole/OverConsole.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "Commands/DriveCommand/DriveCommand.h"
 #include "Commands/ResetHeading/ResetHeading.h"
 #include "Constants.h"
+
+#include "Subsystems/Turret/Turret.h"
+#include "Subsystems/Shooter/Shooter.h"
+#include <atomic>
+#include "Commands/LaunchCommand/LaunchCommand.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -31,8 +37,14 @@ class RobotContainer {
 
  private:
   OverXboxController driver{ 0, 0.05, 0.2 };
+	OverXboxController oprtr{ 1, 0.20, 0.2 };
+	OverConsole console{ 2 };
+	OverXboxController test{ 3, 0.20, 0.2 };
 
   Chassis chassis;
+
+  Shooter shooter;
+  Turret turret;
 
 
   // The robot's subsystems are defined here...
@@ -40,5 +52,6 @@ class RobotContainer {
 
   void ConfigureBindings();
   void ConfigDriverBindings();
+  void ConfigOperatorBindings();
 
 };

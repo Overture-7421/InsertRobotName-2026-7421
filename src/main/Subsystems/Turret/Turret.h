@@ -13,7 +13,6 @@
 #include <frc2/command/Commands.h>
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Pose2d.h>
-#include <frc/geometry/Translation2d.h>
 #include <frc/MathUtil.h>
 
 class Turret : public frc2::SubsystemBase {

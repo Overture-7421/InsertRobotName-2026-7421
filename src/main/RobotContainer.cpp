@@ -18,18 +18,31 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
+  
 
-  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
   ConfigDriverBindings();
 }
+
+static std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
+
+  driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis,
+      []() -> frc::Translation2d {
+        return *selectedTarget.load();
+      }
+    ).ToPtr()
+  );
+}
+
+void RobotContainer::ConfigOperatorBindings() {
+  console.Button(1).OnTrue(frc2::cmd::RunOnce([&] {
+    selectedTarget.store(&LaunchConstants::HubPose);
+
+  }));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

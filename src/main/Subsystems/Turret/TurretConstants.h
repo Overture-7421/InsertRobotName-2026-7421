@@ -6,12 +6,8 @@
 #include "OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h"
 #include "OvertureLib/Sensors/OverCANCoder/OverCANCoder.h"
 
-struct TurretConstants {
 
-  constexpr static const frc::Translation2d HubPose = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d LeftPass = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d RightPass = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d CenterPass = {0.0_m, 0.0_m}; //Poner
+struct TurretConstants {
 
   constexpr static const units::turns_per_second_t TurretCruiseVelocity = 0.0_tps;
   constexpr static const units::turns_per_second_squared_t TurretCruiseAcceleration = 0.0_tr_per_s_sq;

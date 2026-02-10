@@ -4,29 +4,31 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, frc::Translation2d targetObjective) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, std::function<frc::Translation2d()> targetSupplier) {
   this->turret = turret;
   this->shooter = shooter;
   this->chassis = chassis;
-  this->targetObjective = targetObjective;
+  this->targetSupplier = std::move(targetSupplier);
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({turret, shooter});
 }
 
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() {
-
-  if(isRedAlliance()){
-    targetObjective = pathplanner::FlippingUtil::flipFieldPosition(targetObjective);
-  } else {
-    targetObjective = targetObjective;
-  }
-
+  
 }
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-  turret->AimAtFieldPosition(chassis->getEstimatedPose(), targetObjective);
+  frc::Translation2d target = targetSupplier();
+  if(isRedAlliance()){
+    target = pathplanner::FlippingUtil::flipFieldPosition(target);
+  }
+  targetWhileMoving.setTargetLocation(target);
+
+  
+
+  turret->AimAtFieldPosition(chassis->getEstimatedPose(), target);
 }
 
 // Called once the command ends or is interrupted.
