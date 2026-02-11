@@ -50,7 +50,10 @@ void Robot::RobotInit() {
 
       {21, "Rebuilt2026/cancoders/hood"},
       {22, "Rebuilt2026/cancoders/intake"},
-      {23, "Rebuilt2026/cancoders/turret"}
+      {23, "Rebuilt2026/cancoders/turret"},
+      {24, "Rebuilt2026/cancoders/turretcancoder1"},
+      {25, "Rebuilt2026/cancoders/turretcancoder2"}
+
         });
 
     simDutyCycleEncoderManager.Init({});
