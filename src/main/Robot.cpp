@@ -6,7 +6,7 @@
 
 #include <frc2/command/CommandScheduler.h>
 
-Robot::Robot() {
+void Robot::RobotInit() {
 
   #ifndef __FRC_ROBORIO__
       simMotorManager.Init({
@@ -35,6 +35,8 @@ Robot::Robot() {
       simPigeonManager.Init("Rebuilt2026/imu");
 
       simCANCoderManager.Init({
+        {50, "Rebuilt2026/cancoders/A"},
+        {51, "Rebuilt2026/cancoders/turretcancoder2"},
         {11, "Rebuilt2026/cancoders/back_right_cancoder"},
         {10, "Rebuilt2026/cancoders/back_left_cancoder"},
         {9, "Rebuilt2026/cancoders/front_left_cancoder"},
@@ -42,8 +44,8 @@ Robot::Robot() {
 
         {20, "Rebuilt2026/cancoders/hood"},
         {15, "Rebuilt2026/cancoders/intake"},
-        {24, "Rebuilt2026/cancoders/turret"}
-          });
+        {30, "Rebuilt2026/cancoders/turret"}
+        });
 
       simDutyCycleEncoderManager.Init({});
   #endif
