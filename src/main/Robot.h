@@ -9,9 +9,11 @@
 #include <frc/TimedRobot.h>
 #include <frc2/command/CommandPtr.h>
 
+#include <OvertureLib/Robots/OverRobot/OverRobot.h>
+
 #include "RobotContainer.h"
 
-class Robot : public frc::TimedRobot {
+class Robot : public OverRobot {
  public:
   Robot();
   void RobotPeriodic() override;
@@ -29,6 +31,4 @@ class Robot : public frc::TimedRobot {
   frc2::Command *m_autonomousCommand;
 
   RobotContainer m_container;
-
-
 };

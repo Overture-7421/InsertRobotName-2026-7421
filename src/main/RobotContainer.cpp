@@ -30,19 +30,22 @@ void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis,
-      []() -> frc::Translation2d {
-        return *selectedTarget.load();
-      }
-    ).ToPtr()
-  );
-}
+  // driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis,
+  //     []() -> frc::Translation2d {
+  //       return *selectedTarget.load();
+  //     }
+  //   ).ToPtr()
+  // );
+
+  driver.A().WhileTrue(turret.TestCommand(90_deg));
+  driver.A().OnFalse(turret.TestCommand(0_deg));
+} 
 
 void RobotContainer::ConfigOperatorBindings() {
-  console.Button(1).OnTrue(frc2::cmd::RunOnce([&] {
-    selectedTarget.store(&LaunchConstants::HubPose);
+  // console.Button(1).OnTrue(frc2::cmd::RunOnce([&] {
+  //   selectedTarget.store(&LaunchConstants::HubPose);
 
-  }));
+  // }));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

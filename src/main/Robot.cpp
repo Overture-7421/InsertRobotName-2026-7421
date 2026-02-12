@@ -6,7 +6,49 @@
 
 #include <frc2/command/CommandScheduler.h>
 
-Robot::Robot() {}
+Robot::Robot() {
+
+  #ifndef __FRC_ROBORIO__
+      simMotorManager.Init({
+        {8, "Rebuilt2026/motors/back_right_drive"},
+        {6, "Rebuilt2026/motors/back_left_drive"},
+        {2, "Rebuilt2026/motors/front_left_drive"},
+        {4, "Rebuilt2026/motors/front_right_drive"},
+        
+        {7, "Rebuilt2026/motors/back_right_rotation"},
+        {5, "Rebuilt2026/motors/back_left_rotation"},
+        {1, "Rebuilt2026/motors/front_left_rotation"},
+        {3, "Rebuilt2026/motors/front_right_rotation"},
+
+        {23,"Rebuilt2026/motors/turret"},
+        {17,"Rebuilt2026/motors/spindexer"},
+        {21,"Rebuilt2026/motors/shooterWheels"},
+        {16,"Rebuilt2026/motors/intakeRollers"},
+        {14,"Rebuilt2026/motors/intake"},
+        {19,"Rebuilt2026/motors/hood"},
+        {26,"Rebuilt2026/motors/elevatorRight"},
+        {25,"Rebuilt2026/motors/elevatorLeft"}
+
+    
+          });
+
+      simPigeonManager.Init("Rebuilt2026/imu");
+
+      simCANCoderManager.Init({
+        {11, "Rebuilt2026/cancoders/back_right_cancoder"},
+        {10, "Rebuilt2026/cancoders/back_left_cancoder"},
+        {9, "Rebuilt2026/cancoders/front_left_cancoder"},
+        {12, "Rebuilt2026/cancoders/front_right_cancoder"},
+
+        {20, "Rebuilt2026/cancoders/hood"},
+        {15, "Rebuilt2026/cancoders/intake"},
+        {24, "Rebuilt2026/cancoders/turret"}
+          });
+
+      simDutyCycleEncoderManager.Init({});
+  #endif
+
+}
 
 /**
  * This function is called every 20 ms, no matter the mode. Use

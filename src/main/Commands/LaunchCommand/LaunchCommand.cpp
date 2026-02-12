@@ -20,15 +20,24 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-  frc::Translation2d target = targetSupplier();
+  frc::Translation2d targetCoords = targetSupplier();
   if(isRedAlliance()){
-    target = pathplanner::FlippingUtil::flipFieldPosition(target);
+    targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
-  targetWhileMoving.setTargetLocation(target);
 
-  
+  targetWhileMoving.setTargetLocation(targetCoords);
+  frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());
+  ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
+  frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
-  turret->AimAtFieldPosition(chassis->getEstimatedPose(), target);
+  turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
+
+  units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
+  units::degree_t hoodAngle = LaunchConstants::DistanceToHood[distanceToTarget];
+  units::turns_per_second_t shooterSpeed = LaunchConstants::DistanceToShooter[distanceToTarget];
+
+  shooter->setHoodAngle(hoodAngle);
+  shooter->setObjectiveVelocity(shooterSpeed);
 }
 
 // Called once the command ends or is interrupted.

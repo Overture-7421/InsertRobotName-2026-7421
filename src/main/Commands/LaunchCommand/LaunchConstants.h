@@ -9,6 +9,7 @@
 #include <units/length.h>
 #include <units/time.h>
 #include <units/angle.h>
+#include <units/angular_velocity.h>
 
 
 namespace LaunchConstants {
@@ -18,7 +19,7 @@ namespace LaunchConstants {
   constexpr static const frc::Translation2d RightPass = {0.0_m, 0.0_m}; //Poner
   constexpr static const frc::Translation2d CenterPass = {0.0_m, 0.0_m}; //Poner
 
-  static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodAngle{
+  static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHood{
       {
         {1.66_m, 0.0_deg},
         {1.9_m, 0.0_deg},
@@ -36,18 +37,18 @@ namespace LaunchConstants {
   }; 
 
 
-  static const InterpolatingTable<units::meter_t, double> DistanceToShooter{
+  static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooter{
     {
-        {0.1_m, 0},
-        {0.5_m, 0},
-        {1.0_m, 0},
-        {1.5_m, 0},
-        {2.0_m, 0},
-        {2.5_m, 0},
-        {3.0_m, 0},
-        {3.5_m, 0},
-        {4.0_m, 0},
-        {4.5_m, 0},
+        {0.1_m, 0_tps},
+        {0.5_m, 0_tps},
+        {1.0_m, 0_tps},
+        {1.5_m, 0_tps},
+        {2.0_m, 0_tps},
+        {2.5_m, 0_tps},
+        {3.0_m, 0_tps},
+        {3.5_m, 0_tps},
+        {4.0_m, 0_tps},
+        {4.5_m, 0_tps},
     }
   };
 

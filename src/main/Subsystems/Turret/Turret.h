@@ -14,12 +14,15 @@
 #include <frc/geometry/Rotation2d.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/MathUtil.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+#include <frc/trajectory/TrapezoidProfile.h>
+#include <frc/controller/ProfiledPIDController.h>
 
 class Turret : public frc2::SubsystemBase {
  public:
   Turret();
 
-  void setTurretAngle(units::degree_t angle);
+  void setTargetAngle(units::degree_t turretTarget);
   units::degree_t convertToClosestBoundedTurretAngleDegrees(units::degree_t targetAngleDegrees);
   units::degree_t calculateTurretAngleFromCANCoderDegrees();
 
@@ -28,6 +31,8 @@ class Turret : public frc2::SubsystemBase {
   void AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
   bool isAimAtFieldPosition(units::degree_t setPoint);
+
+  frc2::CommandPtr TestCommand(units::degree_t setPoint);
   
   void Periodic() override;
 
@@ -37,6 +42,11 @@ class Turret : public frc2::SubsystemBase {
   OverCANCoder turret1CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
   OverCANCoder turret2CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
 
-  ctre::phoenix6::controls::MotionMagicVoltage turretVoltageRequest{0.0_tr};
+  ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
+
+  units::degree_t target; //Posion Inicial
+
+    frc::ProfiledPIDController<units::degree> turretPID {100.0, 0.0, 0.0, {TurretConstants::TurretVelocity,
+            TurretConstants::TurretAcceleration}};
 
 };
