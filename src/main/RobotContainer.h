@@ -36,6 +36,10 @@ class RobotContainer {
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
+  Chassis chassis;
+
+  void UpdateTelemetry();
+
 
  private:
   OverXboxController driver{ 0, 0.05, 0.2 };
@@ -50,7 +54,6 @@ class RobotContainer {
 	//frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
 #endif 
 
-  Chassis chassis;
 
   Shooter shooter;
   Turret turret{&chassis};

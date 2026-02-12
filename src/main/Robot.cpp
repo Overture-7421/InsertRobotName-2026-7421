@@ -67,7 +67,8 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
-
+  frc::SmartDashboard::PutNumber("Pigeon Yaw",m_container.chassis.getRotation2d().Degrees().value());
+  m_container.UpdateTelemetry();
 }
 
 /**

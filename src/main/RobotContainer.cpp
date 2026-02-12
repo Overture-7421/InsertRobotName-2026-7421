@@ -53,6 +53,13 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 	return autoChooser.GetSelected();
 }
 
+void RobotContainer::UpdateTelemetry() {
+	chassis.shuffleboardPeriodic();
+
+	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
+
+}
+
 AprilTags::Config RobotContainer::railCameraRight() {
 	AprilTags::Config config;
 	config.cameraName = "RailRight";

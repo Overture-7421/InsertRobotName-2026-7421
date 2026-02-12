@@ -6,7 +6,7 @@
 
 Turret::Turret(Chassis* chassis) {
 
-    turretPID.DisableContinuousInput();
+    turretPID.EnableContinuousInput(-180.0_deg, 180.0_deg);
     turretPID.SetTolerance(TurretConstants::TurretRangeOfError);
     
     units::degree_t target = calculateTurretAngleFromCANCoderDegrees();
@@ -47,6 +47,7 @@ units::degree_t Turret::convertToClosestBoundedTurretAngleDegrees(units::degree_
         finalOffset += 360.0_deg;
     }
 
+    frc::SmartDashboard::PutNumber("TurretData/Final Target Position", finalOffset.value());
     return finalOffset;
 }
 
@@ -97,18 +98,19 @@ frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d&
 
     units::meter_t deltaX = targetPosition.X() - turretPose.X(); //Para calcular el Angulo Absoluto al Target
     units::meter_t deltaY = targetPosition.Y() - turretPose.Y();
-    units::radian_t targetAbsAngle = units::math::atan2(deltaY, deltaX); //Angulo Absoluto de la Cancha
+    units::degree_t targetAbsAngle = units::math::atan2(deltaY, deltaX); //Angulo Absoluto de la Cancha
+    frc::SmartDashboard::PutNumber("TurretData/TargetAbsAngle", targetAbsAngle.value());
 
-    units::radian_t angleDifference = targetAbsAngle - robotPose.Rotation().Radians(); //Cuanto debe girar la Torreta respecto al Chassis
-    units::radian_t constrainedAngle = frc::AngleModulus(angleDifference); //Convierte el resultado a un rango de -180 a 180°
-
+    units::degree_t angleDifference = targetAbsAngle - robotPose.Rotation().Degrees(); //Cuanto debe girar la Torreta respecto al Chassis
+    units::degree_t constrainedAngle = frc::AngleModulus(angleDifference); //Convierte el resultado a un rango de -180 a 180°
+    frc::SmartDashboard::PutNumber("TurretData/TurretAngleRelativeToRobot", constrainedAngle.value());
     return frc::Rotation2d {constrainedAngle}; //Retorna el Angulo Relativo que debe girar la Torreta
 }
 
 void Turret::AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
     frc::Rotation2d idealAngle = GetTurretAimingParameterFromRobotPose(robotPose, targetPosition);
-    units::degree_t setPoint = convertToClosestBoundedTurretAngleDegrees(idealAngle.Degrees());
-    setTargetAngle(setPoint);
+    // units::degree_t setPoint = convertToClosestBoundedTurretAngleDegrees(idealAngle.Degrees());
+    setTargetAngle(idealAngle.Degrees());
 }
 
 frc2::CommandPtr Turret::TestCommand(units::degree_t setPoint){
@@ -126,19 +128,19 @@ bool Turret::isAimAtFieldPosition(units::degree_t setPoint){
 
 void Turret::Periodic() {
     
-    // units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), {target, -chassis->getCurrentSpeeds().omega}));
-    units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), {target, 0.0_rad_per_s}));
+    units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), target) - chassis->getCurrentSpeeds().omega.value() * 1.0);
+    // units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), {target, 0.0_rad_per_s}));
     turretMotor.SetControl(turretVoltageRequest.WithOutput(motorOutput).WithEnableFOC(true));
 
-    units::degree_t realAngle = calculateTurretAngleFromCANCoderDegrees();
-    units::degree_t motorAngle = turretMotor.GetPosition().GetValue();
-    units::degree_t error = units::math::abs(realAngle - motorAngle);
-    if (error > 2.0_deg){
-        turretMotor.SetPosition(realAngle);
-    }
-    frc::SmartDashboard::PutNumber("TurretData/Real Angle", realAngle.value() / 360.0);
-    frc::SmartDashboard::PutNumber("TurretData/Motor Angle", motorAngle.value());
-    frc::SmartDashboard::PutNumber("TurretData/Error", error.value());
+    // units::degree_t realAngle = calculateTurretAngleFromCANCoderDegrees();
+    // units::degree_t motorAngle = turretMotor.GetPosition().GetValue();
+    // units::degree_t error = units::math::abs(realAngle - motorAngle);
+    // if (error > 2.0_deg){
+    //     turretMotor.SetPosition(realAngle);
+    // }
+    // frc::SmartDashboard::PutNumber("TurretData/Real Angle", realAngle.value() / 360.0);
+    // frc::SmartDashboard::PutNumber("TurretData/Motor Angle", motorAngle.value());
+    // frc::SmartDashboard::PutNumber("TurretData/Error", error.value());
 
 }
   
