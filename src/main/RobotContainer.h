@@ -21,6 +21,7 @@
 #include "Subsystems/Shooter/Shooter.h"
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
+#include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 
 
 /**
@@ -42,10 +43,17 @@ class RobotContainer {
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
 
+  #ifndef __FRC_ROBORIO__
+	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
+#else
+	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
+	//frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
+#endif 
+
   Chassis chassis;
 
   Shooter shooter;
-  Turret turret;
+  Turret turret{&chassis};
 
 
   // The robot's subsystems are defined here...
@@ -54,5 +62,15 @@ class RobotContainer {
   void ConfigureBindings();
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
+
+  static AprilTags::Config railCameraRight();
+	static AprilTags::Config climberCameraLeft();
+	static AprilTags::Config climberCameraRight();
+	static AprilTags::Config railCameraLeft();
+
+	AprilTags railCamRight{ &tagLayout, &chassis, railCameraRight() };
+	AprilTags climberCamLeft{ &tagLayout, &chassis, climberCameraLeft() };
+	AprilTags climberCamRight{ &tagLayout, &chassis, climberCameraRight() };
+	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
 
 };

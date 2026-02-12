@@ -4,7 +4,7 @@
 
 #include "Turret.h"
 
-Turret::Turret(){
+Turret::Turret(Chassis* chassis) {
 
     turretPID.DisableContinuousInput();
     turretPID.SetTolerance(TurretConstants::TurretRangeOfError);
@@ -12,6 +12,8 @@ Turret::Turret(){
     units::degree_t target = calculateTurretAngleFromCANCoderDegrees();
     frc::SmartDashboard::PutNumber("TurretData/Start Position", target.value());
     turretMotor.SetPosition(target);
+
+    this->chassis = chassis;
 
 
 }
@@ -49,11 +51,11 @@ units::degree_t Turret::convertToClosestBoundedTurretAngleDegrees(units::degree_
 }
 
 units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
-    units::degree_t encoder1 = turret1CANCoder.GetPosition().GetValue();
-    units::degree_t encoder2 = turret2CANCoder.GetPosition().GetValue();
+    units::degree_t encoder1 = turret1CANCoder.GetAbsolutePosition().GetValue();
+    units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValue();
 
-    // frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value());
-    // frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value());
+    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value() / 360.0);
+    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value() / 360.0);
 
 
    units::degree_t difference = encoder2 - encoder1;
@@ -124,7 +126,8 @@ bool Turret::isAimAtFieldPosition(units::degree_t setPoint){
 
 void Turret::Periodic() {
     
-    units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), target));
+    // units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), {target, -chassis->getCurrentSpeeds().omega}));
+    units::volt_t motorOutput = units::volt_t(turretPID.Calculate(calculateTurretAngleFromCANCoderDegrees(), {target, 0.0_rad_per_s}));
     turretMotor.SetControl(turretVoltageRequest.WithOutput(motorOutput).WithEnableFOC(true));
 
     units::degree_t realAngle = calculateTurretAngleFromCANCoderDegrees();
@@ -133,15 +136,9 @@ void Turret::Periodic() {
     if (error > 2.0_deg){
         turretMotor.SetPosition(realAngle);
     }
-    frc::SmartDashboard::PutNumber("TurretData/Real Angle", realAngle.value());
+    frc::SmartDashboard::PutNumber("TurretData/Real Angle", realAngle.value() / 360.0);
     frc::SmartDashboard::PutNumber("TurretData/Motor Angle", motorAngle.value());
     frc::SmartDashboard::PutNumber("TurretData/Error", error.value());
-
-    units::degree_t encoder1 = turret1CANCoder.GetAbsolutePosition().GetValueAsDouble() * 360.0_deg;
-    units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValueAsDouble() * 360.0_deg;
-
-    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value());
-    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value());
 
 }
   

@@ -17,10 +17,11 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include <frc/controller/ProfiledPIDController.h>
+#include "Subsystems/Chassis/Chassis.h"
 
 class Turret : public frc2::SubsystemBase {
  public:
-  Turret();
+  Turret(Chassis* chassis);
 
   void setTargetAngle(units::degree_t turretTarget);
   units::degree_t convertToClosestBoundedTurretAngleDegrees(units::degree_t targetAngleDegrees);
@@ -46,7 +47,9 @@ class Turret : public frc2::SubsystemBase {
 
   units::degree_t target; //Posion Inicial
 
-    frc::ProfiledPIDController<units::degree> turretPID {100.0, 0.0, 0.0, {TurretConstants::TurretVelocity,
+    frc::ProfiledPIDController<units::degree> turretPID {0.08, 0.0, 0.0, {TurretConstants::TurretVelocity,
             TurretConstants::TurretAcceleration}};
+
+  Chassis* chassis;
 
 };

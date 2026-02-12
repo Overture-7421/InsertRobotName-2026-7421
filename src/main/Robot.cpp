@@ -35,8 +35,8 @@ void Robot::RobotInit() {
       simPigeonManager.Init("Rebuilt2026/imu");
 
       simCANCoderManager.Init({
-        {50, "Rebuilt2026/cancoders/A"},
-        {51, "Rebuilt2026/cancoders/turretcancoder2"},
+        {24, "Rebuilt2026/cancoders/turret_cancoder1"},
+        {28, "Rebuilt2026/cancoders/turret_cancoder2"},
         {11, "Rebuilt2026/cancoders/back_right_cancoder"},
         {10, "Rebuilt2026/cancoders/back_left_cancoder"},
         {9, "Rebuilt2026/cancoders/front_left_cancoder"},
@@ -48,6 +48,10 @@ void Robot::RobotInit() {
         });
 
       simDutyCycleEncoderManager.Init({});
+
+      frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(
+            frc::AprilTagField::k2026RebuiltAndyMark);
+    simPhotonVisionManager.Init(tagLayout);
   #endif
 
 }
@@ -63,6 +67,7 @@ void Robot::RobotInit() {
  */
 void Robot::RobotPeriodic() {
   frc2::CommandScheduler::GetInstance().Run();
+
 }
 
 /**

@@ -9,7 +9,7 @@
 
 struct TurretConstants {
 
-  constexpr static const units::turns_per_second_t TurretVelocity = 20.0_tps;
+  constexpr static const units::turns_per_second_t TurretVelocity = 2.3_tps;
   constexpr static const units::turns_per_second_squared_t TurretAcceleration = 15.0_tr_per_s_sq;
   constexpr static const units::degree_t TurretRangeOfError = 1.5_deg;
 
@@ -25,8 +25,8 @@ struct TurretConstants {
   constexpr static const double GearRatioEncoder1ToTurret = GearEncoder1 / GearTurretTooth;
   
   constexpr static const int TurretMotorId = 23;
-  constexpr static const int Turret1CANCoderId = 50;
-  constexpr static const int Turret2CANCoderId = 51; //Poner
+  constexpr static const int Turret1CANCoderId = 24;
+  constexpr static const int Turret2CANCoderId = 28; //Poner
 
  constexpr static const OverTalonFXConfig TurretConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
         OverTalonFXConfig turretConfig;
@@ -49,7 +49,6 @@ struct TurretConstants {
         CanCoderConfig turret1CANConfig;
         turret1CANConfig.CanCoderId = Turret1CANCoderId;
         turret1CANConfig.Offset = 0.0_tr;
-        turret1CANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
 
         return turret1CANConfig;
     }
@@ -58,7 +57,6 @@ struct TurretConstants {
         CanCoderConfig turret2CANConfig;
         turret2CANConfig.CanCoderId = Turret2CANCoderId;
         turret2CANConfig.Offset = 0.0_tr;
-        turret2CANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
         return turret2CANConfig;
     }
 };
