@@ -38,7 +38,8 @@ class Turret : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
-
+  bool enableChassisComp = false;
+  
   OverTalonFX turretMotor{TurretConstants::TurretConfig(), robotConstants::rio};
   OverCANCoder turret1CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
   OverCANCoder turret2CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
@@ -47,8 +48,8 @@ class Turret : public frc2::SubsystemBase {
 
   units::degree_t target; //Posion Inicial
 
-    frc::ProfiledPIDController<units::degree> turretPID {0.08, 0.0, 0.0, {TurretConstants::TurretVelocity,
-            TurretConstants::TurretAcceleration}};
+    frc::ProfiledPIDController<units::degree> turretPID {0.1, 0.0, 0.0, {TurretConstants::TurretVelocity,
+            TurretConstants::TurretAcceleration}, RobotConstants::LoopTime};
 
   Chassis* chassis;
 

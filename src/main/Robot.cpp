@@ -5,6 +5,7 @@
 #include "Robot.h"
 
 #include <frc2/command/CommandScheduler.h>
+#include <networktables/NetworkTableInstance.h>
 
 void Robot::RobotInit() {
 
@@ -53,6 +54,12 @@ void Robot::RobotInit() {
             frc::AprilTagField::k2026RebuiltAndyMark);
     simPhotonVisionManager.Init(tagLayout);
   #endif
+  AddPeriodic([&] {
+		frc2::CommandScheduler::GetInstance().Run();
+    #ifndef __FRC_ROBORIO__
+      nt::NetworkTableInstance::GetDefault().Flush();
+    #endif
+	}, RobotConstants::LoopTime, RobotConstants::TimingOffset);
 
 }
 
@@ -66,7 +73,6 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc2::CommandScheduler::GetInstance().Run();
   frc::SmartDashboard::PutNumber("Pigeon Yaw",m_container.chassis.getRotation2d().Degrees().value());
   m_container.UpdateTelemetry();
 }
