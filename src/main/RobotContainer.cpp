@@ -9,6 +9,7 @@
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
 
+
   // Configure the button bindings
   autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
@@ -18,22 +19,17 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
-  // Configure your trigger bindings here
-
-  // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-  // Schedule `ExampleMethodCommand` when the Xbox controller's B button is
-  // pressed, cancelling on release.
   ConfigDriverBindings();
 }
 
 void RobotContainer::ConfigDriverBindings() {
-    // Driver Controller Bindings
+  driver.LeftBumper().WhileTrue(intake.setIntakePosition(intakeConstants::intakeConstants::IntakeOpen));
+  driver.LeftBumper().OnFalse(intake.setIntakePosition(intakeConstants::intakeConstants::IntakeStow));
 
-    // Reset Heading
+  driver.A().WhileTrue(intake.setRollersVoltageCommand(6_V));
+  driver.A().OnFalse(intake.setRollersVoltageCommand(0_V));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-
 	return autoChooser.GetSelected();
-}
+} 

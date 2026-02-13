@@ -15,9 +15,9 @@ Intake::Intake() {
 }
 
 void Intake::setRollersVoltage(units::volt_t targetVoltage){
-    rollersMotor.SetVoltage(targetVoltage);
+    rollersMotor.SetControl(rollersVoltage.WithOutput(targetVoltage).WithEnableFOC(true));
 }
-
+ 
 bool Intake::intakeReached(units::degree_t targetAngle){
     units::degree_t intakeError = targetAngle - intakeMotor.GetPosition().GetValue();
     return (units::math::abs(intakeError) < intakeConstants::IntakeRangeError);
@@ -43,6 +43,24 @@ frc2::CommandPtr Intake::setIntakePosition(intakeValues targetPos){
 
         [this, targetPos] {
             return (intakeReached(targetPos.intake));
+        }
+    ).ToPtr();
+}
+
+frc2::CommandPtr Intake::setRollersVoltageCommand(units::volt_t targetVoltage){
+    return frc2::FunctionalCommand(
+        [this, targetVoltage] () {
+            setRollersVoltage(targetVoltage);
+        },
+
+        [this, targetVoltage] () {
+            setRollersVoltage(targetVoltage);
+        },
+        
+        [] (bool interrupted){},
+
+        [] {
+            return true;
         }
     ).ToPtr();
 }
