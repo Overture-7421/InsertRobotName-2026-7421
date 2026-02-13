@@ -17,7 +17,7 @@
 
 class Robot : public OverRobot {
  public:
-  void RobotInit() override;
+  Robot();
   void RobotPeriodic() override;
   void DisabledInit() override;
   void DisabledPeriodic() override;
@@ -29,9 +29,8 @@ class Robot : public OverRobot {
   void SimulationInit() override;
   void SimulationPeriodic() override;
 
-
-  OverTalonFX turret{{13, ControllerNeutralMode::Brake, false, false, ctre::phoenix6::configs::Slot0Configs(), 100_A, 100_A, 100_A}, {"rio"} };
-
  private:
 
+  frc2::Command *m_autonomousCommand;
+  RobotContainer m_container;
 };

@@ -15,27 +15,28 @@
 // Elevador
 
 
-void Robot::RobotInit() {
-  #ifndef __FRC_ROBORIO__
+Robot::Robot() {
+
+  #ifndef __FRC_ROBORIO__ 
     simMotorManager.Init({
-      {2, "Rebuilt2026/motors/back_right_drive"},
-      {4, "Rebuilt2026/motors/back_left_drive"},
-      {6, "Rebuilt2026/motors/front_left_drive"},
-      {8, "Rebuilt2026/motors/front_right_drive"},
+      {8, "Rebuilt2026/motors/back_right_drive"},
+      {6, "Rebuilt2026/motors/back_left_drive"},
+      {2, "Rebuilt2026/motors/front_left_drive"},
+      {4, "Rebuilt2026/motors/front_right_drive"},
+      
+      {7, "Rebuilt2026/motors/back_right_rotation"},
+      {5, "Rebuilt2026/motors/back_left_rotation"},
+      {1, "Rebuilt2026/motors/front_left_rotation"},
+      {3, "Rebuilt2026/motors/front_right_rotation"},
 
-      {1, "Rebuilt2026/motors/back_right_rotation"},
-      {3, "Rebuilt2026/motors/back_left_rotation"},
-      {5, "Rebuilt2026/motors/front_left_rotation"},
-      {7, "Rebuilt2026/motors/front_right_rotation"},
-
-      {13,"Rebuilt2026/motors/turret"},
-      {14,"Rebuilt2026/motors/spindexer"},
+      {23,"Rebuilt2026/motors/turret"},
+      {17,"Rebuilt2026/motors/spindexer"},
       {15,"Rebuilt2026/motors/shooterWheels"},
       {16,"Rebuilt2026/motors/intakeRollers"},
-      {17,"Rebuilt2026/motors/intake"},
-      {18,"Rebuilt2026/motors/hood"},
-      {19,"Rebuilt2026/motors/elevatorRight"},
-      {20,"Rebuilt2026/motors/elevatorLeft"}
+      {14,"Rebuilt2026/motors/intake"},
+      {19,"Rebuilt2026/motors/hood"},
+      {26,"Rebuilt2026/motors/elevatorRight"},
+      {25,"Rebuilt2026/motors/elevatorLeft"}
 
   
         });
@@ -43,14 +44,14 @@ void Robot::RobotInit() {
     simPigeonManager.Init("Rebuilt2026/imu");
 
     simCANCoderManager.Init({
-      {9, "Rebuilt2026/cancoders/back_right_cancoder"},
+      {11, "Rebuilt2026/cancoders/back_right_cancoder"},
       {10, "Rebuilt2026/cancoders/back_lmeft_cancoder"},
-      {11, "Rebuilt2026/cancoders/front_left_cancoder"},
+      {9, "Rebuilt2026/cancoders/front_left_cancoder"},
       {12, "Rebuilt2026/cancoders/front_right_cancoder"},
 
-      {21, "Rebuilt2026/cancoders/hood"},
-      {22, "Rebuilt2026/cancoders/intake"},
-      {23, "Rebuilt2026/cancoders/turret"}
+      {20, "Rebuilt2026/cancoders/hood"},
+      {15, "Rebuilt2026/cancoders/intake"},
+      {24, "Rebuilt2026/cancoders/turret"}
         });
 
     simDutyCycleEncoderManager.Init({});
@@ -85,7 +86,11 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+  m_autonomousCommand = m_container.GetAutonomousCommand();
 
+    if (m_autonomousCommand) {
+		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
+    }
 }
 
 void Robot::AutonomousPeriodic() {}
@@ -102,7 +107,6 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-  turret.SetVoltage(12_V);
 }
 
 /**

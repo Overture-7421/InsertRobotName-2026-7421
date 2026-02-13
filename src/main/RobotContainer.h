@@ -12,6 +12,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
 #include "Constants.h"
+#include "Subsystems/Intake/Intake.h"
+#include "Subsystems/Chassis/Chassis.h"
 
 /**   
  * This class is where the bulk of the robot should be declared.  Since
@@ -34,6 +36,9 @@ class RobotContainer {
 
   void ConfigureBindings();
   void ConfigDriverBindings();
+
+  Intake intake;
+  Chassis chassis;
 
 
 };

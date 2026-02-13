@@ -17,6 +17,7 @@ class Intake : public frc2::SubsystemBase {
   bool intakeReached(units::degree_t targetAngle);
 
   frc2::CommandPtr setIntakePosition(intakeValues targetPos);
+  frc2::CommandPtr setRollersVoltageCommand(units::volt_t targetVoltage);
 
   void Periodic() override;
 
