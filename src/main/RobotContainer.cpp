@@ -19,31 +19,52 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureBindings() {
   
-
-
   ConfigDriverBindings();
+  ConfigOperatorBindings();
 }
-
-static std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
   driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis,
-      []() -> frc::Translation2d {
+      [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
     ).ToPtr()
   );
 
-  // driver.A().WhileTrue(turret.TestCommand(90_deg));
-  // driver.A().OnFalse(turret.TestCommand(0_deg));
+//   driver.A().WhileTrue(turret.TestCommand(90_deg));
+//   driver.A().OnFalse(turret.TestCommand(0_deg));
+
+  	driver.A().WhileTrue(shooter.setHoodAngleCommand(45.0_deg));
+  	driver.A().OnFalse(shooter.setHoodAngleCommand(0.0_deg));
 } 
 
 void RobotContainer::ConfigOperatorBindings() {
-  console.Button(1).OnTrue(frc2::cmd::RunOnce([&] {
+  console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
     selectedTarget.store(&LaunchConstants::HubPose);
+	frc::SmartDashboard::PutString("SelectedTargetName", "HubPose");
+    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+  }));
+
+  console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::LeftPass);
+	frc::SmartDashboard::PutString("SelectedTargetName", "LeftPass");
+    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+
+  }));
+
+  console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::CenterPass);
+	frc::SmartDashboard::PutString("SelectedTargetName", "CenterPass");
+    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+  }));
+
+  console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::RightPass);
+	frc::SmartDashboard::PutString("SelectedTargetName", "RightPass");
+    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
 
   }));
 }

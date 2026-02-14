@@ -20,6 +20,7 @@ Shooter::Shooter() {
 
 void Shooter::setObjectiveVelocity(units::turns_per_second_t velocity){
     shooterLeftMotor.SetControl(shooterVoltageRequest.WithVelocity(velocity).WithEnableFOC(true));
+    frc::SmartDashboard::PutNumber("Shooter/Shooter/TargetVelocity", velocity.value());
 }
 
 bool Shooter::isShooterAtVelocity(units::turns_per_second_t targetVelocity){ //Creo que esta bien
@@ -37,6 +38,8 @@ frc2::CommandPtr Shooter::setShooterVelocityCommand(units::turns_per_second_t ve
 
 void Shooter::setHoodAngle(units::degree_t angle){
     hoodMotor.SetControl(hoodVoltageRequest.WithPosition(angle).WithEnableFOC(true));
+    frc::SmartDashboard::PutNumber("Shooter/Hood/TargetAngle", angle.value());
+
 }
 
 bool Shooter::isHoodAtAngle(units::degree_t targetAngle){
@@ -52,4 +55,9 @@ frc2::CommandPtr Shooter::setHoodAngleCommand(units::degree_t angle){
     );
 }
 
-void Shooter::Periodic() {}
+void Shooter::Periodic() {
+
+    frc::SmartDashboard::PutNumber("Shooter/Shooter/ActualVelocity", shooterLeftMotor.GetVelocity().GetValue().value());
+    frc::SmartDashboard::PutNumber("Shooter/Hood/ActualAngle", hoodMotor.GetPosition().GetValue().value() * 360.0);
+
+}

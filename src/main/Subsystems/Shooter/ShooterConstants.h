@@ -9,13 +9,13 @@
 
 struct ShooterConstants {
 
-  constexpr static const units::turns_per_second_t ShooterCruiseVelocity = 0.0_tps;
-  constexpr static const units::turns_per_second_squared_t ShooterCruiseAcceleration = 0.0_tr_per_s_sq;
-  constexpr static const units::turns_per_second_t HoodCruiseVelocity = 0.0_tps;
-  constexpr static const units::turns_per_second_squared_t HoodCruiseAcceleration = 0.0_tr_per_s_sq;
+  constexpr static const units::turns_per_second_t ShooterCruiseVelocity = 95.0_tps;
+  constexpr static const units::turns_per_second_squared_t ShooterCruiseAcceleration = 475.0_tr_per_s_sq;
+  constexpr static const units::turns_per_second_t HoodCruiseVelocity = 0.85_tps;
+  constexpr static const units::turns_per_second_squared_t HoodCruiseAcceleration = 2.55_tr_per_s_sq;
 
-  constexpr static const double ShooterSensorToMechanism = 0.0;
-  constexpr static const double HoodSensorToMechanism = 0.0;
+  constexpr static const double ShooterSensorToMechanism = 1.0;
+  constexpr static const double HoodSensorToMechanism = 142.2;
 
   constexpr static const int ShooterLeftMotorId = 21;
   constexpr static const int ShooterRightMotorId = 22;
@@ -37,7 +37,7 @@ struct ShooterConstants {
         shooterLeftConfig.TriggerThresholdTime = 0.5_s;
         shooterLeftConfig.ClosedLoopRampRate = 0.1_s;
         shooterLeftConfig.OpenLoopRampRate = 0.05_s;
-        shooterLeftConfig.PIDConfigs.WithKV(0.0).WithKP(0.0);
+        shooterLeftConfig.PIDConfigs.WithKV(0.1).WithKP(2.0);
 
         return shooterLeftConfig;
     }
@@ -46,7 +46,7 @@ struct ShooterConstants {
         OverTalonFXConfig shooterRightConfig;
         shooterRightConfig.MotorId = ShooterRightMotorId;
         shooterRightConfig.NeutralMode = ControllerNeutralMode::Coast;
-        shooterRightConfig.Inverted = true;
+        shooterRightConfig.Inverted = false;
         shooterRightConfig.useFOC = true; // ??????????????
 
         shooterRightConfig.CurrentLimit = 30_A;
@@ -55,7 +55,7 @@ struct ShooterConstants {
         shooterRightConfig.TriggerThresholdTime = 0.5_s;
         shooterRightConfig.ClosedLoopRampRate = 0.1_s;
         shooterRightConfig.OpenLoopRampRate = 0.05_s;
-        shooterRightConfig.PIDConfigs.WithKV(0.0).WithKP(0.0);
+        shooterRightConfig.PIDConfigs.WithKV(0.1).WithKP(2.0);
 
 
         return shooterRightConfig;
@@ -66,14 +66,14 @@ struct ShooterConstants {
         hoodConfig.MotorId = HoodMotorId;
         hoodConfig.NeutralMode = ControllerNeutralMode::Brake;
         hoodConfig.useFOC = true;
-        hoodConfig.Inverted = true;
+        hoodConfig.Inverted = false;
 
         hoodConfig.CurrentLimit = 30_A;
         hoodConfig.StatorCurrentLimit = 120_A;
         hoodConfig.TriggerThreshold = 40_A;
         hoodConfig.TriggerThresholdTime = 0.5_s;
         hoodConfig.ClosedLoopRampRate = 0.05_s;
-        hoodConfig.PIDConfigs.WithKV(0.0).WithKP(0.0);
+        hoodConfig.PIDConfigs.WithKV(5.0).WithKP(100.0);
 
         return hoodConfig;
     }
@@ -82,7 +82,7 @@ struct ShooterConstants {
         CanCoderConfig hoodCANConfig;
         hoodCANConfig.CanCoderId = HoodCANCoderId;
         hoodCANConfig.Offset = 0.0_tr;
-        hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        // hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
         return hoodCANConfig;
     }
 

@@ -11,6 +11,8 @@
 #include <units/math.h>
 #include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/Commands.h>
+#include <frc/smartdashboard/SmartDashboard.h>
+
 
 class Shooter : public frc2::SubsystemBase {
  public:

@@ -13,6 +13,8 @@ struct TurretConstants {
   constexpr static const units::turns_per_second_squared_t TurretAcceleration = 15.0_tr_per_s_sq;
   constexpr static const units::degree_t TurretRangeOfError = 1.5_deg;
 
+  constexpr static const double SensorToMechanism = 41.666;
+
   constexpr static const units::degree_t TurretForwardLimit = 360.0_deg; //Poner
   constexpr static const units::degree_t TurretReverseLimit = -360.0_deg; //Poner
 
@@ -40,7 +42,7 @@ struct TurretConstants {
         turretConfig.TriggerThresholdTime = 0.5_s;
         turretConfig.ClosedLoopRampRate = 0.0_s;
         turretConfig.OpenLoopRampRate = 0.05_s;
-        // turretConfig.PIDConfigs.WithKV(0.0).WithKP(10.0);
+        turretConfig.PIDConfigs.WithKV(6.0).WithKP(34.0);
 
         return turretConfig;
     }

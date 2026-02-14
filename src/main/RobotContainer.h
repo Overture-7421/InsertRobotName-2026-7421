@@ -76,4 +76,7 @@ class RobotContainer {
 	AprilTags climberCamRight{ &tagLayout, &chassis, climberCameraRight() };
 	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
 
+	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
+
+
 };

@@ -14,10 +14,10 @@
 
 namespace LaunchConstants {
 
-  constexpr static const frc::Translation2d HubPose = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d LeftPass = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d RightPass = {0.0_m, 0.0_m}; //Poner
-  constexpr static const frc::Translation2d CenterPass = {0.0_m, 0.0_m}; //Poner
+  constexpr static const frc::Translation2d HubPose = {4.621_m, 4.029_m}; //Poner
+  constexpr static const frc::Translation2d LeftPass = {2.072_m, 6.513_m}; //Poner
+  constexpr static const frc::Translation2d CenterPass = {2.486_m, 4.029_m}; //Poner
+  constexpr static const frc::Translation2d RightPass = {2.098_m, 1.156_m}; //Poner
 
   static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHood{
       {

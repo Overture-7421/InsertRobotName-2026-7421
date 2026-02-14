@@ -21,6 +21,10 @@ void LaunchCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
   frc::Translation2d targetCoords = targetSupplier();
+
+  frc::SmartDashboard::PutNumber("LaunchTarget_X", targetCoords.X().value());
+  frc::SmartDashboard::PutNumber("LaunchTarget_Y", targetCoords.Y().value());
+  
   if(isRedAlliance()){
     targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
