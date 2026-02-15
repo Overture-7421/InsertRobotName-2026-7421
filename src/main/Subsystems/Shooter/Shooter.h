@@ -19,12 +19,16 @@ class Shooter : public frc2::SubsystemBase {
   Shooter();
 
   void setObjectiveVelocity(units::turns_per_second_t velocity);
+  units::turns_per_second_t getShooterVelocity();
   bool isShooterAtVelocity(units::turns_per_second_t targetVelocity);
   frc2::CommandPtr setShooterVelocityCommand(units::turns_per_second_t velocity);
 
   void setHoodAngle(units::degree_t angle);
+  units::degree_t getHoodAngle();
   bool isHoodAtAngle(units::degree_t targetAngle);
   frc2::CommandPtr setHoodAngleCommand(units::degree_t angle);
+
+  void UpdateTelemetry();
 
 
   void Periodic() override;

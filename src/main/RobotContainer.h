@@ -58,6 +58,8 @@ class RobotContainer {
   Shooter shooter;
   Turret turret{&chassis};
 
+  LaunchModeManager launchModeManager;
+
 
   // The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;

@@ -13,6 +13,8 @@
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
 #include "LaunchConstants.h"
+#include "Manager/LaunchModeManager/LaunchModeManager.h"
+
 
 /**
  * An example command.
@@ -27,7 +29,7 @@ class LaunchCommand
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, std::function<frc::Translation2d()> targetSupplier);
+  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier);
 
   void Initialize() override;
 
@@ -42,6 +44,8 @@ class LaunchCommand
   Chassis* chassis = nullptr;
 
   std::function<frc::Translation2d()> targetSupplier;
+
+  LaunchModeManager* launchModeManager;
 
   TargetingWhileMoving targetWhileMoving{ //Tiempo de Vuelo desde que sale la pieza hasta que llega al objetivo
     {

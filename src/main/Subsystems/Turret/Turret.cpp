@@ -8,13 +8,9 @@ Turret::Turret(Chassis* chassis) {
 
     // turretPID.SetTolerance(TurretConstants::TurretRangeOfError);
     turretMotor.setSensorToMechanism(TurretConstants::SensorToMechanism);
-    
-    units::degree_t target = calculateTurretAngleFromCANCoderDegrees();
-    frc::SmartDashboard::PutNumber("TurretData/Start Position", target.value());
     turretMotor.SetPosition(calculateTurretAngleFromCANCoderDegrees());
 
     this->chassis = chassis;
-
 
 }
 
@@ -56,10 +52,6 @@ units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
     units::degree_t encoder1 = turret1CANCoder.GetAbsolutePosition().GetValue();
     units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValue();
 
-    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value() / 360.0);
-    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value() / 360.0);
-
-
    units::degree_t difference = encoder2 - encoder1;
    if(difference > 250.0_deg){ // Maybe estos numeros se modifican al ver los rangos de la torreta
     difference -= 360.0_deg;
@@ -84,7 +76,6 @@ units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
     turretAngle -= degreesPerEncoder1Rotation;
    }
 
-    frc::SmartDashboard::PutNumber("TurretData/EncodersCombined", turretAngle.value());
    return turretAngle; 
 
 }
@@ -125,6 +116,17 @@ bool Turret::isAimAtFieldPosition(units::degree_t setPoint){
     units::degree_t currentAngle = calculateTurretAngleFromCANCoderDegrees();
     units::degree_t error = units::math::abs(setPoint - currentAngle);
     return error < 2.0_deg;
+}
+
+void Turret::UpdateTelemetry(){
+    units::degree_t encoder1 = turret1CANCoder.GetAbsolutePosition().GetValue();
+    units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValue();
+    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value() / 360.0);
+    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value() / 360.0);
+
+    frc::SmartDashboard::PutNumber("TurretData/EncodersCombined", calculateTurretAngleFromCANCoderDegrees().value());
+
+
 }
 
 void Turret::Periodic() {

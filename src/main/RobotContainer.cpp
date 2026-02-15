@@ -27,7 +27,7 @@ void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis,
+  driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
@@ -44,28 +44,32 @@ void RobotContainer::ConfigDriverBindings() {
 void RobotContainer::ConfigOperatorBindings() {
   console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
     selectedTarget.store(&LaunchConstants::HubPose);
-	frc::SmartDashboard::PutString("SelectedTargetName", "HubPose");
-    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+	launchModeManager.setLaunchMode(LaunchModes::Hub);
   }));
 
   console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
     selectedTarget.store(&LaunchConstants::LeftPass);
-	frc::SmartDashboard::PutString("SelectedTargetName", "LeftPass");
-    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
-
+	launchModeManager.setLaunchMode(LaunchModes::LowPass);
   }));
 
-  console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::CenterPass);
-	frc::SmartDashboard::PutString("SelectedTargetName", "CenterPass");
-    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+  console.Button(9).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::LeftPass);
+	launchModeManager.setLaunchMode(LaunchModes::HighPass);
   }));
 
   console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::RightPass);
-	frc::SmartDashboard::PutString("SelectedTargetName", "RightPass");
-    frc::SmartDashboard::PutNumber("SelectedTargetAddr", (double)(uintptr_t)selectedTarget.load());
+    selectedTarget.store(&LaunchConstants::CenterPass);
+	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+  }));
 
+  console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::RightPass);
+	launchModeManager.setLaunchMode(LaunchModes::LowPass);
+  }));
+
+  console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+    selectedTarget.store(&LaunchConstants::RightPass);
+	launchModeManager.setLaunchMode(LaunchModes::HighPass);
   }));
 }
 
@@ -76,6 +80,8 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::UpdateTelemetry() {
 	chassis.shuffleboardPeriodic();
+	turret.UpdateTelemetry();
+	shooter.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
 

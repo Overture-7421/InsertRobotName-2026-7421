@@ -11,7 +11,7 @@ Shooter::Shooter() {
                                          ShooterConstants::ShooterCruiseAcceleration,
                                          0.0_tr_per_s_cu);
 
-    hoodMotor.setSensorToMechanism(ShooterConstants::HoodSensorToMechanism);
+    hoodMotor.setRotorToSensorRatio(ShooterConstants::HoodRotorToSensor);
     hoodMotor.setFusedCANCoder(ShooterConstants::HoodCANCoderId);
     hoodMotor.configureMotionMagic(ShooterConstants::HoodCruiseVelocity,
                                   ShooterConstants::HoodCruiseAcceleration,
@@ -21,6 +21,10 @@ Shooter::Shooter() {
 void Shooter::setObjectiveVelocity(units::turns_per_second_t velocity){
     shooterLeftMotor.SetControl(shooterVoltageRequest.WithVelocity(velocity).WithEnableFOC(true));
     frc::SmartDashboard::PutNumber("Shooter/Shooter/TargetVelocity", velocity.value());
+}
+
+units::turns_per_second_t Shooter::getShooterVelocity(){
+    return shooterLeftMotor.GetVelocity().GetValue();
 }
 
 bool Shooter::isShooterAtVelocity(units::turns_per_second_t targetVelocity){ //Creo que esta bien
@@ -42,6 +46,10 @@ void Shooter::setHoodAngle(units::degree_t angle){
 
 }
 
+units::degree_t Shooter::getHoodAngle(){
+    return hoodMotor.GetPosition().GetValue();
+}
+
 bool Shooter::isHoodAtAngle(units::degree_t targetAngle){
     units::degree_t hoodError = targetAngle - hoodMotor.GetPosition().GetValue();
     return units::math::abs(hoodError) < 2_deg;
@@ -55,9 +63,11 @@ frc2::CommandPtr Shooter::setHoodAngleCommand(units::degree_t angle){
     );
 }
 
-void Shooter::Periodic() {
-
+void Shooter::UpdateTelemetry(){
     frc::SmartDashboard::PutNumber("Shooter/Shooter/ActualVelocity", shooterLeftMotor.GetVelocity().GetValue().value());
     frc::SmartDashboard::PutNumber("Shooter/Hood/ActualAngle", hoodMotor.GetPosition().GetValue().value() * 360.0);
+}
+
+void Shooter::Periodic() {
 
 }

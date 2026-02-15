@@ -4,11 +4,13 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, std::function<frc::Translation2d()> targetSupplier) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis,  LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
   this->turret = turret;
   this->shooter = shooter;
   this->chassis = chassis;
+  this->launchModeManager = launchModeManager;
   this->targetSupplier = std::move(targetSupplier);
+
   // Use addRequirements() here to declare subsystem dependencies.
   AddRequirements({turret, shooter});
 }
@@ -24,7 +26,7 @@ void LaunchCommand::Execute() {
 
   frc::SmartDashboard::PutNumber("LaunchTarget_X", targetCoords.X().value());
   frc::SmartDashboard::PutNumber("LaunchTarget_Y", targetCoords.Y().value());
-  
+
   if(isRedAlliance()){
     targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
@@ -37,11 +39,26 @@ void LaunchCommand::Execute() {
   turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
 
   units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
-  units::degree_t hoodAngle = LaunchConstants::DistanceToHood[distanceToTarget];
-  units::turns_per_second_t shooterSpeed = LaunchConstants::DistanceToShooter[distanceToTarget];
+  frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
+
+  units::degree_t hoodAngle;
+  units::turns_per_second_t shooterSpeed;
+
+  auto launchMode = launchModeManager->getLaunchMode();
+  if(launchMode == LaunchModes::Hub){
+    hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
+    shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
+  } else if (launchMode == LaunchModes::HighPass){
+    hoodAngle = LaunchConstants::DistanceToHoodForHighPass[distanceToTarget];
+    shooterSpeed = LaunchConstants::DistanceToShooterForHighPass[distanceToTarget];
+  } else {
+    hoodAngle = LaunchConstants::DistanceToHoodForLowPass[distanceToTarget];
+    shooterSpeed = LaunchConstants::DistanceToShooterForLowPass[distanceToTarget];
+  }
 
   shooter->setHoodAngle(hoodAngle);
   shooter->setObjectiveVelocity(shooterSpeed);
+  
 }
 
 // Called once the command ends or is interrupted.

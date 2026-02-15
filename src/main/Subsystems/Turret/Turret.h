@@ -34,6 +34,8 @@ class Turret : public frc2::SubsystemBase {
   bool isAimAtFieldPosition(units::degree_t setPoint);
 
   frc2::CommandPtr TestCommand(units::degree_t setPoint);
+
+  void UpdateTelemetry();
   
   void Periodic() override;
 
