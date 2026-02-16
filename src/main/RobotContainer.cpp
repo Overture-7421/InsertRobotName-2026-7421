@@ -9,6 +9,7 @@
 RobotContainer::RobotContainer() {
   // Initialize all of your commands and subsystems here
 
+
   // Configure the button bindings
   autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
@@ -71,10 +72,10 @@ void RobotContainer::ConfigOperatorBindings() {
     selectedTarget.store(&LaunchConstants::RightPass);
 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
   }));
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
-
 	return autoChooser.GetSelected();
 }
 

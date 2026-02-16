@@ -16,6 +16,9 @@
 #include "Commands/DriveCommand/DriveCommand.h"
 #include "Commands/ResetHeading/ResetHeading.h"
 #include "Constants.h"
+#include "Subsystems/Intake/Intake.h"
+#include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/Processor/Processor.h"
 
 #include "Subsystems/Turret/Turret.h"
 #include "Subsystems/Shooter/Shooter.h"
@@ -64,6 +67,9 @@ class RobotContainer {
   // The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;
 
+  // necessary robot controllers and subsystems
+  OverXboxController driver{ 0, 0.05, 0.2 };
+
   void ConfigureBindings();
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
@@ -79,6 +85,11 @@ class RobotContainer {
 	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
+
+
+  Intake intake;
+  Processor processor;
+  Chassis chassis;
 
 
 };
