@@ -23,13 +23,10 @@ void RobotContainer::ConfigureBindings() {
 }
 
 void RobotContainer::ConfigDriverBindings() {
-  driver.LeftBumper().WhileTrue(intake.setIntakePosition(intakeConstants::intakeConstants::IntakeOpen));
-  driver.LeftBumper().OnFalse(intake.setIntakePosition(intakeConstants::intakeConstants::IntakeStow));
-
-  driver.A().WhileTrue(intake.setRollersVoltageCommand(6_V));
-  driver.A().OnFalse(intake.setRollersVoltageCommand(0_V));
+  driver.A().WhileTrue(intake.setIntakePosition(intakeConstants::IntakeOpen));
+  driver.A().OnFalse(intake.setIntakePosition(intakeConstants::IntakeStow));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
 	return autoChooser.GetSelected();
-} 
+}

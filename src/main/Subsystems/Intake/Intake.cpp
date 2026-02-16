@@ -8,8 +8,9 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Intake::Intake() {
-    intakeMotor.setRotorToSensorRatio(intakeConstants::intakeRotorToSensor);
+    intakeMotor.setRotorToSensorRatio(intakeConstants::intakeRotorToSensor) ;
     intakeMotor.setFusedCANCoder(intakeConstants::intakeCanCoderConfig().CanCoderId);
+
 
     intakeMotor.configureMotionMagic(intakeConstants::IntakeCruiseVelocity, intakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
 }
@@ -66,4 +67,6 @@ frc2::CommandPtr Intake::setRollersVoltageCommand(units::volt_t targetVoltage){
 }
 
 // This method will be called once per scheduler run
-void Intake::Periodic() {}
+void Intake::Periodic() {
+    frc::SmartDashboard::PutNumber("Intake Position", intakeMotor.GetPosition().GetValue().value() * 360.0);
+}

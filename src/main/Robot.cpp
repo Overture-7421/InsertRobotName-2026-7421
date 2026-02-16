@@ -31,7 +31,7 @@ Robot::Robot() {
 
       {23,"Rebuilt2026/motors/turret"},
       {17,"Rebuilt2026/motors/spindexer"},
-      {15,"Rebuilt2026/motors/shooterWheels"},
+      {21,"Rebuilt2026/motors/shooterWheels"},
       {16,"Rebuilt2026/motors/intakeRollers"},
       {14,"Rebuilt2026/motors/intake"},
       {19,"Rebuilt2026/motors/hood"},
