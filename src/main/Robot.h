@@ -13,6 +13,8 @@
 #include <OvertureLib/MotorControllers/ControllerNeutralMode/ControllerNeutralMode.h>
 
 
+#include <OvertureLib/Robots/OverRobot/OverRobot.h>
+
 #include "RobotContainer.h"
 
 class Robot : public OverRobot {
