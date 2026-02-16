@@ -15,9 +15,9 @@ struct ProcessorValues {
 struct ProcessorConstants{
 
 //Ajustar Voltage
-constexpr static const ProcessorValues StartProcessor{0.0_V, 0.0_V};
+constexpr static const ProcessorValues StartProcessor{5.0_V, 5.0_V};
 constexpr static const ProcessorValues StopProcessor{0.0_V, 0.0_V};
-constexpr static const ProcessorValues ReverseProcessor{0.0_V, 0.0_V};
+constexpr static const ProcessorValues ReverseProcessor{-5.0_V, -5.0_V};
 
 constexpr static const double SpindexerMotorID = 17;
 constexpr static const double PasserMotorID = 18;

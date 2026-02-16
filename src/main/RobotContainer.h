@@ -14,6 +14,7 @@
 #include "Constants.h"
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/Processor/Processor.h"
 
 /**   
  * This class is where the bulk of the robot should be declared.  Since
@@ -38,6 +39,7 @@ class RobotContainer {
   void ConfigDriverBindings();
 
   Intake intake;
+  Processor processor;
   Chassis chassis;
 
 

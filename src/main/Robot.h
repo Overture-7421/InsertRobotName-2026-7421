@@ -17,7 +17,7 @@
 
 class Robot : public OverRobot {
  public:
-  Robot();
+  void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;
   void DisabledPeriodic() override;

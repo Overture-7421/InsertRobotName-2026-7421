@@ -25,6 +25,12 @@ void RobotContainer::ConfigureBindings() {
 void RobotContainer::ConfigDriverBindings() {
   driver.A().WhileTrue(intake.setIntakePosition(intakeConstants::IntakeOpen));
   driver.A().OnFalse(intake.setIntakePosition(intakeConstants::IntakeStow));
+
+  driver.B().WhileTrue(processor.setProcessorVoltage(ProcessorConstants::StartProcessor));
+  driver.B().OnFalse(processor.setProcessorVoltage(ProcessorConstants::StopProcessor));
+
+  driver.X().WhileTrue(processor.setProcessorVoltage(ProcessorConstants::ReverseProcessor));
+  driver.X().OnFalse(processor.setProcessorVoltage(ProcessorConstants::StopProcessor));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
