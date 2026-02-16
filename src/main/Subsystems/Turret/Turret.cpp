@@ -82,7 +82,7 @@ units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
 
 frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
     frc::Transform2d robotToTurret {
-        frc::Translation2d{0.0_in, 0.0_in}, //Posicion del robot al centro de la torreta
+        frc::Translation2d{-5.2_in, 4.2_in}, //Posicion del robot al centro de la torreta
         frc::Rotation2d{0.0_deg} //Orientacion de la torreta respecto al robot
     };
 
