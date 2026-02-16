@@ -49,9 +49,12 @@ Robot::Robot() {
       {9, "Rebuilt2026/cancoders/front_left_cancoder"},
       {12, "Rebuilt2026/cancoders/front_right_cancoder"},
 
-      {20, "Rebuilt2026/cancoders/hood"},
-      {15, "Rebuilt2026/cancoders/intake"},
-      {24, "Rebuilt2026/cancoders/turret"}
+      {21, "Rebuilt2026/cancoders/hood"},
+      {22, "Rebuilt2026/cancoders/intake"},
+      {23, "Rebuilt2026/cancoders/turret"},
+      {24, "Rebuilt2026/cancoders/turretcancoder1"},
+      {25, "Rebuilt2026/cancoders/turretcancoder2"}
+
         });
 
     simDutyCycleEncoderManager.Init({});
