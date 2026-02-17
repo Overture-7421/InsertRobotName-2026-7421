@@ -7,13 +7,19 @@
 #include <optional>
 
 #include <frc/TimedRobot.h>
+#include <OvertureLib/Robots/OverRobot/OverRobot.h> // Comunicación con el simulador
 #include <frc2/command/CommandPtr.h>
+#include <OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h>
+#include <OvertureLib/MotorControllers/ControllerNeutralMode/ControllerNeutralMode.h>
+
+
+#include <OvertureLib/Robots/OverRobot/OverRobot.h>
 
 #include "RobotContainer.h"
 
-class Robot : public frc::TimedRobot {
+class Robot : public OverRobot {
  public:
-  Robot();
+  void RobotInit() override;
   void RobotPeriodic() override;
   void DisabledInit() override;
   void DisabledPeriodic() override;
@@ -26,9 +32,7 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
  private:
+
   frc2::Command *m_autonomousCommand;
-
   RobotContainer m_container;
-
-
 };
