@@ -16,8 +16,8 @@
 
 namespace ClimberConstants {
 
-    constexpr static const double ClimberRotorToSensorRatio = 77.841;
-    constexpr static const double ClimberCANCoderId = 27;
+    constexpr static const double ClimberRotorToSensorRatio = 62.5;
+    constexpr static const double ClimberCANCoderId = 17;
 
     constexpr static const units::turns_per_second_t ClimberMMCruiseVelocity =  4.0_tps ;
     constexpr static const units::turns_per_second_squared_t ClimberMMAcceleration = 42_tr_per_s_sq;
@@ -34,7 +34,7 @@ OverTalonFXConfig ClimberConstants(){
     climberConstants.useFOC = false; // Set to true if using Field Oriented Control
 
 
-    climberConstants.PIDConfigs.WithKP(0.0).WithKI(0.0).WithKI(0.0);
+    climberConstants.PIDConfigs.WithKP(0.01).WithKI(0.0).WithKD(0.0);
     
 
 

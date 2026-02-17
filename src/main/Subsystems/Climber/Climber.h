@@ -9,6 +9,8 @@
 #include <frc/MathUtil.h>
 #include <units/voltage.h> // Include the proper header for units
 #include <frc2/command/Commands.h>
+#include "Constants.h"
+
 
 
 class ClimberSubsystem : public frc2::SubsystemBase {
@@ -28,7 +30,6 @@ class ClimberSubsystem : public frc2::SubsystemBase {
 
 
   private:
-    MotionMagicVoltage climberPositionRequest{0_tr};
-
-    OverTalonFX climberMotor {ClimberConstants::ClimberConstants(), "rio"};
+    OverTalonFX climberMotor {ClimberConstants::ClimberConstants(), robotConstants::rio};
+    ctre::phoenix6::controls::MotionMagicVoltage climberPositionRequest = {0_tr};
 };
