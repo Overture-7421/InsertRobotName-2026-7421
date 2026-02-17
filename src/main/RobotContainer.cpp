@@ -7,11 +7,19 @@
 #include <frc2/command/button/Trigger.h>
 
 RobotContainer::RobotContainer() {
-  // Initialize all of your commands and subsystems here
+	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
+      [this]() -> frc::Translation2d {
+        return *selectedTarget.load();
+      }
+    ).ToPtr()));
+
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
+	pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor)));
 
 
-  // Configure the button bindings
-  autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
+
+	autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
 
   ConfigureBindings();
