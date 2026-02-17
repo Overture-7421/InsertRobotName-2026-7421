@@ -11,9 +11,19 @@ void Processor::setSpindexerPasserVoltage(ProcessorValues processorValues){
     passerMotor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
 }
 
-frc2::CommandPtr Processor::setProcessorVoltage(ProcessorValues processorValues){
+void Processor::setOnlySpindexer(units::volt_t voltage){
+    spindexerMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
+}
+
+frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
     return this->RunOnce([this, processorValues] {
     this->setSpindexerPasserVoltage(processorValues);
+    });
+}
+
+frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
+    return this->RunOnce([this, voltage] {
+    this->setOnlySpindexer(voltage);
     });
 }
 

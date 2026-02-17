@@ -16,8 +16,10 @@ class Processor : public frc2::SubsystemBase {
   Processor();
 
   void setSpindexerPasserVoltage(ProcessorValues processorValues);
+  void setOnlySpindexer(units::volt_t voltage);
 
-  frc2::CommandPtr setProcessorVoltage(ProcessorValues processorValues);
+  frc2::CommandPtr setProcessorCmd(ProcessorValues processorValues);
+  frc2::CommandPtr setOnlySpindexerCmd(units::volt_t voltage);
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */

@@ -25,6 +25,9 @@
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
 #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
+#include "Commands/SwallowCommand/SwallowCommand.h"
+#include "Commands/CloseCommand/CloseCommand.h"
+#include "Commands/StopCommand/StopCommand.h"
 
 
 /**
@@ -60,6 +63,8 @@ class RobotContainer {
 
   Shooter shooter;
   Turret turret{&chassis};
+  Intake intake;
+  Processor processor;
 
   LaunchModeManager launchModeManager;
 
@@ -68,7 +73,6 @@ class RobotContainer {
 	frc::SendableChooser<frc2::Command*> autoChooser;
 
   // necessary robot controllers and subsystems
-  OverXboxController driver{ 0, 0.05, 0.2 };
 
   void ConfigureBindings();
   void ConfigDriverBindings();
@@ -85,11 +89,6 @@ class RobotContainer {
 	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
-
-
-  Intake intake;
-  Processor processor;
-  Chassis chassis;
 
 
 };

@@ -28,18 +28,26 @@ void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightBumper().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
+  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
     ).ToPtr()
   );
 
-//   driver.A().WhileTrue(turret.TestCommand(90_deg));
-//   driver.A().OnFalse(turret.TestCommand(0_deg));
+	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor));
+	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor));
 
-  	driver.A().WhileTrue(shooter.setHoodAngleCommand(45.0_deg));
-  	driver.A().OnFalse(shooter.setHoodAngleCommand(0.0_deg));
+	driver.LeftBumper().WhileTrue(processor.setProcessorCmd(ProcessorConstants::Eject));
+	driver.LeftBumper().OnFalse(StopCommand(&intake, &processor));
+
+	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+	driver.A().OnFalse(StopCommand(&intake, &processor));
+
+	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
+	driver.Y().OnFalse(StopCommand(&intake, &processor));
+
+
 } 
 
 void RobotContainer::ConfigOperatorBindings() {

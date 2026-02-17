@@ -13,10 +13,11 @@ struct intakeValues{
     units::degree_t intake;
 };
 
-struct intakeConstants{
+struct IntakeConstants{
     
     constexpr static const intakeValues IntakeOpen {6_V, 30.0_deg};
-    constexpr static const intakeValues IntakeStow {0_V, -30_deg};
+    constexpr static const intakeValues IntakeSustain {0_V, 30.0_deg};
+    constexpr static const intakeValues IntakeClose {0_V, -30_deg};
     constexpr static const intakeValues IntakeInitial {0_V, 0_deg};
 
 

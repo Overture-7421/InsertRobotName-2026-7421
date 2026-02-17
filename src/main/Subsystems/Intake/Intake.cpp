@@ -8,11 +8,11 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Intake::Intake() {
-    intakeMotor.setRotorToSensorRatio(intakeConstants::intakeRotorToSensor) ;
-    intakeMotor.setFusedCANCoder(intakeConstants::intakeCanCoderConfig().CanCoderId);
+    intakeMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor) ;
+    intakeMotor.setFusedCANCoder(IntakeConstants::intakeCanCoderConfig().CanCoderId);
 
 
-    intakeMotor.configureMotionMagic(intakeConstants::IntakeCruiseVelocity, intakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
+    intakeMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
 }
 
 void Intake::setRollersVoltage(units::volt_t targetVoltage){
@@ -21,7 +21,7 @@ void Intake::setRollersVoltage(units::volt_t targetVoltage){
  
 bool Intake::intakeReached(units::degree_t targetAngle){
     units::degree_t intakeError = targetAngle - intakeMotor.GetPosition().GetValue();
-    return (units::math::abs(intakeError) < intakeConstants::IntakeRangeError);
+    return (units::math::abs(intakeError) < IntakeConstants::IntakeRangeError);
 }
 
 void Intake::setIntakeAngle(units::degree_t targetAngle){
