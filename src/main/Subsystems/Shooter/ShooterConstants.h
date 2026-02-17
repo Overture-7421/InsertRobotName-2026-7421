@@ -66,7 +66,7 @@ struct ShooterConstants {
         hoodConfig.MotorId = HoodMotorId;
         hoodConfig.NeutralMode = ControllerNeutralMode::Brake;
         hoodConfig.useFOC = true;
-        hoodConfig.Inverted = true;
+        hoodConfig.Inverted = false;
 
         hoodConfig.CurrentLimit = 30_A;
         hoodConfig.StatorCurrentLimit = 120_A;
@@ -82,7 +82,7 @@ struct ShooterConstants {
         CanCoderConfig hoodCANConfig;
         hoodCANConfig.CanCoderId = HoodCANCoderId;
         hoodCANConfig.Offset = 0.0_tr;
-        hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
         return hoodCANConfig;
     }
 

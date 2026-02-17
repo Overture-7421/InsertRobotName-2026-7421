@@ -53,7 +53,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.A().OnFalse(StopCommand(&intake, &processor));
 
 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
-	driver.Y().OnFalse(StopCommand(&intake, &processor));
+	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
 
 } 

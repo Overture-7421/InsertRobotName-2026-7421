@@ -33,7 +33,7 @@ struct IntakeConstants{
         OverTalonFXConfig intakeMotorConfig;
         intakeMotorConfig.MotorId = 14;
         intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        intakeMotorConfig.Inverted = true;
+        intakeMotorConfig.Inverted = false;
         intakeMotorConfig.useFOC = true;
         intakeMotorConfig.PIDConfigs.WithKP(20).WithKV(2);
 
@@ -74,7 +74,7 @@ struct IntakeConstants{
         CanCoderConfig intakeCanCoderConfig;
         intakeCanCoderConfig.CanCoderId = 15;
         intakeCanCoderConfig.Offset = IntakeCANCoderOffset;
-        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 
         return intakeCanCoderConfig;
     }
