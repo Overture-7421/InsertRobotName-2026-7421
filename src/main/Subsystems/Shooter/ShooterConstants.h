@@ -14,6 +14,8 @@ struct ShooterConstants {
   constexpr static const units::turns_per_second_t HoodCruiseVelocity = 0.85_tps;
   constexpr static const units::turns_per_second_squared_t HoodCruiseAcceleration = 2.55_tr_per_s_sq;
 
+  constexpr static const units::turns_per_second_t StopShooterVelocity = 0_tps;
+
   constexpr static const double ShooterSensorToMechanism = 1.0;
   constexpr static const double HoodRotorToSensor = 142.2;
 
@@ -26,7 +28,7 @@ struct ShooterConstants {
 
   constexpr static const OverTalonFXConfig ShooterLeftConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
         OverTalonFXConfig shooterLeftConfig;
-        shooterLeftConfig.MotorId = ShooterLeftMotorId;
+        shooterLeftConfig.MotorId = ShooterLeftMotorId; //Shooter Down
         shooterLeftConfig.NeutralMode = ControllerNeutralMode::Coast;
         shooterLeftConfig.Inverted = false;
         shooterLeftConfig.useFOC = true; // ??????????????
@@ -44,7 +46,7 @@ struct ShooterConstants {
 
   constexpr static const OverTalonFXConfig ShooterRightConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
         OverTalonFXConfig shooterRightConfig;
-        shooterRightConfig.MotorId = ShooterRightMotorId;
+        shooterRightConfig.MotorId = ShooterRightMotorId; //Shooter Up
         shooterRightConfig.NeutralMode = ControllerNeutralMode::Coast;
         shooterRightConfig.Inverted = false;
         shooterRightConfig.useFOC = true; // ??????????????

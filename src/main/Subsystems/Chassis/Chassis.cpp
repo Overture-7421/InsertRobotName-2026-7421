@@ -60,7 +60,7 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
     config.DriveMotorConfig.MotorId = 2;
     config.TurnMotorConfig.MotorId = 1;
     config.EncoderConfig.CanCoderId = 9;
-    config.CanBus = robotConstants::rio;
+    config.CanBus = robotConstants::OverCANivore;
     config.DriveGearRatio = 6.03;
     config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
@@ -81,7 +81,7 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
     config.DriveMotorConfig.MotorId = 4;
     config.TurnMotorConfig.MotorId = 3;
     config.EncoderConfig.CanCoderId = 12;
-    config.CanBus = robotConstants::rio;
+    config.CanBus = robotConstants::OverCANivore;
     config.DriveGearRatio = 6.03;
     config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
@@ -103,7 +103,7 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
     config.DriveMotorConfig.MotorId = 6;
     config.TurnMotorConfig.MotorId = 5;
     config.EncoderConfig.CanCoderId = 10;
-    config.CanBus = robotConstants::rio;
+    config.CanBus = robotConstants::OverCANivore;
     config.DriveGearRatio = 6.03;
     config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;
@@ -124,7 +124,7 @@ SwerveModuleConfig Chassis::BackRightConfig() {
     config.DriveMotorConfig.MotorId = 8;
     config.TurnMotorConfig.MotorId = 7;
     config.EncoderConfig.CanCoderId = 11;
-    config.CanBus = robotConstants::rio;
+    config.CanBus = robotConstants::OverCANivore;
     config.DriveGearRatio = 6.03;
     config.TurnGearRatio = 287.0 / 11.0;
     config.WheelDiameter = 4_in;

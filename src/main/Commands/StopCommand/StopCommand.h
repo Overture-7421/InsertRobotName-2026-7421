@@ -6,5 +6,6 @@
 #include <frc2/command/Commands.h>
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Processor/Processor.h"
+#include "Subsystems/Shooter/Shooter.h"
 
-frc2::CommandPtr StopCommand(Intake* intake, Processor* processor);
+frc2::CommandPtr StopCommand(Intake* intake, Processor* processor, Shooter* shooter);

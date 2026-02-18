@@ -14,6 +14,7 @@
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
 #include "LaunchConstants.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
+#include "Subsystems/Processor/Processor.h"
 
 
 /**
@@ -29,7 +30,7 @@ class LaunchCommand
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier);
+  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, Processor* processor, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier);
 
   void Initialize() override;
 
@@ -42,6 +43,7 @@ class LaunchCommand
   Turret* turret = nullptr;
   Shooter* shooter = nullptr;
   Chassis* chassis = nullptr;
+  Processor* processor = nullptr;
 
   std::function<frc::Translation2d()> targetSupplier;
 

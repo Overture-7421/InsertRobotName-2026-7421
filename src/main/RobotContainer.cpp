@@ -7,7 +7,7 @@
 #include <frc2/command/button/Trigger.h>
 
 RobotContainer::RobotContainer() {
-	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
+	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
@@ -15,7 +15,7 @@ RobotContainer::RobotContainer() {
 
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
-	pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor)));
+	pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor, &shooter)));
 
 
 
@@ -36,21 +36,19 @@ void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &launchModeManager,
+  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
     ).ToPtr()
   );
+  driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
 
 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor));
-	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor));
-
-	driver.LeftBumper().WhileTrue(processor.setProcessorCmd(ProcessorConstants::Eject));
-	driver.LeftBumper().OnFalse(StopCommand(&intake, &processor));
+	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
 	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
-	driver.A().OnFalse(StopCommand(&intake, &processor));
+	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
 
 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 	driver.Y().OnFalse(CloseCommand(&intake, &processor));

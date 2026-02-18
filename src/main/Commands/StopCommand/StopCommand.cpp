@@ -4,9 +4,10 @@
 
 #include "StopCommand.h"
 
-frc2::CommandPtr StopCommand(Intake* intake, Processor* processor){
+frc2::CommandPtr StopCommand(Intake* intake, Processor* processor, Shooter* shooter){
     return frc2::cmd::Parallel(
         intake->setIntakePosition(IntakeConstants::IntakeSustain),
-        processor->setProcessorCmd(ProcessorConstants::StopProcessor)
+        processor->setProcessorCmd(ProcessorConstants::StopProcessor),
+        shooter->setShooterVelocityCommand(ShooterConstants::StopShooterVelocity)
     );
 }

@@ -112,7 +112,10 @@ frc2::CommandPtr Turret::TestCommand(units::degree_t setPoint){
 }
 
 
-bool Turret::isAimAtFieldPosition(units::degree_t setPoint){
+bool Turret::isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
+    frc::Rotation2d idealAngle = GetTurretAimingParameterFromRobotPose(robotPose, targetPosition);
+    units::degree_t setPoint = convertToClosestBoundedTurretAngleDegrees(idealAngle.Degrees());
+
     units::degree_t currentAngle = calculateTurretAngleFromCANCoderDegrees();
     units::degree_t error = units::math::abs(setPoint - currentAngle);
     return error < 2.0_deg;
