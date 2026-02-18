@@ -34,7 +34,7 @@ OverTalonFXConfig ClimberConstants(){
     climberConstants.useFOC = false; // Set to true if using Field Oriented Control
 
 
-    climberConstants.PIDConfigs.WithKP(0.01).WithKI(0.0).WithKD(0.0);
+    climberConstants.PIDConfigs.WithKP(0.00).WithKI(0.0).WithKD(0.0);
     
 
 

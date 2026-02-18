@@ -35,7 +35,7 @@ struct IntakeConstants{
         intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
         intakeMotorConfig.Inverted = false;
         intakeMotorConfig.useFOC = true;
-        intakeMotorConfig.PIDConfigs.WithKP(20).WithKV(2);
+        intakeMotorConfig.PIDConfigs.WithKP(0).WithKV(0);
 
         intakeMotorConfig.ClosedLoopRampRate = 0.0_s;
         intakeMotorConfig.CurrentLimit = 30_A;
