@@ -70,8 +70,8 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 	config.EncoderConfig.Offset = 0.218994140625_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
-    config.DriveMotorConfig.Inverted = true;
+    config.TurnMotorConfig.Inverted = false;
+    // config.DriveMotorConfig.Inverted = true;
     config.ModuleName = "Front Left";
     return config;
 }
@@ -91,8 +91,8 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 	config.EncoderConfig.Offset = 0.105712890625_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
-    config.DriveMotorConfig.Inverted = true;
+    config.TurnMotorConfig.Inverted = false;
+    // config.DriveMotorConfig.Inverted = true;
     config.ModuleName = "Front Right";
     return config;
 }
@@ -113,8 +113,8 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
 	config.EncoderConfig.Offset = -0.37109375_tr;
 #endif
     config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
-    config.DriveMotorConfig.Inverted = true;
+    config.TurnMotorConfig.Inverted = false;
+    // config.DriveMotorConfig.Inverted = true;
     config.ModuleName = "Back Left";
     return config;
 }
@@ -134,8 +134,8 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 	config.EncoderConfig.Offset = 0.3681640625_tr;
 #endif 
     config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
-    config.TurnMotorConfig.Inverted = true;
-    config.DriveMotorConfig.Inverted = true;
+    config.TurnMotorConfig.Inverted = false;
+    // config.DriveMotorConfig.Inverted = true;
     config.ModuleName = "Back Right";
     return config;
 }

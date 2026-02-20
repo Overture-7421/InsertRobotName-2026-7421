@@ -32,12 +32,12 @@ constexpr static const OverTalonFXConfig SpindexerConfig(){
         spindexerConfig.NeutralMode = ControllerNeutralMode::Coast;
         spindexerConfig.Inverted = false;
 
-        spindexerConfig.CurrentLimit = 0_A;
-        spindexerConfig.StatorCurrentLimit = 0_A;
-        spindexerConfig.TriggerThreshold = 0_A;
-        spindexerConfig.TriggerThresholdTime = 0_s;
-        spindexerConfig.ClosedLoopRampRate = 0_s;
-        spindexerConfig.OpenLoopRampRate = 0_s;
+        spindexerConfig.CurrentLimit = 30_A;
+        spindexerConfig.StatorCurrentLimit = 60_A;
+        spindexerConfig.TriggerThreshold = 75_A;
+        spindexerConfig.TriggerThresholdTime = 0.5_s;
+        spindexerConfig.ClosedLoopRampRate = 0.0_s;
+        spindexerConfig.OpenLoopRampRate = 0.05_s;
 
         return spindexerConfig;
 };
@@ -50,12 +50,12 @@ constexpr static const OverTalonFXConfig PasserConfig(){
         passerConfig.NeutralMode = ControllerNeutralMode::Coast;
         passerConfig.Inverted = false;
 
-        passerConfig.CurrentLimit = 0_A;
-        passerConfig.StatorCurrentLimit = 0_A;
-        passerConfig.TriggerThreshold = 0_A;
-        passerConfig.TriggerThresholdTime = 0_s;
-        passerConfig.ClosedLoopRampRate = 0_s;
-        passerConfig.OpenLoopRampRate = 0_s;
+        passerConfig.CurrentLimit = 30_A;
+        passerConfig.StatorCurrentLimit = 60_A;
+        passerConfig.TriggerThreshold = 75_A;
+        passerConfig.TriggerThresholdTime = 0.5_s;
+        passerConfig.ClosedLoopRampRate = 0.0_s;
+        passerConfig.OpenLoopRampRate = 0.05_s;
 
         return passerConfig;
 };

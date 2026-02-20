@@ -5,7 +5,7 @@
 #include "Shooter.h"
 
 Shooter::Shooter() {
-    shooterRightMotor.setFollow(shooterLeftMotor.GetDeviceID(), true);
+    shooterRightMotor.setFollow(shooterLeftMotor.GetDeviceID(), false);
     shooterLeftMotor.setSensorToMechanism(ShooterConstants::ShooterSensorToMechanism);
     shooterLeftMotor.configureMotionMagic(ShooterConstants::ShooterCruiseVelocity,
                                          ShooterConstants::ShooterCruiseAcceleration,

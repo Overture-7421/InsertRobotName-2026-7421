@@ -54,7 +54,7 @@ struct IntakeConstants{
         OverTalonFXConfig rollersMotorConfig;
         rollersMotorConfig.MotorId = 16;
         rollersMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        rollersMotorConfig.Inverted = true;
+        rollersMotorConfig.Inverted = false;
         rollersMotorConfig.useFOC = true;
     
         rollersMotorConfig.ClosedLoopRampRate = 0.0_s;

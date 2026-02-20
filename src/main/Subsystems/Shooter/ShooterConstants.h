@@ -30,7 +30,7 @@ struct ShooterConstants {
         OverTalonFXConfig shooterLeftConfig;
         shooterLeftConfig.MotorId = ShooterLeftMotorId; //Shooter Down
         shooterLeftConfig.NeutralMode = ControllerNeutralMode::Coast;
-        shooterLeftConfig.Inverted = false;
+        shooterLeftConfig.Inverted = true;
         shooterLeftConfig.useFOC = true; // ??????????????
 
         shooterLeftConfig.CurrentLimit = 30_A;
@@ -48,7 +48,7 @@ struct ShooterConstants {
         OverTalonFXConfig shooterRightConfig;
         shooterRightConfig.MotorId = ShooterRightMotorId; //Shooter Up
         shooterRightConfig.NeutralMode = ControllerNeutralMode::Coast;
-        shooterRightConfig.Inverted = false;
+        shooterRightConfig.Inverted = true;
         shooterRightConfig.useFOC = true; // ??????????????
 
         shooterRightConfig.CurrentLimit = 30_A;

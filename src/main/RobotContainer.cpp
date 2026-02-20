@@ -36,22 +36,22 @@ void RobotContainer::ConfigDriverBindings() {
   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
-      [this]() -> frc::Translation2d {
-        return *selectedTarget.load();
-      }
-    ).ToPtr()
-  );
-  driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
+//   driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
+//       [this]() -> frc::Translation2d {
+//         return *selectedTarget.load();
+//       }
+//     ).ToPtr()
+//   );
+//   driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor));
-	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
+// 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor));
+// 	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
-	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
+// 	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+// 	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
-	driver.Y().OnFalse(CloseCommand(&intake, &processor));
+// 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
+// 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
 
 } 
