@@ -9,6 +9,9 @@
 #include <OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h>
 #include "Constants.h"
 #include <frc2/command/FunctionalCommand.h>
+#include <ctre/phoenix6/CANrange.hpp>
+#include <atomic>
+#include <frc/smartdashboard/SmartDashboard.h>
 
 
 class Processor : public frc2::SubsystemBase {
@@ -20,6 +23,17 @@ class Processor : public frc2::SubsystemBase {
 
   frc2::CommandPtr setProcessorCmd(ProcessorValues processorValues);
   frc2::CommandPtr setOnlySpindexerCmd(units::volt_t voltage);
+
+  bool isFuelCharged();
+
+  // Auto‑preload control (automatic; LaunchCommand will disable while launching)
+  void setAutoPreloadEnabled(bool enabled);
+  bool isAutoPreloadEnabled() const;
+
+  // Notify intake running (optional: used if intake wants processor to preload while intake runs)
+  void notifyIntakeRunning(bool running);
+  bool isIntakeNotifiedRunning() const;
+  
   /**
    * Will be called periodically whenever the CommandScheduler runs.
    */
@@ -32,6 +46,11 @@ class Processor : public frc2::SubsystemBase {
 
     ctre::phoenix6::controls::VoltageOut spindexerVoltage{0_V};
     ctre::phoenix6::controls::VoltageOut passerVoltage{0_V};
-  // Components (e.g. motor controllers and sensors) should generally be
-  // declared private and exposed only through public methods.
+
+    ctre::phoenix6::hardware::CANrange canRange {29, robotConstants::rio};
+
+    // flags
+    std::atomic<bool> m_autoPreloadEnabled{true};   // preloading activo por defecto
+    std::atomic<bool> m_intakeRequested{false};     // notificado por intake
+
 };

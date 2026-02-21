@@ -19,7 +19,7 @@ constexpr static const ProcessorValues Eject{5.0_V, 5.0_V};
 constexpr static const ProcessorValues StopProcessor{0.0_V, 0.0_V};
 constexpr static const ProcessorValues ReverseProcessor{-5.0_V, -5.0_V};
 
-constexpr static const units::volt_t AccomodateSpindexer = 2_V;
+constexpr static const ProcessorValues PreloadProcessor{5.0_V, 5.0_V};
 
 constexpr static const double SpindexerMotorID = 17;
 constexpr static const double PasserMotorID = 18;

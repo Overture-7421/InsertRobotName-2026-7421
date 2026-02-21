@@ -78,15 +78,15 @@ class RobotContainer {
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
 
-  static AprilTags::Config railCameraRight();
-	static AprilTags::Config climberCameraLeft();
-	static AprilTags::Config climberCameraRight();
-	static AprilTags::Config railCameraLeft();
+  // static AprilTags::Config camIntakeConfig();
+	static AprilTags::Config camStorageConfig();
+	static AprilTags::Config camRadioConfig();
+	static AprilTags::Config camRoboRioConfig();
 
-	AprilTags railCamRight{ &tagLayout, &chassis, railCameraRight() };
-	AprilTags climberCamLeft{ &tagLayout, &chassis, climberCameraLeft() };
-	AprilTags climberCamRight{ &tagLayout, &chassis, climberCameraRight() };
-	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
+	// AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
+	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
+	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 

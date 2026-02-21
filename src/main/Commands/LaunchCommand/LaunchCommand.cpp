@@ -18,7 +18,7 @@ LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis,
 
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() {
-  
+
 }
 
 // Called repeatedly when this Command is scheduled to run
