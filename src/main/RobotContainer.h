@@ -29,6 +29,12 @@
 #include "Commands/CloseCommand/CloseCommand.h"
 #include "Commands/StopCommand/StopCommand.h"
 
+#include <OvertureLib/Subsystems/LedsManager/LedsManager.h>
+#include <OvertureLib/Subsystems/LedsManager/Effects/BlinkEffect/BlinkEffect.h>
+#include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
+#include "Commands/LedsWinAuto/LedsWinAuto.h"
+#include "Commands/LedsLoseAuto/LedsLoseAuto.h"
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -89,6 +95,18 @@ class RobotContainer {
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
+
+
+   LedsManager leds{8, 240, {{"all", {0, 239}
+    }}};
+  
+  frc2::Trigger autoWin{[this] {
+    return console.Button(9).Get();
+  }};
+
+  frc2::Trigger autoLose{[this] {
+    return console.Button(10).Get();
+  }};
 
 
 };

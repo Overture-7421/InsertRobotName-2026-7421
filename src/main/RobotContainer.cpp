@@ -11,9 +11,19 @@ RobotContainer::RobotContainer() {
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
-    ).ToPtr()));
+    ).BeforeStarting(frc2::cmd::RunOnce([this] {
+          // desactivar auto-preload justo antes de ejecutar LaunchCommand
+          processor.setAutoPreloadEnabled(false);
+      }))
+      .FinallyDo([this](bool interrupted) {
+          // se ejecuta cuando LaunchCommand termine o sea interrumpido
+          processor.setAutoPreloadEnabled(true);
+      })));
 
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)));
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)
+	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
+		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
+      })));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
 	pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor, &shooter)));
 
@@ -27,6 +37,7 @@ RobotContainer::RobotContainer() {
 }
 
 void RobotContainer::ConfigureBindings() {
+
   
   ConfigDriverBindings();
   ConfigOperatorBindings();
@@ -68,6 +79,11 @@ void RobotContainer::ConfigDriverBindings() {
 } 
 
 void RobotContainer::ConfigOperatorBindings() {
+
+	autoWin.OnTrue(LedsWinAuto(&leds));
+	autoLose.OnTrue(LedsLoseAuto(&leds));
+
+
   console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
     selectedTarget.store(&LaunchConstants::HubPose);
 	launchModeManager.setLaunchMode(LaunchModes::Hub);

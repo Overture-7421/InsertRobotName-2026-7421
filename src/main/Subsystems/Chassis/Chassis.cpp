@@ -20,7 +20,7 @@ Chassis::Chassis() : SwerveChassis() {
 }
 
 units::meters_per_second_t Chassis::getMaxModuleSpeed() {
-    return 5.12_mps; //5mps
+    return 5.304_mps; //5mps
 }
 
 units::meter_t Chassis::getDriveBaseRadius() {

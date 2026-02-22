@@ -40,16 +40,8 @@ void Processor::setAutoPreloadEnabled(bool enabled) {
     }
 }
 
-bool Processor::isAutoPreloadEnabled() const {
-    return m_autoPreloadEnabled.load();
-}
-
 void Processor::notifyIntakeRunning(bool running) {
     m_intakeRequested.store(running);
-}
-
-bool Processor::isIntakeNotifiedRunning() const {
-    return m_intakeRequested.load();
 }
 
 // This method will be called once per scheduler run

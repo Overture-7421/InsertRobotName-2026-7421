@@ -28,11 +28,9 @@ class Processor : public frc2::SubsystemBase {
 
   // Auto‑preload control (automatic; LaunchCommand will disable while launching)
   void setAutoPreloadEnabled(bool enabled);
-  bool isAutoPreloadEnabled() const;
 
   // Notify intake running (optional: used if intake wants processor to preload while intake runs)
   void notifyIntakeRunning(bool running);
-  bool isIntakeNotifiedRunning() const;
   
   /**
    * Will be called periodically whenever the CommandScheduler runs.
