@@ -40,6 +40,12 @@ void RobotContainer::ConfigDriverBindings() {
 
   	driver.A().WhileTrue(shooter.setHoodAngleCommand(45.0_deg));
   	driver.A().OnFalse(shooter.setHoodAngleCommand(0.0_deg));
+
+	driver.B().WhileTrue(climber.setClimberPosition(climberConstants::ClimberOpen));
+	driver.B().OnFalse(climber.setClimberPosition(climberConstants::ClimberStow));
+
+	
+
 } 
 
 void RobotContainer::ConfigOperatorBindings() {

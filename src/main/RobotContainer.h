@@ -19,6 +19,7 @@
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Processor/Processor.h"
+#include "Subsystems/Climber/Climber.h"
 
 #include "Subsystems/Turret/Turret.h"
 #include "Subsystems/Shooter/Shooter.h"
@@ -45,7 +46,7 @@ class RobotContainer {
 
 
  private:
-  OverXboxController driver{ 0, 0.05, 0.2 };
+  
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
@@ -58,8 +59,7 @@ class RobotContainer {
 #endif 
 
 
-  Shooter shooter;
-  Turret turret{&chassis};
+
 
   LaunchModeManager launchModeManager;
 
@@ -87,9 +87,11 @@ class RobotContainer {
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 
+
+  Shooter shooter;
+  Turret turret{&chassis};
   Intake intake;
   Processor processor;
-  Chassis chassis;
-
-
+  Climber climber;
+  
 };

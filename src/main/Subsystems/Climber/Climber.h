@@ -3,33 +3,25 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #pragma once
-#include "ClimberConstants.h"
+
 #include <frc2/command/SubsystemBase.h>
-#include <frc2/command/Subsystem.h>
-#include <frc/MathUtil.h>
-#include <units/voltage.h> // Include the proper header for units
-#include <frc2/command/Commands.h>
+#include "ClimberConstants.h"
 #include "Constants.h"
 
-
-
-class ClimberSubsystem : public frc2::SubsystemBase {
+class Climber : public frc2::SubsystemBase {
  public:
-
-  ClimberSubsystem();
+  Climber();
   
-  
-  void moveClimber(units::degree_t target);
+  void setClimberAngle(units::degree_t targetAngle);
+  bool climberReached(units::degree_t targetAngle);
 
-  bool isClimberFinished(units::degree_t target);
+  frc2::CommandPtr setClimberPosition(climberValues targetPos);
+ 
+  void Periodic() override;
 
-  units::degree_t climberGetPosition();
+ private:
+ OverTalonFX climberMotor {climberConstants::climberMotorConfig(), robotConstants::rio};
+ OverCANCoder climberCANCoder {climberConstants::climberCanCoderConfig(), robotConstants::rio};
 
-  frc2::CommandPtr SetPosition(units::degree_t target);
-  
-
-
-  private:
-    OverTalonFX climberMotor {ClimberConstants::ClimberConstants(), robotConstants::rio};
-    ctre::phoenix6::controls::MotionMagicVoltage climberPositionRequest = {0_tr};
-};
+ ctre::phoenix6::controls::MotionMagicVoltage climberVoltage {0_tr};
+ };

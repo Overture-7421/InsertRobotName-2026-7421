@@ -4,58 +4,57 @@
 
 #pragma once
 
-#include "OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h"
-#include "OvertureLib/MotorControllers/OverTalonFX/Config.h"
-#include "OvertureLib/Sensors/OverCANCoder/OverCANCoder.h"
-#include "OvertureLib/Sensors/OverCANCoder/Config.h"
-#include <units/angular_velocity.h>
-#include <units/angular_acceleration.h>
-#include <units/angular_jerk.h>
+#include <OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h>
+#include <OvertureLib/Sensors/OverCANCoder/OverCANCoder.h>
 
 
+struct climberValues{
+    units::degree_t climber;
+};
 
-namespace ClimberConstants {
-
-    constexpr static const double ClimberRotorToSensorRatio = 62.5;
-    constexpr static const double ClimberCANCoderId = 17;
-
-    constexpr static const units::turns_per_second_t ClimberMMCruiseVelocity =  4.0_tps ;
-    constexpr static const units::turns_per_second_squared_t ClimberMMAcceleration = 42_tr_per_s_sq;
-    constexpr static const units::turns_per_second_cubed_t ClimberMMJerk = 0.0_tr_per_s_cu;
+struct climberConstants{
     
-OverTalonFXConfig ClimberConstants(){
-    OverTalonFXConfig climberConstants;
+    constexpr static const climberValues ClimberOpen { 30.0_deg};
+    constexpr static const climberValues ClimberStow {-30_deg};
+    constexpr static const climberValues ClimberInitial { 0_deg};
+
+
+    constexpr static const double climberRotorToSensor = 62.5;  
+    constexpr static const units::turns_per_second_t ClimberCruiseVelocity = 95_tps;
+    constexpr static const units::turns_per_second_squared_t ClimberCruiseAcceleration = 280_tr_per_s_sq;
+    constexpr static const units::degree_t ClimberRangeError = 1_deg;
+    constexpr static const units::turn_t ClimberCANCoderOffset = 0_tr;
     
-    climberConstants.MotorId = 1; // Example motor ID, change as needed
+    constexpr static OverTalonFXConfig climberMotorConfig() {
+        
+        // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
+        OverTalonFXConfig climberMotorConfig;
+        climberMotorConfig.MotorId = 14;
+        climberMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+        climberMotorConfig.Inverted = true;
+        climberMotorConfig.useFOC = true;
+        climberMotorConfig.PIDConfigs.WithKP(20).WithKV(2);
 
-
-    climberConstants.NeutralMode = ControllerNeutralMode::Brake;
-    climberConstants.Inverted = false; // Set to true if the motor is inverted
-    climberConstants.useFOC = false; // Set to true if using Field Oriented Control
-
-
-    climberConstants.PIDConfigs.WithKP(0.01).WithKI(0.0).WithKD(0.0);
+        climberMotorConfig.ClosedLoopRampRate = 0.0_s;
+        climberMotorConfig.CurrentLimit = 30_A;
+        climberMotorConfig.OpenLoopRampRate = 0.05_s;
+        climberMotorConfig.StatorCurrentLimit = 120_A;
+        climberMotorConfig.TriggerThreshold = 40_A;
+        climberMotorConfig.TriggerThresholdTime = 0.5_s;
     
-
-
-    climberConstants.CurrentLimit = 30_A; // Example current limit, adjust as needed
-    climberConstants.StatorCurrentLimit = 40_A; // Example stator current limit
-    climberConstants.TriggerThreshold = 50_A; // Example trigger threshold
-    climberConstants.TriggerThresholdTime = 0.5_s; // Example trigger threshold time
-    climberConstants.ClosedLoopRampRate = 0.1_s; // Example closed loop ramp rate
-    climberConstants.OpenLoopRampRate = 0.1_s; // Example open loop ramp rate
-
-    return climberConstants;
-}
-
-CanCoderConfig getCANCodeConfig(){
-
-    CanCoderConfig climberCANCoder;
+        return climberMotorConfig;
+    }
     
-    climberCANCoder.CanCoderId = -1;
-    climberCANCoder.Offset = 0_deg;
-    climberCANCoder.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue:: CounterClockwise_Positive;
+    
+    constexpr static CanCoderConfig climberCanCoderConfig(){
 
-    return climberCANCoder;
-}
-}
+        // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
+        
+        CanCoderConfig climberCanCoderConfig;
+        climberCanCoderConfig.CanCoderId = 15;
+        climberCanCoderConfig.Offset = ClimberCANCoderOffset;
+        climberCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+
+        return climberCanCoderConfig;
+    }
+};
