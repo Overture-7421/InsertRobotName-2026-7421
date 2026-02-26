@@ -1,0 +1,31 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftAuto1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftAuto2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "LeftAuto3DirectClimb"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "LeftAuto",
+  "choreoAuto": false
+}

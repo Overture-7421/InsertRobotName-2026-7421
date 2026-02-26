@@ -19,8 +19,8 @@ struct TurretConstants {
   constexpr static const units::degree_t TurretReverseLimit = -180.0_deg; //Poner
 
   constexpr static const double GearTurretTooth = 100.0;
-  constexpr static const double GearEncoder1 = 28.0;
-  constexpr static const double GearEncoder2 = 26.0;
+  constexpr static const double GearEncoder1 = 26.0;
+  constexpr static const double GearEncoder2 = 28.0;
 
   constexpr static const double Slope = (GearEncoder2 * GearEncoder1) / ((GearEncoder1 - GearEncoder2) * GearTurretTooth);
   constexpr static const double GearRatioTurretToEncoder1 = GearTurretTooth / GearEncoder1;
@@ -33,7 +33,7 @@ struct TurretConstants {
  constexpr static const OverTalonFXConfig TurretConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
         OverTalonFXConfig turretConfig;
         turretConfig.MotorId = TurretMotorId;
-        turretConfig.NeutralMode = ControllerNeutralMode::Brake;
+        turretConfig.NeutralMode = ControllerNeutralMode::Coast;
         turretConfig.Inverted = false;
 
         turretConfig.CurrentLimit = 20_A;
@@ -42,7 +42,7 @@ struct TurretConstants {
         turretConfig.TriggerThresholdTime = 0.5_s;
         turretConfig.ClosedLoopRampRate = 0.0_s;
         turretConfig.OpenLoopRampRate = 0.05_s;
-        turretConfig.PIDConfigs.WithKV(6.0).WithKP(18.0);
+        turretConfig.PIDConfigs.WithKV(0.0).WithKP(0.0); // 6 y 18
 
         return turretConfig;
     }
@@ -50,7 +50,9 @@ struct TurretConstants {
     constexpr static const CanCoderConfig Turret1CANConfig() {
         CanCoderConfig turret1CANConfig;
         turret1CANConfig.CanCoderId = Turret1CANCoderId;
-        turret1CANConfig.Offset = 0.0_tr;
+        turret1CANConfig.Offset = 0.063720703125_tr;
+        turret1CANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        turret1CANConfig.absoluteDiscontinuityPoint = 1.0_tr;
 
         return turret1CANConfig;
     }
@@ -58,7 +60,8 @@ struct TurretConstants {
     constexpr static const CanCoderConfig Turret2CANConfig() {
         CanCoderConfig turret2CANConfig;
         turret2CANConfig.CanCoderId = Turret2CANCoderId;
-        turret2CANConfig.Offset = 0.0_tr;
+        turret2CANConfig.Offset = -0.16845703125_tr;
+        turret2CANConfig.absoluteDiscontinuityPoint = 1.0_tr;
         return turret2CANConfig;
     }
 };
