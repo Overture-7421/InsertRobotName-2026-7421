@@ -4,20 +4,21 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis,  LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, Processor* processor,  LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
   this->turret = turret;
   this->shooter = shooter;
   this->chassis = chassis;
+  this->processor = processor;
   this->launchModeManager = launchModeManager;
   this->targetSupplier = std::move(targetSupplier);
 
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({turret, shooter});
+  AddRequirements({turret, shooter, processor});
 }
 
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() {
-  
+
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -58,9 +59,18 @@ void LaunchCommand::Execute() {
 
   shooter->setHoodAngle(hoodAngle);
   shooter->setObjectiveVelocity(shooterSpeed);
+
+  if(turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation) && shooter->isShooterAtVelocity(shooterSpeed) && shooter->isHoodAtAngle(hoodAngle) && !frc::DriverStation::IsAutonomous()){
+    processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
+  }
+
+  frc::SmartDashboard::PutBoolean("AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(shooterSpeed));
+  frc::SmartDashboard::PutBoolean("AtPosition/HoodIsHoodAngle", shooter->isHoodAtAngle(hoodAngle));
+  frc::SmartDashboard::PutBoolean("AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
+
   
 }
-
+  
 // Called once the command ends or is interrupted.
 void LaunchCommand::End(bool interrupted) {}
 

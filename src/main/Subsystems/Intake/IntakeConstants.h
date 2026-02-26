@@ -13,10 +13,11 @@ struct intakeValues{
     units::degree_t intake;
 };
 
-struct intakeConstants{
+struct IntakeConstants{
     
     constexpr static const intakeValues IntakeOpen {6_V, 30.0_deg};
-    constexpr static const intakeValues IntakeStow {0_V, -30_deg};
+    constexpr static const intakeValues IntakeSustain {0_V, 30.0_deg};
+    constexpr static const intakeValues IntakeClose {0_V, -30_deg};
     constexpr static const intakeValues IntakeInitial {0_V, 0_deg};
 
 
@@ -32,9 +33,9 @@ struct intakeConstants{
         OverTalonFXConfig intakeMotorConfig;
         intakeMotorConfig.MotorId = 14;
         intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        intakeMotorConfig.Inverted = true;
+        intakeMotorConfig.Inverted = false;
         intakeMotorConfig.useFOC = true;
-        intakeMotorConfig.PIDConfigs.WithKP(20).WithKV(2);
+        intakeMotorConfig.PIDConfigs.WithKP(0).WithKV(0);
 
         intakeMotorConfig.ClosedLoopRampRate = 0.0_s;
         intakeMotorConfig.CurrentLimit = 30_A;
@@ -53,7 +54,7 @@ struct intakeConstants{
         OverTalonFXConfig rollersMotorConfig;
         rollersMotorConfig.MotorId = 16;
         rollersMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        rollersMotorConfig.Inverted = true;
+        rollersMotorConfig.Inverted = false;
         rollersMotorConfig.useFOC = true;
     
         rollersMotorConfig.ClosedLoopRampRate = 0.0_s;
@@ -73,7 +74,7 @@ struct intakeConstants{
         CanCoderConfig intakeCanCoderConfig;
         intakeCanCoderConfig.CanCoderId = 15;
         intakeCanCoderConfig.Offset = IntakeCANCoderOffset;
-        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 
         return intakeCanCoderConfig;
     }

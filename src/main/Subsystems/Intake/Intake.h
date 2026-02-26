@@ -22,9 +22,9 @@ class Intake : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
- OverTalonFX intakeMotor {intakeConstants::intakeMotorConfig(), robotConstants::rio};
- OverTalonFX rollersMotor {intakeConstants::rollersMotorConfig(), robotConstants::rio};
- OverCANCoder intakeCANCoder {intakeConstants::intakeCanCoderConfig(), robotConstants::rio};
+ OverTalonFX intakeMotor {IntakeConstants::intakeMotorConfig(), robotConstants::rio};
+ OverTalonFX rollersMotor {IntakeConstants::rollersMotorConfig(), robotConstants::rio};
+ OverCANCoder intakeCANCoder {IntakeConstants::intakeCanCoderConfig(), robotConstants::rio};
 
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};

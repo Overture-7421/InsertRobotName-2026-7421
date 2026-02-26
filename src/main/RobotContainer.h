@@ -26,6 +26,15 @@
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
 #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
+#include "Commands/SwallowCommand/SwallowCommand.h"
+#include "Commands/CloseCommand/CloseCommand.h"
+#include "Commands/StopCommand/StopCommand.h"
+
+#include <OvertureLib/Subsystems/LedsManager/LedsManager.h>
+#include <OvertureLib/Subsystems/LedsManager/Effects/BlinkEffect/BlinkEffect.h>
+#include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
+#include "Commands/LedsWinAuto/LedsWinAuto.h"
+#include "Commands/LedsLoseAuto/LedsLoseAuto.h"
 
 
 /**
@@ -59,7 +68,10 @@ class RobotContainer {
 #endif 
 
 
-
+  Shooter shooter;
+  Turret turret{&chassis};
+  Intake intake;
+  Processor processor;
 
   LaunchModeManager launchModeManager;
 
@@ -68,30 +80,34 @@ class RobotContainer {
 	frc::SendableChooser<frc2::Command*> autoChooser;
 
   // necessary robot controllers and subsystems
-  OverXboxController driver{ 0, 0.05, 0.2 };
 
   void ConfigureBindings();
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
 
-  static AprilTags::Config railCameraRight();
-	static AprilTags::Config climberCameraLeft();
-	static AprilTags::Config climberCameraRight();
-	static AprilTags::Config railCameraLeft();
+  // static AprilTags::Config camIntakeConfig();
+	static AprilTags::Config camStorageConfig();
+	static AprilTags::Config camRadioConfig();
+	static AprilTags::Config camRoboRioConfig();
 
-	AprilTags railCamRight{ &tagLayout, &chassis, railCameraRight() };
-	AprilTags climberCamLeft{ &tagLayout, &chassis, climberCameraLeft() };
-	AprilTags climberCamRight{ &tagLayout, &chassis, climberCameraRight() };
-	AprilTags railCamLeft{ &tagLayout, &chassis, railCameraLeft() };
+	// AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
+	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
+	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 
-
-  Shooter shooter;
-  Turret turret{&chassis};
-  Intake intake;
-  Processor processor;
-  Climber climber;
+   LedsManager leds{8, 240, {{"all", {0, 239}
+    }}};
   
+  frc2::Trigger autoWin{[this] {
+    return console.Button(9).Get();
+  }};
+
+  frc2::Trigger autoLose{[this] {
+    return console.Button(10).Get();
+  }};
+
+
 };

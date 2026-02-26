@@ -63,15 +63,6 @@ void Robot::RobotInit() {
 
 }
 
-// Gearings
-// Motores correctos cantidad
-// Agregar motores en init
-// Cancoders correctos ()
-
-// Elevador
-
-
-
 /**
  * This function is called every 20 ms, no matter the mode. Use
  * 

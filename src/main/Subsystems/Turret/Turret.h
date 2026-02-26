@@ -31,7 +31,7 @@ class Turret : public frc2::SubsystemBase {
 
   void AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
-  bool isAimAtFieldPosition(units::degree_t setPoint);
+  bool isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
   frc2::CommandPtr TestCommand(units::degree_t setPoint);
 

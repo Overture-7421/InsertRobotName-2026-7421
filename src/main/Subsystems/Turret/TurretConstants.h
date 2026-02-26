@@ -15,8 +15,8 @@ struct TurretConstants {
 
   constexpr static const double SensorToMechanism = 41.666;
 
-  constexpr static const units::degree_t TurretForwardLimit = 360.0_deg; //Poner
-  constexpr static const units::degree_t TurretReverseLimit = -360.0_deg; //Poner
+  constexpr static const units::degree_t TurretForwardLimit = 180.0_deg; //Poner
+  constexpr static const units::degree_t TurretReverseLimit = -180.0_deg; //Poner
 
   constexpr static const double GearTurretTooth = 100.0;
   constexpr static const double GearEncoder1 = 28.0;
@@ -42,7 +42,7 @@ struct TurretConstants {
         turretConfig.TriggerThresholdTime = 0.5_s;
         turretConfig.ClosedLoopRampRate = 0.0_s;
         turretConfig.OpenLoopRampRate = 0.05_s;
-        turretConfig.PIDConfigs.WithKV(6.0).WithKP(34.0);
+        turretConfig.PIDConfigs.WithKV(6.0).WithKP(18.0);
 
         return turretConfig;
     }
