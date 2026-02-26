@@ -19,6 +19,7 @@
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Processor/Processor.h"
+#include "Subsystems/Climber/Climber.h"
 
 #include "Subsystems/Turret/Turret.h"
 #include "Subsystems/Shooter/Shooter.h"
@@ -54,7 +55,7 @@ class RobotContainer {
 
 
  private:
-  OverXboxController driver{ 0, 0.05, 0.2 };
+  
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
