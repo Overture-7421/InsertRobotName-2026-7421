@@ -21,7 +21,7 @@ struct IntakeConstants{
     constexpr static const intakeValues IntakeInitial {0_V, 0_deg};
 
 
-    constexpr static const double intakeRotorToSensor = 62.5;  
+    constexpr static const double intakeRotorToSensor = 50.0;  
     constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 95_tps;
     constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 280_tr_per_s_sq;
     constexpr static const units::degree_t IntakeRangeError = 1_deg;

@@ -11,14 +11,7 @@ RobotContainer::RobotContainer() {
       [this]() -> frc::Translation2d {
         return *selectedTarget.load();
       }
-    ).BeforeStarting(frc2::cmd::RunOnce([this] {
-          // desactivar auto-preload justo antes de ejecutar LaunchCommand
-          processor.setAutoPreloadEnabled(false);
-      }))
-      .FinallyDo([this](bool interrupted) {
-          // se ejecuta cuando LaunchCommand termine o sea interrumpido
-          processor.setAutoPreloadEnabled(true);
-      })));
+    )).ToPtr());
 
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)
 	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
@@ -44,75 +37,69 @@ void RobotContainer::ConfigureBindings() {
 }
 
 void RobotContainer::ConfigDriverBindings() {
-  chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
-	driver.Back().OnTrue(ResetHeading(&chassis));
+//   chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
+// 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
-      [this]() -> frc::Translation2d {
-        return *selectedTarget.load();
-      }
-    ).BeforeStarting(frc2::cmd::RunOnce([this] {
-          // desactivar auto-preload justo antes de ejecutar LaunchCommand
-          processor.setAutoPreloadEnabled(false);
-      }))
-      .FinallyDo([this](bool interrupted) {
-          // se ejecuta cuando LaunchCommand termine o sea interrumpido
-          processor.setAutoPreloadEnabled(true);
-      })
-    );
-  driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
+//   driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
+//       [this]() -> frc::Translation2d {
+//         return *selectedTarget.load();
+//       }
+//     ).ToPtr());
+//   driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor)
-	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
-		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
-      }));
-	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
+// 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor)
+// 	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
+// 		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
+//       }));
+// 	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
-	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
+// 	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor)); // Para el operador
+// 	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
-	driver.Y().OnFalse(CloseCommand(&intake, &processor));
+// 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
+// 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
-
+	driver.A().WhileTrue(shooter.setHoodAngleCommand(30_deg));
+	driver.A().OnFalse(shooter.setHoodAngleCommand(5_deg));
 
 } 
 
 void RobotContainer::ConfigOperatorBindings() {
 
-	autoWin.OnTrue(LedsWinAuto(&leds));
-	autoLose.OnTrue(LedsLoseAuto(&leds));
+// 	autoWin.OnTrue(LedsWinAuto(&leds));
+// 	autoLose.OnTrue(LedsLoseAuto(&leds));
 
+// 	//Boton de intake retraido para meter pelotas (por si acaso )
 
-  console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::HubPose);
-	launchModeManager.setLaunchMode(LaunchModes::Hub);
-  }));
+//   console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::HubPose);
+// 	launchModeManager.setLaunchMode(LaunchModes::Hub);
+//   }));
 
-  console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::LeftPass);
-	launchModeManager.setLaunchMode(LaunchModes::LowPass);
-  }));
+//   console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::LeftPass);
+// 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
+//   }));
 
-  console.Button(9).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::LeftPass);
-	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-  }));
+//   console.Button(9).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::LeftPass);
+// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+//   }));
 
-  console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::CenterPass);
-	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-  }));
+//   console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::CenterPass);
+// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+//   }));
 
-  console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::RightPass);
-	launchModeManager.setLaunchMode(LaunchModes::LowPass);
-  }));
+//   console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::RightPass);
+// 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
+//   }));
 
-  console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
-    selectedTarget.store(&LaunchConstants::RightPass);
-	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-  }));
+//   console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+//     selectedTarget.store(&LaunchConstants::RightPass);
+// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+//   }));
 
 }
 

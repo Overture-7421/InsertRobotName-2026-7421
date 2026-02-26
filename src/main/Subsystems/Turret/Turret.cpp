@@ -16,7 +16,7 @@ Turret::Turret(Chassis* chassis) {
 
 void Turret::setTargetAngle(units::degree_t turretTarget) {
     frc::SmartDashboard::PutNumber("TurretData/Target Position", turretTarget.value());
-    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(-chassis->getCurrentSpeeds().omega.value() * 0.7889)));
+    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(-chassis->getCurrentSpeeds().omega.value() * 0.0)));
 
 }
 
@@ -124,8 +124,8 @@ bool Turret::isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Trans
 void Turret::UpdateTelemetry(){
     units::degree_t encoder1 = turret1CANCoder.GetAbsolutePosition().GetValue();
     units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValue();
-    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value() / 360.0);
-    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value() / 360.0);
+    frc::SmartDashboard::PutNumber("TurretData/Encoder1", encoder1.value());
+    frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value());
 
     frc::SmartDashboard::PutNumber("TurretData/EncodersCombined", calculateTurretAngleFromCANCoderDegrees().value());
 

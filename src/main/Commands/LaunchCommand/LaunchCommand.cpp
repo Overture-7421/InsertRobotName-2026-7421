@@ -31,6 +31,7 @@ void LaunchCommand::Execute() {
   if(isRedAlliance()){
     targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
+  
 
   targetWhileMoving.setTargetLocation(targetCoords);
   frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());

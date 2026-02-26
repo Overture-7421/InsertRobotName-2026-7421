@@ -48,7 +48,6 @@ class Processor : public frc2::SubsystemBase {
     ctre::phoenix6::hardware::CANrange canRange {29, robotConstants::rio};
 
     // flags
-    std::atomic<bool> m_autoPreloadEnabled{true};   // preloading activo por defecto
     std::atomic<bool> m_intakeRequested{false};     // notificado por intake
 
 };
