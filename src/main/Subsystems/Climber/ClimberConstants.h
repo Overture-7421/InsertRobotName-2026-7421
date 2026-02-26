@@ -14,16 +14,16 @@ struct climberValues{
 
 struct climberConstants{
     
-    constexpr static const climberValues ClimberOpen { 30.0_deg};
-    constexpr static const climberValues ClimberStow {-30_deg};
+    constexpr static const climberValues ClimberOpen { 45.0_deg};
+    constexpr static const climberValues ClimberStow {0_deg};
     constexpr static const climberValues ClimberInitial { 0_deg};
 
 
     constexpr static const double climberRotorToSensor = 62.5;  
     constexpr static const units::turns_per_second_t ClimberCruiseVelocity = 95_tps;
-    constexpr static const units::turns_per_second_squared_t ClimberCruiseAcceleration = 280_tr_per_s_sq;
-    constexpr static const units::degree_t ClimberRangeError = 1_deg;
-    constexpr static const units::turn_t ClimberCANCoderOffset = 0_tr;
+    constexpr static const units::turns_per_second_squared_t ClimberCruiseAcceleration = 95_tr_per_s_sq;
+    constexpr static const units::degree_t ClimberRangeError = 2_deg;
+    constexpr static const units::turn_t ClimberCANCoderOffset = 0.125_tr;
     
     constexpr static OverTalonFXConfig climberMotorConfig() {
         
@@ -33,9 +33,9 @@ struct climberConstants{
         climberMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
         climberMotorConfig.Inverted = true;
         climberMotorConfig.useFOC = true;
-        climberMotorConfig.PIDConfigs.WithKP(20).WithKV(2);
+        climberMotorConfig.PIDConfigs.WithKP(27.5).WithKV(45);
 
-        climberMotorConfig.ClosedLoopRampRate = 0.0_s;
+        climberMotorConfig.ClosedLoopRampRate = 0.01_s;
         climberMotorConfig.CurrentLimit = 30_A;
         climberMotorConfig.OpenLoopRampRate = 0.05_s;
         climberMotorConfig.StatorCurrentLimit = 120_A;
