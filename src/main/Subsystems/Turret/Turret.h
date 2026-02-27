@@ -35,6 +35,8 @@ class Turret : public frc2::SubsystemBase {
 
   frc2::CommandPtr TestCommand(units::degree_t setPoint);
 
+  double getForceFactorCables(units::degree_t turretAngleDegrees);
+
   void UpdateTelemetry();
   
   void Periodic() override;
@@ -43,8 +45,8 @@ class Turret : public frc2::SubsystemBase {
   bool enableChassisComp = false;
   
   OverTalonFX turretMotor{TurretConstants::TurretConfig(), robotConstants::rio};
-  OverCANCoder turret1CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
-  OverCANCoder turret2CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
+  OverCANCoder turret1CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
+  OverCANCoder turret2CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
 
   // ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
   ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{0.0_tr};

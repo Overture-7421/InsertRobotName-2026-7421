@@ -12,7 +12,7 @@ struct ShooterConstants {
   constexpr static const units::turns_per_second_t ShooterCruiseVelocity = 90.0_tps;
   constexpr static const units::turns_per_second_squared_t ShooterCruiseAcceleration = 205.0_tr_per_s_sq;
   constexpr static const units::turns_per_second_t HoodCruiseVelocity = 0.82_tps;
-  constexpr static const units::turns_per_second_squared_t HoodCruiseAcceleration = 1.64_tr_per_s_sq;
+  constexpr static const units::turns_per_second_squared_t HoodCruiseAcceleration = 3.0_tr_per_s_sq;
 
   constexpr static const units::turns_per_second_t StopShooterVelocity = 0_tps;
 
@@ -27,7 +27,7 @@ struct ShooterConstants {
   constexpr static const int HoodCANCoderId = 20;
 
 
-  constexpr static const OverTalonFXConfig ShooterLeftConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
+  constexpr static const OverTalonFXConfig ShooterLeftConfig() {
         OverTalonFXConfig shooterLeftConfig;
         shooterLeftConfig.MotorId = ShooterLeftMotorId; //Shooter Down
         shooterLeftConfig.NeutralMode = ControllerNeutralMode::Coast;
@@ -44,7 +44,7 @@ struct ShooterConstants {
         return shooterLeftConfig;
     }
 
-  constexpr static const OverTalonFXConfig ShooterRightConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
+  constexpr static const OverTalonFXConfig ShooterRightConfig() {
         OverTalonFXConfig shooterRightConfig;
         shooterRightConfig.MotorId = ShooterRightMotorId; //Shooter Up
         shooterRightConfig.NeutralMode = ControllerNeutralMode::Coast;
@@ -62,7 +62,7 @@ struct ShooterConstants {
         return shooterRightConfig;
     }
 
-    constexpr static const OverTalonFXConfig HoodConfig() { //LIMITES QUESTIONABLES *WARNING* CHECAR
+    constexpr static const OverTalonFXConfig HoodConfig() {
         OverTalonFXConfig hoodConfig;
         hoodConfig.MotorId = HoodMotorId;
         hoodConfig.NeutralMode = ControllerNeutralMode::Brake;
@@ -74,7 +74,7 @@ struct ShooterConstants {
         hoodConfig.TriggerThreshold = 40_A;
         hoodConfig.TriggerThresholdTime = 0.5_s;
         hoodConfig.ClosedLoopRampRate = 0.05_s;
-        hoodConfig.PIDConfigs.WithKV(0.0).WithKP(0.0);
+        hoodConfig.PIDConfigs.WithKV(10.0).WithKP(260.0);
 
         return hoodConfig;
     }
@@ -82,7 +82,7 @@ struct ShooterConstants {
     constexpr static const CanCoderConfig HoodCANConfig() {
         CanCoderConfig hoodCANConfig;
         hoodCANConfig.CanCoderId = HoodCANCoderId;
-        hoodCANConfig.Offset = -0.4365234375_tr;
+        hoodCANConfig.Offset = 0.4619140625_tr;
         hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
         return hoodCANConfig;
     }

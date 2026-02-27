@@ -53,23 +53,26 @@ void RobotContainer::ConfigDriverBindings() {
 //       }));
 // 	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-// 	driver.A().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor)); // Para el operador
-// 	driver.A().OnFalse(StopCommand(&intake, &processor, &shooter));
-
 // 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 // 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
-	driver.A().WhileTrue(shooter.setHoodAngleCommand(30_deg));
-	driver.A().OnFalse(shooter.setHoodAngleCommand(5_deg));
+
+	//TEST
+	driver.A().WhileTrue(turret.TestCommand(180_deg));
+	driver.A().OnFalse(turret.TestCommand(-180_deg));
 
 } 
 
 void RobotContainer::ConfigOperatorBindings() {
 
-// 	autoWin.OnTrue(LedsWinAuto(&leds));
-// 	autoLose.OnTrue(LedsLoseAuto(&leds));
+	// console.Button(9).OnTrue(LedsWinAuto(&leds));
+	// console.Button(10).OnTrue(LedsLoseAuto(&leds));
 
-// 	//Boton de intake retraido para meter pelotas (por si acaso )
+// console.Button(7).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+// console.Button(7).OnFalse(StopCommand(&intake, &processor, &shooter));
+
+// console.Button(8).WhileTrue(intake.setIntakePosition(IntakeConstants::IntakeGiver));
+// console.Button(8).OnFalse(intake.setIntakePosition(IntakeConstants::IntakeSustain)); //Nose si es Sustain o Open, Luego vemos
 
 //   console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
 //     selectedTarget.store(&LaunchConstants::HubPose);
@@ -81,7 +84,7 @@ void RobotContainer::ConfigOperatorBindings() {
 // 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
 //   }));
 
-//   console.Button(9).OnTrue(frc2::cmd::RunOnce([this] {
+//   console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
 //     selectedTarget.store(&LaunchConstants::LeftPass);
 // 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
 //   }));
@@ -96,7 +99,7 @@ void RobotContainer::ConfigOperatorBindings() {
 // 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
 //   }));
 
-//   console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+//   console.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
 //     selectedTarget.store(&LaunchConstants::RightPass);
 // 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
 //   }));

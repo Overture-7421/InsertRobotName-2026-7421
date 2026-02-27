@@ -56,6 +56,7 @@ class RobotContainer {
 
  private:
   
+	OverXboxController driver{ 0, 0.20, 0.2 };
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
@@ -100,14 +101,5 @@ class RobotContainer {
 
    LedsManager leds{8, 240, {{"all", {0, 239}
     }}};
-  
-  frc2::Trigger autoWin{[this] {
-    return console.Button(9).Get();
-  }};
-
-  frc2::Trigger autoLose{[this] {
-    return console.Button(10).Get();
-  }};
-
 
 };

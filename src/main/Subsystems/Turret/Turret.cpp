@@ -16,7 +16,7 @@ Turret::Turret(Chassis* chassis) {
 
 void Turret::setTargetAngle(units::degree_t turretTarget) {
     frc::SmartDashboard::PutNumber("TurretData/Target Position", turretTarget.value());
-    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(-chassis->getCurrentSpeeds().omega.value() * 0.0)));
+    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(-chassis->getCurrentSpeeds().omega.value() * TurretConstants::ChassisAngularVelocityCompensator)).WithFeedForward(units::volt_t(getForceFactorCables(calculateTurretAngleFromCANCoderDegrees()) * TurretConstants::CableSpringConstant)));
 
 }
 
@@ -53,12 +53,12 @@ units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
     units::degree_t encoder2 = turret2CANCoder.GetAbsolutePosition().GetValue();
 
    units::degree_t difference = encoder2 - encoder1;
-   if(difference > 250.0_deg){ // Maybe estos numeros se modifican al ver los rangos de la torreta
-    difference -= 360.0_deg;
-   }  
-   if (difference < -250.0_deg){
-    difference += 360.0_deg;
-   }
+   if(difference > 180.0_deg){
+        difference -= 360.0_deg;
+    }  
+    if(difference < -180.0_deg){
+        difference += 360.0_deg;
+    }
    
    units::degree_t estimatedTurretAngle = difference * TurretConstants::Slope;
 
@@ -70,14 +70,25 @@ units::degree_t Turret::calculateTurretAngleFromCANCoderDegrees(){
    units::degree_t degreesPerEncoder1Rotation = 360.0_deg * TurretConstants::GearRatioEncoder1ToTurret;
    units::degree_t error = turretAngle - estimatedTurretAngle;
 
-   if(error < -100.0_deg){
+   if(error < -50.0_deg){               // Changed from -100
     turretAngle += degreesPerEncoder1Rotation;
-   } else if (error > 100.0_deg){
+   } else if (error > 50.0_deg){        // Changed from 100
     turretAngle -= degreesPerEncoder1Rotation;
    }
 
    return turretAngle; 
 
+}
+
+double Turret::getForceFactorCables(units::degree_t turretAngleDegrees) {
+    if(turretAngleDegrees > TurretConstants::TurretSafetyZoneCablesForward){
+        // return (units::math::abs(turretAngleDegrees) / turretAngleDegrees) * ((units::math::abs(turretAngleDegrees) - TurretConstants::TurretSafetyZoneCables) / TurretConstants::TurretForceAppliedRange);
+        return 1.0;
+    } else if (turretAngleDegrees < -TurretConstants::TurretSafetyZoneCablesReverse) {
+        return -1.0;
+    } else {
+        return 0.0;
+    }
 }
 
 frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
