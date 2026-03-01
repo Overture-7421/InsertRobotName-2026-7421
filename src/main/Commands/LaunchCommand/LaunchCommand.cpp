@@ -62,7 +62,7 @@ void LaunchCommand::Execute() {
   shooter->setObjectiveVelocity(shooterSpeed);
 
   if(turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation) && shooter->isShooterAtVelocity(shooterSpeed) && shooter->isHoodAtAngle(hoodAngle) && !frc::DriverStation::IsAutonomous()){
-    processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
+    // processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
   }
 
   frc::SmartDashboard::PutBoolean("AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(shooterSpeed));

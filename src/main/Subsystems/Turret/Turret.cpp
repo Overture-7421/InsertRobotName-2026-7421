@@ -9,6 +9,7 @@ Turret::Turret(Chassis* chassis) {
     // turretPID.SetTolerance(TurretConstants::TurretRangeOfError);
     turretMotor.setSensorToMechanism(TurretConstants::SensorToMechanism);
     turretMotor.SetPosition(calculateTurretAngleFromCANCoderDegrees());
+    turretMotor.configureMotionMagic(TurretConstants::TurretVelocity, TurretConstants::TurretAcceleration, 0.0_tr_per_s_cu);
 
     this->chassis = chassis;
 
@@ -16,7 +17,8 @@ Turret::Turret(Chassis* chassis) {
 
 void Turret::setTargetAngle(units::degree_t turretTarget) {
     frc::SmartDashboard::PutNumber("TurretData/Target Position", turretTarget.value());
-    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(-chassis->getCurrentSpeeds().omega.value() * TurretConstants::ChassisAngularVelocityCompensator)).WithFeedForward(units::volt_t(getForceFactorCables(calculateTurretAngleFromCANCoderDegrees()) * TurretConstants::CableSpringConstant)));
+    turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(chassis->getCurrentSpeeds().omega.value() * TurretConstants::ChassisAngularVelocityCompensator)));
+    //.WithFeedForward(units::volt_t(getForceFactorCables(calculateTurretAngleFromCANCoderDegrees()) * TurretConstants::CableSpringConstant)) Por si es necesario
 
 }
 
@@ -139,6 +141,7 @@ void Turret::UpdateTelemetry(){
     frc::SmartDashboard::PutNumber("TurretData/Encoder2", encoder2.value());
 
     frc::SmartDashboard::PutNumber("TurretData/EncodersCombined", calculateTurretAngleFromCANCoderDegrees().value());
+    frc::SmartDashboard::PutNumber("TurretData/MotorAngle", turretMotor.GetPosition().GetValue().value() * 360.0);
 
 
 }

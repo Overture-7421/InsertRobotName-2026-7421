@@ -82,7 +82,7 @@ struct ShooterConstants {
     constexpr static const CanCoderConfig HoodCANConfig() {
         CanCoderConfig hoodCANConfig;
         hoodCANConfig.CanCoderId = HoodCANCoderId;
-        hoodCANConfig.Offset = 0.4619140625_tr;
+        hoodCANConfig.Offset = 0.06298828125_tr;
         hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
         return hoodCANConfig;
     }

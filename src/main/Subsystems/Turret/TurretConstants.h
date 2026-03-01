@@ -9,20 +9,20 @@
 
 struct TurretConstants {
 
-  constexpr static const units::turns_per_second_t TurretVelocity = 2.3_tps;
-  constexpr static const units::turns_per_second_squared_t TurretAcceleration = 6.9_tr_per_s_sq;
+  constexpr static const units::turns_per_second_t TurretVelocity = 2.5_tps;
+  constexpr static const units::turns_per_second_squared_t TurretAcceleration = 7.5_tr_per_s_sq;
   constexpr static const units::degree_t TurretRangeOfError = 1.5_deg;
 
-  constexpr static const double ChassisAngularVelocityCompensator = 0.0; //Poner
+  constexpr static const double ChassisAngularVelocityCompensator = 1.0; //Poner
   constexpr static const double CableSpringConstant = 0.479; //Poner
 
-  constexpr static const double SensorToMechanism = 41.666;
+  constexpr static const double SensorToMechanism = 50.0;
 
-  constexpr static const units::degree_t TurretForwardLimit = 230.0_deg; //Poner
-  constexpr static const units::degree_t TurretReverseLimit = -230.0_deg; //Poner
+  constexpr static const units::degree_t TurretForwardLimit = 202.0_deg; //Poner
+  constexpr static const units::degree_t TurretReverseLimit = -219.0_deg; //Poner
 
-  constexpr static const units::degree_t TurretSafetyZoneCablesForward = 116.0_deg;
-  constexpr static const units::degree_t TurretSafetyZoneCablesReverse = -116.0_deg;
+  constexpr static const units::degree_t TurretSafetyZoneCablesForward = 53.0_deg;
+  constexpr static const units::degree_t TurretSafetyZoneCablesReverse = -47.0_deg;
 //   constexpr static const units::degree_t TurretForceAppliedRange = TurretForwardLimit - TurretSafetyZoneCables;
 
   constexpr static const double GearTurretTooth = 100.0;
@@ -47,9 +47,9 @@ struct TurretConstants {
         turretConfig.StatorCurrentLimit = 120_A;
         turretConfig.TriggerThreshold = 60_A;
         turretConfig.TriggerThresholdTime = 0.5_s;
-        turretConfig.ClosedLoopRampRate = 0.0_s;
-        turretConfig.OpenLoopRampRate = 0.05_s;
-        turretConfig.PIDConfigs.WithKV(0.0).WithKP(0.0).WithKS(0.279); // 6 y 18
+        turretConfig.ClosedLoopRampRate = 0.05_s;
+        turretConfig.OpenLoopRampRate = 0.0_s;
+        turretConfig.PIDConfigs.WithKP(150.0).WithKS(0.279); // 6 y 18
 
         return turretConfig;
     }

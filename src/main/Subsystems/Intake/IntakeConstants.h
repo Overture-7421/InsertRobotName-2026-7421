@@ -15,43 +15,36 @@ struct intakeValues{
 
 struct IntakeConstants{
     
-    constexpr static const intakeValues IntakeOpen {6_V, 30.0_deg}; //Poner todas las posiciones del intake, nada esta puesto bien.
-    constexpr static const intakeValues IntakeGiver {6_V, 20.0_deg};
-    constexpr static const intakeValues IntakeSustain {0_V, 30.0_deg};
-    constexpr static const intakeValues IntakeClose {0_V, -30_deg};
+    constexpr static const intakeValues IntakeOpen {5_V, -151.0_deg}; //Poner todas las posiciones del intake, nada esta puesto bien.
+    constexpr static const intakeValues IntakeGiver {5_V, -130.0_deg};
+    constexpr static const intakeValues IntakeSustain {0_V, -151.0_deg};
+    constexpr static const intakeValues IntakeClose {0_V, -8_deg};
     constexpr static const intakeValues IntakeInitial {0_V, 0_deg};
 
 
     constexpr static const double intakeRotorToSensor = 50.0;  
-    constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 95_tps;
-    constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 280_tr_per_s_sq;
+    constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 2_tps;
+    constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 6_tr_per_s_sq;
     constexpr static const units::degree_t IntakeRangeError = 1_deg;
-    constexpr static const units::turn_t IntakeCANCoderOffset = 0_tr;
     
     constexpr static OverTalonFXConfig intakeMotorConfig() {
-        
-        // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
         OverTalonFXConfig intakeMotorConfig;
         intakeMotorConfig.MotorId = 14;
         intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        intakeMotorConfig.Inverted = false;
+        intakeMotorConfig.Inverted = true;
         intakeMotorConfig.useFOC = true;
-        intakeMotorConfig.PIDConfigs.WithKP(0).WithKV(0);
+        intakeMotorConfig.PIDConfigs.WithKP(55.0);
 
-        intakeMotorConfig.ClosedLoopRampRate = 0.0_s;
+        intakeMotorConfig.ClosedLoopRampRate = 0.05_s;
         intakeMotorConfig.CurrentLimit = 30_A;
-        intakeMotorConfig.OpenLoopRampRate = 0.05_s;
+        intakeMotorConfig.OpenLoopRampRate = 0.0_s;
         intakeMotorConfig.StatorCurrentLimit = 120_A;
         intakeMotorConfig.TriggerThreshold = 40_A;
-        intakeMotorConfig.TriggerThresholdTime = 0.5_s;
     
         return intakeMotorConfig;
     }
     
     constexpr static OverTalonFXConfig rollersMotorConfig() {
-
-        // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
-
         OverTalonFXConfig rollersMotorConfig;
         rollersMotorConfig.MotorId = 16;
         rollersMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
@@ -74,7 +67,7 @@ struct IntakeConstants{
         
         CanCoderConfig intakeCanCoderConfig;
         intakeCanCoderConfig.CanCoderId = 15;
-        intakeCanCoderConfig.Offset = IntakeCANCoderOffset;
+        intakeCanCoderConfig.Offset = -0.492919921875_tr;
         intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 
         return intakeCanCoderConfig;
