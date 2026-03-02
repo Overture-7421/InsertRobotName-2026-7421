@@ -84,13 +84,12 @@
       "name": "SwallowCommand",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": 1.871378091872796,
-      "command": null
-    },
-    {
-      "name": "",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SwallowCommand"
+        }
+      }
     }
   ],
   "globalConstraints": {
