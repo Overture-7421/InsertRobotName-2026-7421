@@ -33,8 +33,7 @@
 #include <OvertureLib/Subsystems/LedsManager/LedsManager.h>
 #include <OvertureLib/Subsystems/LedsManager/Effects/BlinkEffect/BlinkEffect.h>
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
-#include "Commands/LedsWinAuto/LedsWinAuto.h"
-#include "Commands/LedsLoseAuto/LedsLoseAuto.h"
+#include "Manager/ShiftManager/ShiftManager.h"
 
 
 /**
@@ -56,6 +55,7 @@ class RobotContainer {
 
  private:
   
+	OverXboxController driver{ 0, 0.20, 0.2 };
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
@@ -72,8 +72,10 @@ class RobotContainer {
   Turret turret{&chassis};
   Intake intake;
   Processor processor;
+  Climber climber;
 
   LaunchModeManager launchModeManager;
+  ShiftManager shiftManager;
 
 
   // The robot's subsystems are defined here...
@@ -84,30 +86,29 @@ class RobotContainer {
   void ConfigureBindings();
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
+  void ConfigTestBindings();
 
-  // static AprilTags::Config camIntakeConfig();
+  static AprilTags::Config camIntakeConfig();
 	static AprilTags::Config camStorageConfig();
 	static AprilTags::Config camRadioConfig();
 	static AprilTags::Config camRoboRioConfig();
 
-	// AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
-	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
+	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
+	// AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	// AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 
-   LedsManager leds{8, 240, {{"all", {0, 239}
-    }}};
-  
-  frc2::Trigger autoWin{[this] {
-    return console.Button(9).Get();
-  }};
+  LedsManager leds{8, 240, {{"all", {0, 239}}}};
 
-  frc2::Trigger autoLose{[this] {
-    return console.Button(10).Get();
-  }};
+  frc2::Trigger isHubActive {[this] {
+	    return shiftManager.GetHubState().isActive;
+	}};
 
+  frc2::Trigger isTransitioning {[this] {
+	    return shiftManager.GetHubState().isTransitioning;
+	}};
 
 };

@@ -7,6 +7,7 @@
 #include <frc2/command/SubsystemBase.h>
 #include "IntakeConstants.h"
 #include "Constants.h"
+#include <frc2/command/Commands.h>
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -17,6 +18,7 @@ class Intake : public frc2::SubsystemBase {
   bool intakeReached(units::degree_t targetAngle);
 
   frc2::CommandPtr setIntakePosition(intakeValues targetPos);
+  frc2::CommandPtr setIntakeCharacterization(units::degree_t angle, units::volt_t voltage);
   frc2::CommandPtr setRollersVoltageCommand(units::volt_t targetVoltage);
 
   void Periodic() override;
