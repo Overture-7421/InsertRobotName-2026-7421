@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.401,
-        "y": 0.551
+        "x": 0.48093859649122805,
+        "y": 0.732
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9950789473684205,
-        "y": 0.5581666666666673
+        "x": 1.395894736842105,
+        "y": 0.6775087719298256
       },
       "isLocked": false,
-      "linkedName": "Right 2 - 3"
+      "linkedName": "Right 3 whole - 4 whole"
     },
     {
       "anchor": {
-        "x": 0.6718859649122806,
-        "y": 0.6695526315789482
+        "x": 0.8389649122807017,
+        "y": 2.6745000000000005
       },
       "prevControl": {
-        "x": 2.358587719298246,
-        "y": 0.574078947368422
+        "x": 0.8707894736842101,
+        "y": 1.9027543859649119
       },
       "nextControl": null,
       "isLocked": false,
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "LaunchCommand",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,
@@ -48,7 +55,7 @@
   "folder": "RightAuto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
