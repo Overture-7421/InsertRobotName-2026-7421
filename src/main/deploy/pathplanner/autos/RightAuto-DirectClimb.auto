@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftAuto1"
+            "pathName": "Right1"
           }
         },
         {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 3.0
                       }
                     }
                   ]
@@ -45,25 +45,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "LeftAuto2"
+            "pathName": "Right2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "LeftAuto3Whole"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "LeftAuto4Whole"
+            "pathName": "Right3-DirectClimb"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "LeftAuto",
+  "folder": "RightAuto",
   "choreoAuto": false
 }
