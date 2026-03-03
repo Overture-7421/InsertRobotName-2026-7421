@@ -79,7 +79,19 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "SwallowCommand",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 1.950530035335682,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SwallowCommand"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,

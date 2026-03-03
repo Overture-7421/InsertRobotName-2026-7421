@@ -70,7 +70,41 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "LaunchCommand",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 2.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "LaunchCommand"
+        }
+      }
+    },
+    {
+      "name": "EjectCommand",
+      "waypointRelativePos": 0.07349823321555025,
+      "endWaypointRelativePos": 2.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "EjectCommand"
+        }
+      }
+    },
+    {
+      "name": "SwallowCommand",
+      "waypointRelativePos": 0.7208480565370992,
+      "endWaypointRelativePos": 2.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "SwallowCommand"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,
