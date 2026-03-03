@@ -94,8 +94,8 @@ class RobotContainer {
 	static AprilTags::Config camRoboRioConfig();
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	// AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
-	// AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
+	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
