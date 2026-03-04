@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.411,
-        "y": 7.357855555554799
+        "x": 4.419228070175438,
+        "y": 7.592
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.222377777777778,
-        "y": 7.348111111111112
+        "x": 3.2306058479532167,
+        "y": 7.582255555556312
       },
       "isLocked": false,
       "linkedName": "LeftAuto2-3"
@@ -46,11 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.19087136929460854,
-      "rotationDegrees": 90.0
-    },
-    {
-      "waypointRelativePos": 0.8381742738589273,
+      "waypointRelativePos": 0.8159806295399511,
       "rotationDegrees": -90.0
     }
   ],
@@ -70,41 +66,7 @@
     }
   ],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "LaunchCommand",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 2.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "LaunchCommand"
-        }
-      }
-    },
-    {
-      "name": "EjectCommand",
-      "waypointRelativePos": 0.07349823321555025,
-      "endWaypointRelativePos": 2.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "EjectCommand"
-        }
-      }
-    },
-    {
-      "name": "SwallowCommand",
-      "waypointRelativePos": 0.7208480565370992,
-      "endWaypointRelativePos": 2.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SwallowCommand"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,
@@ -121,7 +83,7 @@
   "folder": "LeftAuto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 90.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
