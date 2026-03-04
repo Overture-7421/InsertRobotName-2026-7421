@@ -34,7 +34,7 @@ void RobotContainer::ConfigureBindings() {
   
   ConfigDriverBindings();
   ConfigOperatorBindings();
-//   ConfigTestBindings();
+  ConfigTestBindings();
 }
 
 void RobotContainer::ConfigDriverBindings() {
@@ -57,6 +57,9 @@ void RobotContainer::ConfigDriverBindings() {
 
 // 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 // 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
+
+	driver.LeftTrigger().WhileTrue(climber.setClimberCmd(720_deg));
+	driver.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
 
 
 } 
@@ -111,14 +114,17 @@ void RobotContainer::ConfigOperatorBindings() {
 
 void RobotContainer::ConfigTestBindings() {
 		//TEST
-	test.A().WhileTrue(turret.TestCommand(180_deg));
-	test.A().OnFalse(turret.TestCommand(-180_deg));
+	// test.A().WhileTrue(turret.TestCommand(180_deg));
+	// test.A().OnFalse(turret.TestCommand(-180_deg));
 
-	test.RightTrigger().WhileTrue(climber.setClimberCmd(720_deg));
-	test.RightTrigger().OnFalse(climber.setClimberCmd(0.0_deg));
+	// test.RightTrigger().WhileTrue(climber.setClimberCmd(720_deg));
+	// test.RightTrigger().OnFalse(climber.setClimberCmd(0.0_deg));
 
-	test.LeftTrigger().WhileTrue(climber.setClimberCmd(0_deg));
-	test.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
+	// test.LeftTrigger().WhileTrue(climber.setClimberCmd(0_deg));
+	// test.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
+
+	test.A().WhileTrue(shooter.setShooterVelocityCommand(70_tps));
+	test.A().OnFalse(shooter.setShooterVelocityCommand(0_tps));
 
 	// test.A().WhileTrue(frc2::cmd::Sequence(intake.setRollersVoltageCommand(6_V), frc2::cmd::Wait(0.2_s), intake.setIntakeCharacterization(-100.0_deg, 6_V)));
 	// test.A().OnFalse(intake.setIntakeCharacterization(-151.0_deg, 0_V));
@@ -149,7 +155,7 @@ void RobotContainer::UpdateTelemetry() {
 AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camStorage";
-	config.cameraToRobot = { 4.433894_in, 13.068914_in, 10.670724_in, {0_deg, -10.127476_deg, 0.0_deg} };
+	config.cameraToRobot = { 4.433894_in, 13.068914_in, 10.670724_in, {0_deg, -10.127476_deg, 90.0_deg} };
 	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
 	return config;
 }
@@ -157,7 +163,7 @@ AprilTags::Config RobotContainer::camStorageConfig() {
 AprilTags::Config RobotContainer::camRadioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRadio";
-	config.cameraToRobot = { -5.05684_in, -13.144803_in, 7.411252_in, {0_deg, -15.000170_deg, 0.0_deg} };
+	config.cameraToRobot = { -5.05684_in, -13.144803_in, 7.411252_in, {0_deg, -15.000170_deg, -90.0_deg} };
 	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
 	return config;
 }

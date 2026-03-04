@@ -39,7 +39,7 @@ struct ShooterConstants {
         shooterLeftConfig.TriggerThreshold = 60_A;
         shooterLeftConfig.TriggerThresholdTime = 0.5_s;
         shooterLeftConfig.ClosedLoopRampRate = 0.1_s;
-        shooterLeftConfig.PIDConfigs.WithKV(0.117).WithKP(0.2);
+        shooterLeftConfig.PIDConfigs.WithKV(0.117).WithKP(0.5);
 
         return shooterLeftConfig;
     }
@@ -56,7 +56,7 @@ struct ShooterConstants {
         shooterRightConfig.TriggerThreshold = 60_A;
         shooterRightConfig.TriggerThresholdTime = 0.5_s;
         shooterRightConfig.ClosedLoopRampRate = 0.1_s;
-        shooterRightConfig.PIDConfigs.WithKV(0.117).WithKP(0.2);
+        shooterRightConfig.PIDConfigs.WithKV(0.117).WithKP(0.5);
 
 
         return shooterRightConfig;
