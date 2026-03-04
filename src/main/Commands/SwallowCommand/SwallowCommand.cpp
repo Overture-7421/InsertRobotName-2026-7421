@@ -4,9 +4,8 @@
 
 #include "SwallowCommand.h"
 
-frc2::CommandPtr SwallowCommand(Intake* intake, Processor* processor){
+frc2::CommandPtr SwallowCommand(Intake* intake){
     return frc2::cmd::Parallel(
         intake->setIntakePosition(IntakeConstants::IntakeOpen)
-        // processor->setOnlySpindexerCmd(ProcessorConstants::AccomodateSpindexer)
     );
 }

@@ -18,7 +18,7 @@ struct TurretConstants {
 
   constexpr static const double SensorToMechanism = 50.0;
 
-  constexpr static const units::degree_t TurretForwardLimit = 202.0_deg; //Poner
+  constexpr static const units::degree_t TurretForwardLimit = 207.0_deg; //Poner
   constexpr static const units::degree_t TurretReverseLimit = -219.0_deg; //Poner
 
   constexpr static const units::degree_t TurretSafetyZoneCablesForward = 53.0_deg;

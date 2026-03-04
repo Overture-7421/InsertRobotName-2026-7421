@@ -13,7 +13,7 @@ RobotContainer::RobotContainer() {
       }
     )).ToPtr());
 
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake, &processor)
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)
 	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
 		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
       })));
@@ -47,7 +47,7 @@ void RobotContainer::ConfigDriverBindings() {
         return *selectedTarget.load();
       }
     ).ToPtr());
-  driver.RightBumper().OnFalse(StopCommand(&intake, &processor, &shooter));
+  driver.RightTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
 // 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor)
 // 	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
@@ -58,8 +58,15 @@ void RobotContainer::ConfigDriverBindings() {
 // 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 // 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
-	driver.LeftTrigger().WhileTrue(climber.setClimberCmd(720_deg));
-	driver.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
+	driver.LeftTrigger().WhileTrue(TabulateCommand(&shooter, &chassis, [this]() -> frc::Translation2d {
+		return *selectedTarget.load();
+	  }).ToPtr());
+  	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
+
+
+
+	// driver.LeftTrigger().WhileTrue(climber.setClimberCmd(720_deg));
+	// driver.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
 
 
 } 
@@ -123,8 +130,8 @@ void RobotContainer::ConfigTestBindings() {
 	// test.LeftTrigger().WhileTrue(climber.setClimberCmd(0_deg));
 	// test.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
 
-	test.A().WhileTrue(shooter.setShooterVelocityCommand(70_tps));
-	test.A().OnFalse(shooter.setShooterVelocityCommand(0_tps));
+	// test.A().WhileTrue(shooter.setShooterVelocityCommand(70_tps));
+	// test.A().OnFalse(shooter.setShooterVelocityCommand(0_tps));
 
 	// test.A().WhileTrue(frc2::cmd::Sequence(intake.setRollersVoltageCommand(6_V), frc2::cmd::Wait(0.2_s), intake.setIntakeCharacterization(-100.0_deg, 6_V)));
 	// test.A().OnFalse(intake.setIntakeCharacterization(-151.0_deg, 0_V));
@@ -134,6 +141,9 @@ void RobotContainer::ConfigTestBindings() {
 
 	// test.B().WhileTrue(intake.setIntakeCharacterization(-151.0_deg, 5_V));
 	// test.B().OnFalse(intake.setIntakeCharacterization(-8.0_deg, 0_V));
+
+	test.A().WhileTrue(shooter.setHoodAngleCommand(31_deg));
+	test.A().OnFalse(shooter.setHoodAngleCommand(3_deg));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -172,7 +182,7 @@ AprilTags::Config RobotContainer::camIntakeConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camIntake";
 	config.cameraToRobot = { -3.814039_in, -6.375_in, 20.065336_in, {0_deg, -20_deg, 0.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
+	config.tagValidDistances = { {1, 4.3_m}, {2, 4.3_m}, {3, 4.3_m} };
 	return config;
 }
 

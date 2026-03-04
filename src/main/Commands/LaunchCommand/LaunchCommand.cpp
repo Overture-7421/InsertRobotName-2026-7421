@@ -16,6 +16,7 @@ LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis,
   AddRequirements({turret, shooter});
 }
 
+
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() {
 

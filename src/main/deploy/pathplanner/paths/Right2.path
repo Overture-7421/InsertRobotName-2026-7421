@@ -88,30 +88,7 @@
   ],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [
-    {
-      "name": "SwallowCommand",
-      "waypointRelativePos": 0.0,
-      "endWaypointRelativePos": 2.0692579505300266,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "SwallowCommand"
-        }
-      }
-    },
-    {
-      "name": "LaunchCommand",
-      "waypointRelativePos": 2.244522968197874,
-      "endWaypointRelativePos": 3.878445229681978,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "LaunchCommand"
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 5.0,
     "maxAcceleration": 4.0,

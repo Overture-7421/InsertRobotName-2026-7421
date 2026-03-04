@@ -11,9 +11,10 @@ Shooter::Shooter() {
                                          ShooterConstants::ShooterCruiseAcceleration,
                                          0.0_tr_per_s_cu);
 
-    hoodMotor.setRotorToSensorRatio(ShooterConstants::HoodRotorToSensor);
+    // hoodMotor.setRotorToSensorRatio(ShooterConstants::HoodRotorToSensor);
     hoodMotor.setSensorToMechanism(ShooterConstants::HoodSensorToMechanism);
-    hoodMotor.setFusedCANCoder(ShooterConstants::HoodCANCoderId);
+    // hoodMotor.SetPosition(hoodCANCoder.GetAbsolutePosition().GetValue());
+    // hoodMotor.setFusedCANCoder(ShooterConstants::HoodCANCoderId);
     hoodMotor.configureMotionMagic(ShooterConstants::HoodCruiseVelocity,
                                   ShooterConstants::HoodCruiseAcceleration,
                                   0.0_tr_per_s_cu);

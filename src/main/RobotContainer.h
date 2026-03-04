@@ -34,6 +34,7 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/BlinkEffect/BlinkEffect.h>
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
+#include "Commands/TabulateCommand/TabulateCommand.h"
 
 
 /**
