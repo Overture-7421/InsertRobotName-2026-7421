@@ -12,8 +12,8 @@
     "LeftAuto",
     "RightAuto"
   ],
-  "defaultMaxVel": 3.0,
-  "defaultMaxAccel": 3.0,
+  "defaultMaxVel": 5.0,
+  "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "defaultNominalVoltage": 12.0,
@@ -37,7 +37,8 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Circle\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.13208,\"y\":0.10668},\"radius\":0.158242,\"strokeWidth\":0.02,\"filled\":false}}",
-    "{\"name\":\"Rectangle\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.53,\"y\":0.0},\"size\":{\"width\":0.8,\"length\":0.171389294},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Turret\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.13208,\"y\":0.10668},\"radius\":0.158242,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Intake\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.53,\"y\":0.0},\"size\":{\"width\":0.8,\"length\":0.171389294},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
+    "{\"name\":\"Climber\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.2159,\"y\":-0.289},\"size\":{\"width\":0.22,\"length\":0.1651},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }

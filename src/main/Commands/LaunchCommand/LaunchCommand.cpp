@@ -13,8 +13,9 @@ LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis,
   this->targetSupplier = std::move(targetSupplier);
 
   // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({turret, shooter, processor});
+  AddRequirements({turret, shooter});
 }
+
 
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() {
@@ -31,6 +32,7 @@ void LaunchCommand::Execute() {
   if(isRedAlliance()){
     targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
+
 
   targetWhileMoving.setTargetLocation(targetCoords);
   frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());
@@ -61,7 +63,7 @@ void LaunchCommand::Execute() {
   shooter->setObjectiveVelocity(shooterSpeed);
 
   if(turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation) && shooter->isShooterAtVelocity(shooterSpeed) && shooter->isHoodAtAngle(hoodAngle) && !frc::DriverStation::IsAutonomous()){
-    processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
+    // processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
   }
 
   frc::SmartDashboard::PutBoolean("AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(shooterSpeed));

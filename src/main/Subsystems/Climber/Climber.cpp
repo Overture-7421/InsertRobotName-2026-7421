@@ -8,8 +8,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Climber::Climber() {
-    climberMotor.setRotorToSensorRatio(climberConstants::climberRotorToSensor) ;
-    climberMotor.setFusedCANCoder(climberConstants::climberCanCoderConfig().CanCoderId);
+    climberMotor.setSensorToMechanism(climberConstants::climberSensorToMechanism) ;
+    // climberMotor.setFusedCANCoder(climberConstants::climberCanCoderConfig().CanCoderId);
 
 
     climberMotor.configureMotionMagic(climberConstants::ClimberCruiseVelocity, climberConstants::ClimberCruiseAcceleration, 0.0_tr_per_s_cu);
@@ -22,15 +22,15 @@ bool Climber::climberReached(units::degree_t targetAngle){
 }
 
 void Climber::setClimberAngle(units::degree_t targetAngle){
-    frc::SmartDashboard::PutNumber("Climber Target Position:", targetAngle.value());
     climberMotor.SetControl(climberVoltage.WithPosition(targetAngle).WithEnableFOC(true));
+    frc::SmartDashboard::PutNumber("Climber/Target", targetAngle.value());
 }
 
 
-frc2::CommandPtr Climber::setClimberPosition(climberValues targetPos){
+frc2::CommandPtr Climber::setClimberCmd(units::degree_t targetPos){
     return frc2::FunctionalCommand(
         [this, targetPos] () {
-            setClimberAngle(targetPos.climber);
+            setClimberAngle(targetPos);
         },
 
         [this] () {
@@ -40,13 +40,15 @@ frc2::CommandPtr Climber::setClimberPosition(climberValues targetPos){
         [this] (bool interrupted){},
 
         [this, targetPos] {
-            return (climberReached(targetPos.climber));
+            return climberReached(targetPos);
         }
     ).ToPtr();
 }
 
+void Climber::UpdateTelemetry(){
+    frc::SmartDashboard::PutNumber("Climber/Current", climberMotor.GetPosition().GetValue().value() * 360.0);
+}
 
 // This method will be called once per scheduler run
 void Climber::Periodic() {
-    frc::SmartDashboard::PutNumber("Climber Position", climberMotor.GetPosition().GetValue().value() * 360.0);
 }

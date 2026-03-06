@@ -5,6 +5,5 @@
 #pragma once
 #include <frc2/command/Commands.h>
 #include "Subsystems/Intake/Intake.h"
-#include "Subsystems/Processor/Processor.h"
 
-frc2::CommandPtr SwallowCommand(Intake* intake, Processor* processor);
+frc2::CommandPtr SwallowCommand(Intake* intake);
