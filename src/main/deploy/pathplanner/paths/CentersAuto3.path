@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 0.727,
+        "y": 0.59
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.7269999999999999,
+        "y": 0.5899999999999999
+      },
+      "isLocked": false,
+      "linkedName": "CentersAuto2-3"
+    },
+    {
+      "anchor": {
+        "x": 2.160347222222222,
+        "y": 3.7830555555555563
+      },
+      "prevControl": {
+        "x": 1.9084027777777774,
+        "y": 2.712291666666667
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "CentersAuto3-Climber"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 3.945186229037498
+  },
+  "reversed": false,
+  "folder": "CentersAuto",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": true
+}
