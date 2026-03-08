@@ -33,9 +33,13 @@ class Turret : public frc2::SubsystemBase {
 
   bool isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
+  frc::Pose2d GetTurretPose(const frc::Pose2d& robotPose);
+
   frc2::CommandPtr TestCommand(units::degree_t setPoint);
 
   double getForceFactorCables(units::degree_t turretAngleDegrees);
+
+  bool isMotorAtPosition();
 
   void UpdateTelemetry();
   
@@ -47,6 +51,11 @@ class Turret : public frc2::SubsystemBase {
   OverTalonFX turretMotor{TurretConstants::TurretConfig(), robotConstants::rio};
   OverCANCoder turret1CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
   OverCANCoder turret2CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
+
+  nt::StructPublisher<frc::Pose2d> turretPublisher =
+			nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
+					> ("SmartDashboard/TurretPose").Publish();
+
 
   // ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
   ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{0.0_tr};

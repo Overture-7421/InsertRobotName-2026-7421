@@ -13,6 +13,7 @@
 #include <OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h>
 
 #include <OvertureLib/Gamepads/OverXboxController/OverXboxController.h>
+#include "Subsystems/Processor/Processor.h"
 
 /**
  * An example command.
@@ -23,7 +24,7 @@
  */
 class DriveCommand: public frc2::CommandHelper<frc2::Command, DriveCommand> {
 public:
-    DriveCommand(Chassis *chassis, OverXboxController *gamepad);
+    DriveCommand(Chassis *chassis, OverXboxController *gamepad, Processor* processor);
 
     void Initialize() override;
 
@@ -37,6 +38,7 @@ private:
 
     Chassis *chassis;
     OverXboxController *gamepad;
+    Processor* processor;
 
     frc::ProfiledPIDController<units::radian> headingController {
     // PID constants: 
@@ -46,11 +48,13 @@ private:
 
     frc::Translation2d targetObjective;
 
-    frc::SlewRateLimiter<units::meters_per_second> xInput {18_mps_sq};
-    frc::SlewRateLimiter<units::meters_per_second> yInput {18_mps_sq};
+    frc::SlewRateLimiter<units::meters_per_second> xInput {7_mps_sq};
+    frc::SlewRateLimiter<units::meters_per_second> yInput {7_mps_sq};
 
     int allianceMulti;
     double slowMulti = 1;
+
+    units::meters_per_second_t shootWhileMoveMaxSpeedToHub = 1.5_mps;
 
     bool speedHelperMoved = false;
 };

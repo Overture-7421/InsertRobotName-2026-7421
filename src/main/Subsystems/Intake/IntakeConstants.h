@@ -15,11 +15,14 @@ struct intakeValues{
 
 struct IntakeConstants{
     
-    constexpr static const intakeValues IntakeOpen {7_V, -151.0_deg}; //Poner todas las posiciones del intake, nada esta puesto bien.
-    constexpr static const intakeValues IntakeGiver {7_V, -130.0_deg};
-    constexpr static const intakeValues IntakeSustain {0_V, -151.0_deg};
-    constexpr static const intakeValues IntakeClose {0_V, -8_deg};
+    constexpr static const intakeValues IntakeOpen {5_V, 127.0_deg}; //Poner todas las posiciones del intake, nada esta puesto bien.
+    constexpr static const intakeValues IntakeGiver {5_V, 90.0_deg};
+    constexpr static const intakeValues IntakeSustain {0_V, 127.0_deg};
+    constexpr static const intakeValues IntakeClose {0_V, 0_deg};
     constexpr static const intakeValues IntakeInitial {0_V, 0_deg};
+    constexpr static const units::volt_t RollersStop = 0_V;
+    constexpr static const units::volt_t RollersEject = 5_V;
+    constexpr static const units::degree_t PivotOpen = 127.0_deg;
 
 
     constexpr static const double intakeRotorToSensor = 50.0;  
@@ -31,7 +34,7 @@ struct IntakeConstants{
         OverTalonFXConfig intakeMotorConfig;
         intakeMotorConfig.MotorId = 14;
         intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-        intakeMotorConfig.Inverted = true;
+        intakeMotorConfig.Inverted = false;
         intakeMotorConfig.useFOC = true;
         intakeMotorConfig.PIDConfigs.WithKP(55.0);
 
@@ -67,8 +70,9 @@ struct IntakeConstants{
         
         CanCoderConfig intakeCanCoderConfig;
         intakeCanCoderConfig.CanCoderId = 15;
-        intakeCanCoderConfig.Offset = -0.492919921875_tr;
-        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
+        intakeCanCoderConfig.Offset = -0.724365234375_tr;
+        intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+        intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
 
         return intakeCanCoderConfig;
     }

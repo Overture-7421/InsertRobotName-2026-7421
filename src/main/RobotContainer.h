@@ -28,7 +28,6 @@
 #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 #include "Commands/SwallowCommand/SwallowCommand.h"
 #include "Commands/CloseCommand/CloseCommand.h"
-#include "Commands/StopCommand/StopCommand.h"
 
 #include <OvertureLib/Subsystems/LedsManager/LedsManager.h>
 #include <OvertureLib/Subsystems/LedsManager/Effects/BlinkEffect/BlinkEffect.h>
@@ -49,6 +48,8 @@ class RobotContainer {
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
+  std::unique_ptr<frc2::Command> launchCommand;
+
   Chassis chassis;
 
   void UpdateTelemetry();
@@ -73,7 +74,7 @@ class RobotContainer {
   Turret turret{&chassis};
   Intake intake;
   Processor processor;
-  Climber climber;
+  // Climber climber;
 
   LaunchModeManager launchModeManager;
   ShiftManager shiftManager;
@@ -87,6 +88,7 @@ class RobotContainer {
   void ConfigureBindings();
   void ConfigDriverBindings();
   void ConfigOperatorBindings();
+  void ConfigConsoleBindings();
   void ConfigTestBindings();
 
   static AprilTags::Config camIntakeConfig();
@@ -95,7 +97,7 @@ class RobotContainer {
 	static AprilTags::Config camRoboRioConfig();
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	// AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 

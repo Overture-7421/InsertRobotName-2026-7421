@@ -7,18 +7,18 @@
 #include <frc2/command/button/Trigger.h>
 
 RobotContainer::RobotContainer() {
-	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
-      [this]() -> frc::Translation2d {
-        return *selectedTarget.load();
-      }
-    )).ToPtr());
+	// pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
+    //   [this]() -> frc::Translation2d {
+    //     return *selectedTarget.load();
+    //   }
+    // )).ToPtr());
 
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)
-	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
-		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
-      })));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
-	pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor, &shooter)));
+	// pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)
+	// .AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
+	// 	).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
+    //   })));
+	// pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
+	// pathplanner::NamedCommands::registerCommand("StopCommand", std::move(StopCommand(&intake, &processor, &shooter)));
 
 
 
@@ -26,6 +26,12 @@ RobotContainer::RobotContainer() {
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
 
   ConfigureBindings();
+
+  launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager,
+      [this]() -> frc::Translation2d {
+        return *selectedTarget.load();
+      }
+    );
 
 }
 
@@ -38,85 +44,112 @@ void RobotContainer::ConfigureBindings() {
 }
 
 void RobotContainer::ConfigDriverBindings() {
-  chassis.SetDefaultCommand(DriveCommand(&chassis, &driver).ToPtr());
+  chassis.SetDefaultCommand(DriveCommand(&chassis, &driver, &processor).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
+	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake));
+	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
-  driver.RightTrigger().WhileTrue(LaunchCommand(&turret, &shooter, &chassis, &processor, &launchModeManager,
-      [this]() -> frc::Translation2d {
-        return *selectedTarget.load();
-      }
-    ).ToPtr());
-  driver.RightTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
-// 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake, &processor)
-// 	.AlongWith(frc2::cmd::RunOnce([this]{processor.notifyIntakeRunning(true);})
-// 		).FinallyDo([this](bool interrupted) {processor.notifyIntakeRunning(false);
-//       }));
-// 	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
+	driver.RightBumper().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setRollersCmd(IntakeConstants::RollersEject)));
+	driver.RightBumper().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
 
 // 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 // 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
-	driver.LeftTrigger().WhileTrue(TabulateCommand(&shooter, &chassis, [this]() -> frc::Translation2d {
-		return *selectedTarget.load();
-	  }).ToPtr());
-  	driver.LeftTrigger().OnFalse(StopCommand(&intake, &processor, &shooter));
 
 
 
-	// driver.LeftTrigger().WhileTrue(climber.setClimberCmd(720_deg));
-	// driver.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
+
+	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis,&turret, [this]() -> frc::Translation2d {
+	// 	return *selectedTarget.load();
+	// }).ToPtr());
 
 
-} 
-
-void RobotContainer::ConfigOperatorBindings() {
-
-// console.Button(7).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
-// console.Button(7).OnFalse(StopCommand(&intake, &processor, &shooter));
-
-// console.Button(8).WhileTrue(intake.setIntakePosition(IntakeConstants::IntakeGiver));
-// console.Button(8).OnFalse(intake.setIntakePosition(IntakeConstants::IntakeSustain)); //Nose si es Sustain o Open, Luego vemos
-
-//   console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::HubPose);
-// 	launchModeManager.setLaunchMode(LaunchModes::Hub);
-//   }));
-
-//   console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::LeftPass);
-// 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
-//   }));
-
-//   console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::LeftPass);
-// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-//   }));
-
-//   console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::CenterPass);
-// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-//   }));
-
-//   console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::RightPass);
-// 	launchModeManager.setLaunchMode(LaunchModes::LowPass);
-//   }));
-
-//   console.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
-//     selectedTarget.store(&LaunchConstants::RightPass);
-// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-//   }));
-
-
-
+	
 	(isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", {0, 255, 0}).ToPtr().IgnoringDisable(true)); //Our turn
 	(isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", {0, 255, 0}, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Over
 
 	(!isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", {107, 53, 170}).ToPtr().IgnoringDisable(true)); //Inactive
 	(!isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", {107, 53, 170}, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Our Turn
 
+} 
+
+void RobotContainer::ConfigOperatorBindings() {
+
+	oprtr.LeftBumper().WhileTrue(frc2::cmd::Sequence(intake.setRollersCmd(IntakeConstants::RollersEject), frc2::cmd::Wait(0.2_s), intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
+	oprtr.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+
+	oprtr.RightBumper().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+
+	oprtr.A().OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::HubPose);
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+	  }));
+
+	  oprtr.X().OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::LeftPass);
+		launchModeManager.setLaunchMode(LaunchModes::LowPass);
+	  }));
+
+	//   oprtr.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+	//     selectedTarget.store(&LaunchConstants::LeftPass);
+	// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	//   }));
+
+	  oprtr.Y().OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::CenterPass);
+		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	  }));
+
+	  oprtr.B().OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::RightPass);
+		launchModeManager.setLaunchMode(LaunchModes::LowPass);
+	  }));
+
+	//   oprtr.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
+	//     selectedTarget.store(&LaunchConstants::RightPass);
+	// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	//   }));
+
+}
+
+void RobotContainer::ConfigConsoleBindings(){
+
+	console.Button(7).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+
+	console.Button(8).WhileTrue(frc2::cmd::Sequence(intake.setRollersCmd(IntakeConstants::RollersEject), frc2::cmd::Wait(0.2_s), intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
+	console.Button(8).OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+
+	  console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::HubPose);
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+	  }));
+
+	  console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::LeftPass);
+		launchModeManager.setLaunchMode(LaunchModes::LowPass);
+	  }));
+
+	  console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::LeftPass);
+		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	  }));
+
+	  console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::CenterPass);
+		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	  }));
+
+	  console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::RightPass);
+		launchModeManager.setLaunchMode(LaunchModes::LowPass);
+	  }));
+
+	  console.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
+	    selectedTarget.store(&LaunchConstants::RightPass);
+		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+	  }));
 }
 
 void RobotContainer::ConfigTestBindings() {
@@ -130,8 +163,8 @@ void RobotContainer::ConfigTestBindings() {
 	// test.LeftTrigger().WhileTrue(climber.setClimberCmd(0_deg));
 	// test.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
 
-	// test.A().WhileTrue(shooter.setShooterVelocityCommand(70_tps));
-	// test.A().OnFalse(shooter.setShooterVelocityCommand(0_tps));
+	test.A().WhileTrue(shooter.setShooterVelocityCommand(36_tps));
+	test.A().OnFalse(shooter.setShooterVelocityCommand(27_tps));
 
 	// test.A().WhileTrue(frc2::cmd::Sequence(intake.setRollersVoltageCommand(6_V), frc2::cmd::Wait(0.2_s), intake.setIntakeCharacterization(-100.0_deg, 6_V)));
 	// test.A().OnFalse(intake.setIntakeCharacterization(-151.0_deg, 0_V));
@@ -142,8 +175,8 @@ void RobotContainer::ConfigTestBindings() {
 	// test.B().WhileTrue(intake.setIntakeCharacterization(-151.0_deg, 5_V));
 	// test.B().OnFalse(intake.setIntakeCharacterization(-8.0_deg, 0_V));
 
-	test.A().WhileTrue(shooter.setHoodAngleCommand(31_deg));
-	test.A().OnFalse(shooter.setHoodAngleCommand(3_deg));
+	// test.A().WhileTrue(shooter.setHoodAngleCommand(32.0_deg));
+	// test.A().OnFalse(shooter.setHoodAngleCommand(3.0_deg));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -152,11 +185,12 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::UpdateTelemetry() {
 	chassis.shuffleboardPeriodic();
-	turret.UpdateTelemetry();
+	turret.UpdateTelemetry(); 
 	shooter.UpdateTelemetry();
-	climber.UpdateTelemetry();
+	intake.UpdateTelemetry();
+	// climber.UpdateTelemetry();
 
-	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
+	// frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
 
 }
 
@@ -166,15 +200,15 @@ AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camStorage";
 	config.cameraToRobot = { 4.433894_in, 13.068914_in, 10.670724_in, {0_deg, -10.127476_deg, 90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
+	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }
 
 AprilTags::Config RobotContainer::camRadioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRadio";
-	config.cameraToRobot = { -5.05684_in, -13.144803_in, 7.411252_in, {0_deg, -15.000170_deg, -90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
+	config.cameraToRobot = { -5.05684_in + 0.1413_m , -13.144803_in, 7.411252_in, {0_deg, -15.000170_deg, -90.0_deg} };
+	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m}  };
 	return config;
 }
 
@@ -182,14 +216,14 @@ AprilTags::Config RobotContainer::camIntakeConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camIntake";
 	config.cameraToRobot = { -3.814039_in, -6.375_in, 20.065336_in, {0_deg, -20_deg, 0.0_deg} };
-	config.tagValidDistances = { {1, 4.3_m}, {2, 4.3_m}, {3, 4.3_m} };
+	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m}  };
 	return config;
 }
 
 AprilTags::Config RobotContainer::camRoboRioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRoboRio";
-	config.cameraToRobot = { -13.185921_in, -6.375_in, 20.065336_in, {0_deg, -160.0_deg, 0.0_deg} }; //o -160
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.0_m} };
+	config.cameraToRobot = { -13.185921_in, -6.375_in, 20.065336_in, {0_deg, -20.0_deg, 180.0_deg} }; //o -160
+	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m} , {4, 5.5_m} };
 	return config;
 }

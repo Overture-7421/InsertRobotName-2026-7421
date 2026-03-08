@@ -6,11 +6,13 @@
 #include <OvertureLib/Gamepads/OverXboxController/OverXboxController.h>
 #include <cmath>
 #include <OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h>
+#include "Commands/LaunchCommand/LaunchConstants.h"
 
-DriveCommand::DriveCommand(Chassis *chassis, OverXboxController *gamepad) : headingSpeedsHelper {headingController,
+DriveCommand::DriveCommand(Chassis *chassis, OverXboxController *gamepad, Processor* processor) : headingSpeedsHelper {headingController,
         chassis} {
     this->chassis = chassis;
     this->gamepad = gamepad;
+    this->processor = processor;
     // Use addRequirements() here to declare subsystem dependencies.
     AddRequirements( {chassis});
 }
@@ -56,12 +58,41 @@ void DriveCommand::Execute() {
             Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.2, 0.5)
                     * chassis->getMaxModuleSpeed() * slowMulti);
 
+
+
+    if(processor->isPasserActive()){
+        units::degree_t velocityAngle = units::math::atan2(ySpeed, xSpeed);
+        auto targetCoords = LaunchConstants::HubPose;
+
+        if(isRedAlliance()){
+            targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
+        }
+        targetCoords = targetCoords - chassis->getEstimatedPose().Translation();
+        units::meters_per_second_t magSpeed = units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed));
+        
+        units::degree_t angleHub = targetCoords.Angle().Degrees();
+
+        units::degree_t speedToHubAngle = angleHub - velocityAngle;
+        units::meters_per_second_t speedToHubProyectionMag = magSpeed * units::math::cos(speedToHubAngle);
+
+        if( units::math::abs(speedToHubProyectionMag) > shootWhileMoveMaxSpeedToHub){
+            auto speedToHubFactor =  units::math::abs(shootWhileMoveMaxSpeedToHub / (units::math::cos(speedToHubAngle) * magSpeed));
+
+            xSpeed = xSpeed * speedToHubFactor;
+            ySpeed = ySpeed * speedToHubFactor;
+        }
+
+    }
+
+
     //auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
-    auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.5) * 0.7_tps); //-0.7
-    frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
+    auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.5) * 1_tps); //-0.7
+    // frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
 
     frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed,
             chassis->getEstimatedPose().Rotation());
+
+
     chassis->setTargetSpeeds(speeds);
 
 }

@@ -4,11 +4,10 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, Processor* processor,  LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
   this->turret = turret;
   this->shooter = shooter;
   this->chassis = chassis;
-  this->processor = processor;
   this->launchModeManager = launchModeManager;
   this->targetSupplier = std::move(targetSupplier);
 
@@ -26,9 +25,6 @@ void LaunchCommand::Initialize() {
 void LaunchCommand::Execute() {
   frc::Translation2d targetCoords = targetSupplier();
 
-  frc::SmartDashboard::PutNumber("LaunchTarget_X", targetCoords.X().value());
-  frc::SmartDashboard::PutNumber("LaunchTarget_Y", targetCoords.Y().value());
-
   if(isRedAlliance()){
     targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
   }
@@ -41,8 +37,8 @@ void LaunchCommand::Execute() {
 
   turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
 
-  units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
-  frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
+  units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
+  // frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
 
   units::degree_t hoodAngle;
   units::turns_per_second_t shooterSpeed;
@@ -62,13 +58,10 @@ void LaunchCommand::Execute() {
   shooter->setHoodAngle(hoodAngle);
   shooter->setObjectiveVelocity(shooterSpeed);
 
-  if(turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation) && shooter->isShooterAtVelocity(shooterSpeed) && shooter->isHoodAtAngle(hoodAngle) && !frc::DriverStation::IsAutonomous()){
-    // processor->setSpindexerPasserVoltage(ProcessorConstants::Eject);
-  }
 
-  frc::SmartDashboard::PutBoolean("AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(shooterSpeed));
-  frc::SmartDashboard::PutBoolean("AtPosition/HoodIsHoodAngle", shooter->isHoodAtAngle(hoodAngle));
-  frc::SmartDashboard::PutBoolean("AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
+  targetPublisher.Set(movingGoalLocation);
+
+  frc::SmartDashboard::PutBoolean("TurretData/isAimAtFieldPosition", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
 
   
 }

@@ -17,9 +17,12 @@ class Intake : public frc2::SubsystemBase {
   void setIntakeAngle(units::degree_t targetAngle);
   bool intakeReached(units::degree_t targetAngle);
 
-  frc2::CommandPtr setIntakePosition(intakeValues targetPos);
+  frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
   frc2::CommandPtr setIntakeCharacterization(units::degree_t angle, units::volt_t voltage);
-  frc2::CommandPtr setRollersVoltageCommand(units::volt_t targetVoltage);
+  frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
+  frc2::CommandPtr setPivotCmd(units::degree_t targetAngle);
+
+  void UpdateTelemetry();
 
   void Periodic() override;
 

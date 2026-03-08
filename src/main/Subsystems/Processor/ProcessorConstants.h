@@ -15,11 +15,11 @@ struct ProcessorValues {
 struct ProcessorConstants{
 
 //Ajustar Voltage
-constexpr static const ProcessorValues Eject{5.0_V, 5.0_V};
+constexpr static const ProcessorValues Eject{8.0_V, 8.0_V};
 constexpr static const ProcessorValues StopProcessor{0.0_V, 0.0_V};
-constexpr static const ProcessorValues ReverseProcessor{-5.0_V, -5.0_V};
+constexpr static const ProcessorValues ReverseProcessor{-8.0_V, -8.0_V};
 
-constexpr static const ProcessorValues PreloadProcessor{5.0_V, 5.0_V};
+// constexpr static const ProcessorValues PreloadProcessor{6.0_V, 6.0_V};
 
 constexpr static const double SpindexerMotorID = 17;
 constexpr static const double PasserMotorID = 18;
@@ -37,7 +37,7 @@ constexpr static const OverTalonFXConfig SpindexerConfig(){
         spindexerConfig.TriggerThreshold = 75_A;
         spindexerConfig.TriggerThresholdTime = 0.5_s;
         spindexerConfig.ClosedLoopRampRate = 0.0_s;
-        spindexerConfig.OpenLoopRampRate = 0.05_s;
+        spindexerConfig.OpenLoopRampRate = 1.0_s;
 
         return spindexerConfig;
 };

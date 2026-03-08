@@ -17,6 +17,7 @@ Chassis::Chassis() : SwerveChassis() {
     configureSwerveBase();
     setAcceptingVisionMeasurements(true);
     resetHeading();
+    // pigeon.GetConfigurator().Apply(Chassis::PigeonConfig());
 }
 
 units::meters_per_second_t Chassis::getMaxModuleSpeed() {
@@ -48,12 +49,21 @@ frc::SwerveDriveKinematics<4>& Chassis::getKinematics() {
 }
 
 frc::Rotation2d Chassis::getRotation2d() {
-    return pigeon.GetRotation2d();
+    // return pigeon.GetRotation2d();
+    return  frc::Rotation2d(pigeon.GetYaw().GetValue());
 }
 
 frc::Rotation3d Chassis::getRotation3d() {
     return pigeon.GetRotation3d();
 }
+
+// ctre::phoenix6::configs::Pigeon2Configuration Chassis::PigeonConfig(){
+//     ctre::phoenix6::configs::Pigeon2Configuration config;
+//     config.GyroTrim.WithGyroScalarZ(-9.45);
+//     config.MountPose.MountPoseRoll().WithValue(180.0_deg);
+//     return config;
+// };
+
 
 SwerveModuleConfig Chassis::FrontLeftConfig() {
     SwerveModuleConfig config {feedForwardFrontLeft};
@@ -61,9 +71,9 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
     config.TurnMotorConfig.MotorId = 1;
     config.EncoderConfig.CanCoderId = 9;
     config.CanBus = robotConstants::OverCANivore;
-    config.DriveGearRatio = 6.03;
+    config.DriveGearRatio = 6.033333;
     config.TurnGearRatio = 287.0 / 11.0;
-    config.WheelDiameter = 4_in;
+    config.WheelDiameter = 4.0_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
@@ -82,9 +92,9 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
     config.TurnMotorConfig.MotorId = 3;
     config.EncoderConfig.CanCoderId = 12;
     config.CanBus = robotConstants::OverCANivore;
-    config.DriveGearRatio = 6.03;
+    config.DriveGearRatio = 6.033333;
     config.TurnGearRatio = 287.0 / 11.0;
-    config.WheelDiameter = 4_in;
+    config.WheelDiameter = 4.0_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
@@ -104,9 +114,9 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
     config.TurnMotorConfig.MotorId = 5;
     config.EncoderConfig.CanCoderId = 10;
     config.CanBus = robotConstants::OverCANivore;
-    config.DriveGearRatio = 6.03;
+    config.DriveGearRatio = 6.033333;
     config.TurnGearRatio = 287.0 / 11.0;
-    config.WheelDiameter = 4_in;
+    config.WheelDiameter = 4.0_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else
@@ -125,9 +135,9 @@ SwerveModuleConfig Chassis::BackRightConfig() {
     config.TurnMotorConfig.MotorId = 7;
     config.EncoderConfig.CanCoderId = 11;
     config.CanBus = robotConstants::OverCANivore;
-    config.DriveGearRatio = 6.03;
+    config.DriveGearRatio = 6.033333;
     config.TurnGearRatio = 287.0 / 11.0;
-    config.WheelDiameter = 4_in;
+    config.WheelDiameter = 4.0_in;
 #ifndef __FRC_ROBORIO__
     config.EncoderConfig.Offset = 0.0_tr;
 #else

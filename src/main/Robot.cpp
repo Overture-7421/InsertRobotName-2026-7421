@@ -82,7 +82,10 @@ void Robot::RobotPeriodic() {
  * can use it to reset any subsystem information you want to clear when the
  * robot is disabled.
  */
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  frc2::CommandScheduler::GetInstance().Cancel(m_container.launchCommand.get());
+
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -101,10 +104,9 @@ void Robot::AutonomousInit() {
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
-  // This makes sure that the autonomous stops running when
-  // teleop starts running. If you want the autonomous to
-  // continue until interrupted by another command, remove
-  // this line or comment it out.
+
+  frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
+
 
 }
 

@@ -34,6 +34,8 @@
         static SwerveModuleConfig BackLeftConfig();
         static SwerveModuleConfig BackRightConfig();
 
+        static ctre::phoenix6::configs::Pigeon2Configuration PigeonConfig();
+
         // Swerve modules
         SwerveModule frontLeftModule {Chassis::FrontLeftConfig()};
         SwerveModule frontRightModule {Chassis::FrontRightConfig()};

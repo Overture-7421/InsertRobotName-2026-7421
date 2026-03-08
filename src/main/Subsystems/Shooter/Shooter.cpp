@@ -11,18 +11,22 @@ Shooter::Shooter() {
                                          ShooterConstants::ShooterCruiseAcceleration,
                                          0.0_tr_per_s_cu);
 
-    // hoodMotor.setRotorToSensorRatio(ShooterConstants::HoodRotorToSensor);
+    hoodMotor.setRotorToSensorRatio(ShooterConstants::HoodRotorToSensor);
     hoodMotor.setSensorToMechanism(ShooterConstants::HoodSensorToMechanism);
     // hoodMotor.SetPosition(hoodCANCoder.GetAbsolutePosition().GetValue());
-    // hoodMotor.setFusedCANCoder(ShooterConstants::HoodCANCoderId);
+    hoodMotor.setFusedCANCoder(ShooterConstants::HoodCANCoderId);
     hoodMotor.configureMotionMagic(ShooterConstants::HoodCruiseVelocity,
                                   ShooterConstants::HoodCruiseAcceleration,
                                   0.0_tr_per_s_cu);
+
+                                  
+    ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig = shooterLeftMotor.getCTREConfig();
+    shooterLeftCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
+    shooterLeftMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
 }
 
 void Shooter::setObjectiveVelocity(units::turns_per_second_t velocity){
-    shooterLeftMotor.SetControl(shooterVoltageRequest.WithVelocity(velocity).WithEnableFOC(true));
-    frc::SmartDashboard::PutNumber("Shooter/Shooter/TargetVelocity", velocity.value());
+    shooterLeftMotor.SetControl(shooterVoltageRequest.WithVelocity(velocity).WithEnableFOC(false));
 }
 
 units::turns_per_second_t Shooter::getShooterVelocity(){
@@ -43,8 +47,7 @@ frc2::CommandPtr Shooter::setShooterVelocityCommand(units::turns_per_second_t ve
 }
 
 void Shooter::setHoodAngle(units::degree_t angle){
-    hoodMotor.SetControl(hoodVoltageRequest.WithPosition(angle).WithEnableFOC(true));
-    frc::SmartDashboard::PutNumber("Shooter/Hood/TargetAngle", angle.value());
+    hoodMotor.SetControl(hoodVoltageRequest.WithPosition(angle).WithEnableFOC(false));
 
 }
 
@@ -68,7 +71,18 @@ frc2::CommandPtr Shooter::setHoodAngleCommand(units::degree_t angle){
 void Shooter::UpdateTelemetry(){
     frc::SmartDashboard::PutNumber("Shooter/Shooter/ActualVelocity", shooterLeftMotor.GetVelocity().GetValue().value());
     frc::SmartDashboard::PutNumber("Shooter/Hood/ActualAngle", hoodMotor.GetPosition().GetValue().value() * 360.0);
+    frc::SmartDashboard::PutNumber("Shooter/Hood/EncoderAngle", hoodCANCoder.GetAbsolutePosition().GetValue().value()* 360.0);
 
+    double targetVelocity = shooterLeftMotor.GetClosedLoopReference().GetValue();
+    frc::SmartDashboard::PutNumber("Shooter/Shooter/ErrorVelocity", shooterLeftMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Shooter/Shooter/TargetVelocity", targetVelocity);
+    frc::SmartDashboard::PutBoolean("Shooter/Shooter/isShooterAtVelocity", isShooterAtVelocity(units::turns_per_second_t(targetVelocity)));
+
+
+    double targetAngle = hoodMotor.GetClosedLoopReference().GetValue();
+    frc::SmartDashboard::PutNumber("Shooter/Hood/ErrorAngle", hoodMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Shooter/Hood/TargetAngle", targetAngle);
+    frc::SmartDashboard::PutBoolean("Shooter/Hood/isHoodAtAngle", isHoodAtAngle(units::degree_t(targetAngle)));
 }
 
 void Shooter::Periodic() {

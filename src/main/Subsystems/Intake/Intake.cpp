@@ -26,25 +26,40 @@ bool Intake::intakeReached(units::degree_t targetAngle){
 
 void Intake::setIntakeAngle(units::degree_t targetAngle){
     intakeMotor.SetControl(intakeVoltage.WithPosition(targetAngle).WithEnableFOC(true));
-    frc::SmartDashboard::PutNumber("Intake/Target", targetAngle.value());
-
 }
 
 
-frc2::CommandPtr Intake::setIntakePosition(intakeValues targetPos){
+frc2::CommandPtr Intake::setIntakeCmd(intakeValues targetPos){
     return frc2::FunctionalCommand(
         [this, targetPos] () {
             setIntakeAngle(targetPos.intake);
+            setRollersVoltage(targetPos.rollers);
         },
 
-        [this, targetPos] () {
-            setRollersVoltage(targetPos.rollers);
+        [] () {
         },
 
         [this] (bool interrupted){},
 
         [this, targetPos] {
             return (intakeReached(targetPos.intake));
+        }
+    ).ToPtr();
+}
+
+frc2::CommandPtr Intake::setPivotCmd(units::degree_t targetAngle){
+    return frc2::FunctionalCommand(
+        [this, targetAngle] () {
+            setIntakeAngle(targetAngle);
+        },
+
+        [] () {
+        },
+
+        [this] (bool interrupted){},
+
+        [this, targetAngle] {
+            return (intakeReached(targetAngle));
         }
     ).ToPtr();
 }
@@ -58,13 +73,13 @@ frc2::CommandPtr Intake::setIntakeCharacterization(units::degree_t angle, units:
     );
 }
 
-frc2::CommandPtr Intake::setRollersVoltageCommand(units::volt_t targetVoltage){
+frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage){
     return frc2::FunctionalCommand(
-        [] () {
-        },
-
         [this, targetVoltage] () {
             setRollersVoltage(targetVoltage);
+        },
+
+        [] () {
         },
         
         [] (bool interrupted){},
@@ -77,5 +92,14 @@ frc2::CommandPtr Intake::setRollersVoltageCommand(units::volt_t targetVoltage){
 
 // This method will be called once per scheduler run
 void Intake::Periodic() {
+}
+
+void Intake::UpdateTelemetry() {
     frc::SmartDashboard::PutNumber("Intake/Current", intakeMotor.GetPosition().GetValue().value() * 360.0);
+
+    
+    double targetAngle = intakeMotor.GetClosedLoopReference().GetValue();
+    frc::SmartDashboard::PutNumber("Intake/ErrorAngle", intakeMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Intake/TargetAngle", targetAngle);
+    frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::degree_t(targetAngle)));
 }

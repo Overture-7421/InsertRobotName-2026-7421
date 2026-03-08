@@ -6,6 +6,6 @@
 
 frc2::CommandPtr SwallowCommand(Intake* intake){
     return frc2::cmd::Parallel(
-        intake->setIntakePosition(IntakeConstants::IntakeOpen)
+        intake->setIntakeCmd(IntakeConstants::IntakeOpen)
     );
 }

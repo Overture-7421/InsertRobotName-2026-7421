@@ -23,7 +23,6 @@ bool Climber::climberReached(units::degree_t targetAngle){
 
 void Climber::setClimberAngle(units::degree_t targetAngle){
     climberMotor.SetControl(climberVoltage.WithPosition(targetAngle).WithEnableFOC(true));
-    frc::SmartDashboard::PutNumber("Climber/Target", targetAngle.value());
 }
 
 

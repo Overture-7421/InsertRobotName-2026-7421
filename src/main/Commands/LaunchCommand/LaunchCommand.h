@@ -30,7 +30,7 @@ class LaunchCommand
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, Processor* processor, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier);
+  LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier);
 
   void Initialize() override;
 
@@ -43,7 +43,6 @@ class LaunchCommand
   Turret* turret = nullptr;
   Shooter* shooter = nullptr;
   Chassis* chassis = nullptr;
-  Processor* processor = nullptr;
 
   std::function<frc::Translation2d()> targetSupplier;
 
@@ -51,20 +50,20 @@ class LaunchCommand
 
   TargetingWhileMoving targetWhileMoving{ //Tiempo de Vuelo desde que sale la pieza hasta que llega al objetivo
     {
-      {1.66_m, 0.0_s},
-      {1.9_m, 0.0_s},
-      {2.4_m, 0.0_s},
-      {2.9_m, 0.0_s},
-      {3.4_m, 0.0_s},
-      {3.9_m, 0.0_s},
-      {4.4_m, 0.0_s},
-      {4.9_m, 0.0_s},
-      {5.4_m, 0.0_s},
-      {5.9_m, 0.0_s},
-      {6.4_m, 0.0_s},
-      {6.9_m, 0.0_s},
-    }
+      {1.50_m, 0.94_s},
+      {2.00_m, 1.08_s},
+      {2.50_m, 1.12_s},
+      {3.00_m, 1.16_s},
+      {3.50_m, 1.17_s},
+      {4.00_m, 1.18_s},
+      {4.50_m, 1.23_s},
+      {5.00_m, 1.24_s}
+    }, 0.05_s
   };
+
+  nt::StructPublisher<frc::Translation2d> targetPublisher =
+			nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d
+					> ("SmartDashboard/MovingTarget").Publish();
 
 
 };

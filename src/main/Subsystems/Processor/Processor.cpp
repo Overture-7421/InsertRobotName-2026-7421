@@ -16,15 +16,31 @@ void Processor::setOnlySpindexer(units::volt_t voltage){
 }
 
 frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
-    return this->RunOnce([this, processorValues] {
-    this->setSpindexerPasserVoltage(processorValues);
-    });
+     return frc2::FunctionalCommand(
+        [this, processorValues] () {
+            setSpindexerPasserVoltage(processorValues);
+
+        },
+
+        [] () {
+        },
+
+        [this] (bool interrupted){},
+
+        [this] {
+            return true;
+        }
+    ).ToPtr();
 }
 
 frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
     return this->RunOnce([this, voltage] {
     this->setOnlySpindexer(voltage);
     });
+}
+
+bool Processor::isPasserActive(){
+    return passerMotor.GetMotorVoltage().GetValue() > 0.0_V;
 }
 
 bool Processor::isFuelCharged() {
@@ -37,20 +53,20 @@ void Processor::notifyIntakeRunning(bool running) {
 
 // This method will be called once per scheduler run
 void Processor::Periodic() {
-    const bool wantPreload =  m_intakeRequested.load();
-    const bool hasBall = isFuelCharged();
+    // const bool wantPreload =  m_intakeRequested.load();
+    // const bool hasBall = isFuelCharged();
 
-    // opcional: telemetría para depurar
-    frc::SmartDashboard::PutBoolean("Processor/WantPreload", wantPreload);
-    frc::SmartDashboard::PutBoolean("Processor/HasBall", hasBall);
+    // // opcional: telemetría para depurar
+    // frc::SmartDashboard::PutBoolean("Processor/WantPreload", wantPreload);
+    // frc::SmartDashboard::PutBoolean("Processor/HasBall", hasBall);
 
-    if (wantPreload && !hasBall) {
-        // aplicar voltajes para mover una bola hacia el CANrange
-        setSpindexerPasserVoltage(ProcessorConstants::PreloadProcessor);
-    } else {
-        // parar si no queremos o ya hay bola
-        setSpindexerPasserVoltage(ProcessorConstants::StopProcessor);
-    }
+    // if (wantPreload && !hasBall) {
+    //     // aplicar voltajes para mover una bola hacia el CANrange
+    //     // setSpindexerPasserVoltage(ProcessorConstants::PreloadProcessor);
+    // } else {
+    //     // parar si no queremos o ya hay bola
+    //     // setSpindexerPasserVoltage(ProcessorConstants::StopProcessor);
+    // }
 
 
 }

@@ -11,12 +11,14 @@ Turret::Turret(Chassis* chassis) {
     turretMotor.SetPosition(calculateTurretAngleFromCANCoderDegrees());
     turretMotor.configureMotionMagic(TurretConstants::TurretVelocity, TurretConstants::TurretAcceleration, 0.0_tr_per_s_cu);
 
+    // frc::SmartDashboard::PutNumber("TurretPose/TurretPoseX", 0.0);
+    // frc::SmartDashboard::PutNumber("TurretPose/TurretPoseY", 0.0);
+
     this->chassis = chassis;
 
 }
 
 void Turret::setTargetAngle(units::degree_t turretTarget) {
-    frc::SmartDashboard::PutNumber("TurretData/Target Position", turretTarget.value());
     turretMotor.SetControl(turretVoltageRequest.WithPosition(turretTarget).WithFeedForward(units::volt_t(chassis->getCurrentSpeeds().omega.value() * TurretConstants::ChassisAngularVelocityCompensator)));
     //.WithFeedForward(units::volt_t(getForceFactorCables(calculateTurretAngleFromCANCoderDegrees()) * TurretConstants::CableSpringConstant)) Por si es necesario
 
@@ -46,7 +48,6 @@ units::degree_t Turret::convertToClosestBoundedTurretAngleDegrees(units::degree_
         finalOffset += 360.0_deg;
     }
 
-    frc::SmartDashboard::PutNumber("TurretData/Final Target Position", finalOffset.value());
     return finalOffset;
 }
 
@@ -94,22 +95,30 @@ double Turret::getForceFactorCables(units::degree_t turretAngleDegrees) {
 }
 
 frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
-    frc::Transform2d robotToTurret {
-        frc::Translation2d{-5.2_in, 4.2_in}, //Posicion del robot al centro de la torreta
-        frc::Rotation2d{0.0_deg} //Orientacion de la torreta respecto al robot
-    };
+    frc::Pose2d turretPose = GetTurretPose(robotPose); //Posicion Global de la Torreta
 
-    frc::Pose2d turretPose = robotPose.TransformBy(robotToTurret); //Posicion Global de la Torreta
 
     units::meter_t deltaX = targetPosition.X() - turretPose.X(); //Para calcular el Angulo Absoluto al Target
     units::meter_t deltaY = targetPosition.Y() - turretPose.Y();
     units::degree_t targetAbsAngle = units::math::atan2(deltaY, deltaX); //Angulo Absoluto de la Cancha
-    frc::SmartDashboard::PutNumber("TurretData/TargetAbsAngle", targetAbsAngle.value());
 
     units::degree_t angleDifference = targetAbsAngle - robotPose.Rotation().Degrees(); //Cuanto debe girar la Torreta respecto al Chassis
-    units::degree_t constrainedAngle = frc::AngleModulus(angleDifference); //Convierte el resultado a un rango de -180 a 180°
-    frc::SmartDashboard::PutNumber("TurretData/TurretAngleRelativeToRobot", constrainedAngle.value());
+    units::degree_t constrainedAngle = frc::AngleModulus(angleDifference); //Convierte el resultado a un rango de -180 a 
+    
+    turretPublisher.Set({turretPose.X(), turretPose.Y(), {convertToClosestBoundedTurretAngleDegrees(constrainedAngle) + robotPose.Rotation().Degrees()}}); //Publica la Posicion de la Torreta a NetworkTables para su visualizacion en el Dashboard
+
     return frc::Rotation2d {constrainedAngle}; //Retorna el Angulo Relativo que debe girar la Torreta
+}
+
+frc::Pose2d Turret::GetTurretPose(const frc::Pose2d& robotPose){
+    // units::inch_t turretPoseX = units::inch_t(frc::SmartDashboard::GetNumber("TurretPose/TurretPoseX",0.0));
+    // units::inch_t turretPoseY = units::inch_t(frc::SmartDashboard::GetNumber("TurretPose/TurretPoseY",0.0));
+    frc::Transform2d robotToTurret {
+        frc::Translation2d{-4.2_in, 5.2_in}, //Posicion del robot al centro de la torreta
+        frc::Rotation2d{0.0_deg} //Orientacion de la torreta respecto al robot
+    };
+
+    return robotPose.TransformBy(robotToTurret); //Posicion Global de la Torreta
 }
 
 void Turret::AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
@@ -131,7 +140,11 @@ bool Turret::isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Trans
 
     units::degree_t currentAngle = calculateTurretAngleFromCANCoderDegrees();
     units::degree_t error = units::math::abs(setPoint - currentAngle);
-    return error < 2.0_deg;
+    return error < 3.0_deg;
+}
+
+bool Turret::isMotorAtPosition(){
+    return turretMotor.GetClosedLoopError().GetValue() < 2.0;
 }
 
 void Turret::UpdateTelemetry(){
@@ -143,6 +156,9 @@ void Turret::UpdateTelemetry(){
     frc::SmartDashboard::PutNumber("TurretData/EncodersCombined", calculateTurretAngleFromCANCoderDegrees().value());
     frc::SmartDashboard::PutNumber("TurretData/MotorAngle", turretMotor.GetPosition().GetValue().value() * 360.0);
 
+    double targetAngle = turretMotor.GetClosedLoopReference().GetValue();
+    frc::SmartDashboard::PutNumber("TurretData/ErrorAngle", turretMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("TurretData/TargetAngle", targetAngle);
 
 }
 

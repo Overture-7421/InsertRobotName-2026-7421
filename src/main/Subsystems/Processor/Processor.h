@@ -23,6 +23,7 @@ class Processor : public frc2::SubsystemBase {
 
   frc2::CommandPtr setProcessorCmd(ProcessorValues processorValues);
   frc2::CommandPtr setOnlySpindexerCmd(units::volt_t voltage);
+  bool isPasserActive();
 
   bool isFuelCharged();
 

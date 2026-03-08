@@ -11,6 +11,7 @@
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
+#include "Subsystems/Turret/Turret.h"
 
 /**
  * An example command.
@@ -25,7 +26,7 @@ class TabulateCommand
   /* You should consider using the more terse Command factories API instead
    * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
    */
-  TabulateCommand(Shooter* shooter, Chassis* chassis, std::function<frc::Translation2d()> targetSupplier);
+  TabulateCommand(Shooter* shooter, Chassis* chassis,Turret* turret, std::function<frc::Translation2d()> targetSupplier);
 
   void Initialize() override;
 
@@ -37,6 +38,9 @@ class TabulateCommand
 
   Shooter* shooter;
   Chassis* chassis;
+  Turret* turret;
   std::function<frc::Translation2d()> targetSupplier;
+
+
 
 };
