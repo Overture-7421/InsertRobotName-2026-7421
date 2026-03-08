@@ -11,35 +11,9 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right1"
+                  "pathName": "CentersAuto1"
                 }
               },
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
               {
                 "type": "sequential",
                 "data": {
@@ -47,52 +21,46 @@
                     {
                       "type": "named",
                       "data": {
-                        "name": "EjectCommand"
+                        "name": "LaunchCommand"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.1
                       }
                     },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EjectCommand"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
                     {
                       "type": "wait",
                       "data": {
                         "waitTime": 2.0
                       }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "LaunchCommand"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right2"
-                }
-              },
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
+                    },
                     {
                       "type": "named",
                       "data": {
                         "name": "SwallowCommand"
                       }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.8
-                      }
                     }
                   ]
                 }
@@ -107,30 +75,17 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right3-Whole"
+                  "pathName": "CentersAuto2"
                 }
               },
               {
-                "type": "deadline",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "sequential",
+                      "type": "wait",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EjectCommand"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 2.19
-                            }
-                          }
-                        ]
+                        "waitTime": 0
                       }
                     },
                     {
@@ -141,6 +96,44 @@
                     }
                   ]
                 }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "EjectCommand"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.7
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "SwallowCommand"
+                      }
+                    }
+                  ]
+                }
               }
             ]
           }
@@ -154,6 +147,12 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CentersAuto3"
+                      }
+                    },
+                    {
                       "type": "named",
                       "data": {
                         "name": "EjectCommand"
@@ -162,52 +161,20 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 4.0
                       }
                     }
                   ]
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "LaunchCommand"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right4-Whole"
-                }
-              },
-              {
-                "type": "deadline",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "sequential",
+                      "type": "wait",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EjectCommand"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.51
-                            }
-                          }
-                        ]
+                        "waitTime": 0
                       }
                     },
                     {
@@ -226,6 +193,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RightAuto",
+  "folder": null,
   "choreoAuto": false
 }

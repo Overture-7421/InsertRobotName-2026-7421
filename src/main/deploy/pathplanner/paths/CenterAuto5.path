@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.252149122807017,
-        "y": 0.55
+        "x": 0.727,
+        "y": 0.59
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.135815789473683,
-        "y": 0.6625877192982457
+        "x": 1.2528058200991192,
+        "y": 1.3430312280050205
       },
       "isLocked": false,
-      "linkedName": "Right 2 - 3"
+      "linkedName": "CenterAuto 3-4"
     },
     {
       "anchor": {
-        "x": 0.799184210526316,
-        "y": 2.6585877192982457
+        "x": 2.696,
+        "y": 3.169
       },
       "prevControl": {
-        "x": 1.761877192982456,
-        "y": 1.6799824561403511
+        "x": 0.19467144861714036,
+        "y": 1.6438191779373639
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,22 +33,22 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
+    "velocity": 0.0,
+    "rotation": 16.0
+  },
+  "reversed": false,
+  "folder": "nada",
+  "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
   },
-  "reversed": false,
-  "folder": "RightAuto",
-  "idealStartingState": {
-    "velocity": 0,
-    "rotation": 90.0
-  },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
