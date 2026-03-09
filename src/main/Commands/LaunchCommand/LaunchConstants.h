@@ -41,7 +41,7 @@ namespace LaunchConstants {
 		  {3.00_m, 29.5_tps},
 		  {3.50_m, 31.0_tps},
 		  {4.00_m, 31.3_tps},
-		  {4.50_m, 32.5_tps},
+		  {4.50_m, 33.5_tps},
 		  {5.00_m, 34_tps}
 	  }
 	};

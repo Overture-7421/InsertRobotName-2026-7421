@@ -38,7 +38,7 @@ void LaunchCommand::Execute() {
 	turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
 
 	units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
-	// frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
+	frc::SmartDashboard::PutNumber("TurretData/DistanceTarget", distanceToTarget.value());
 
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;

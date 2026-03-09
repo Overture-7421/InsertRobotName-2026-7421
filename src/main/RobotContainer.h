@@ -97,7 +97,7 @@ private:
 	static AprilTags::Config camRoboRioConfig();
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	// AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
+	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 

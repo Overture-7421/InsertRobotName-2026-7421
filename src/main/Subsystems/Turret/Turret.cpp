@@ -107,7 +107,7 @@ frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d&
     
     turretPublisher.Set({turretPose.X(), turretPose.Y(), {convertToClosestBoundedTurretAngleDegrees(constrainedAngle) + robotPose.Rotation().Degrees()}}); //Publica la Posicion de la Torreta a NetworkTables para su visualizacion en el Dashboard
 
-    return frc::Rotation2d {constrainedAngle}; //Retorna el Angulo Relativo que debe girar la Torreta
+    return frc::Rotation2d {constrainedAngle + 2.0_deg}; //Retorna el Angulo Relativo que debe girar la Torreta
 }
 
 frc::Pose2d Turret::GetTurretPose(const frc::Pose2d& robotPose){
