@@ -22,39 +22,39 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class DriveCommand: public frc2::CommandHelper<frc2::Command, DriveCommand> {
+class DriveCommand : public frc2::CommandHelper<frc2::Command, DriveCommand> {
 public:
-    DriveCommand(Chassis *chassis, OverXboxController *gamepad, Processor* processor);
+	DriveCommand(Chassis* chassis, OverXboxController* gamepad, Processor* processor);
 
-    void Initialize() override;
+	void Initialize() override;
 
-    void Execute() override;
+	void Execute() override;
 
-    void End(bool interrupted) override;
+	void End(bool interrupted) override;
 
-    bool IsFinished() override;
+	bool IsFinished() override;
 
 private:
 
-    Chassis *chassis;
-    OverXboxController *gamepad;
-    Processor* processor;
+	Chassis* chassis;
+	OverXboxController* gamepad;
+	Processor* processor;
 
-    frc::ProfiledPIDController<units::radian> headingController {
-    // PID constants: 
-            5, 0.0, 0.0, frc::TrapezoidProfile < units::radian > ::Constraints {1000_deg_per_s, 850_deg_per_s / 1_s} //Constraints max velocity, max acceleration
-    };
-    HeadingSpeedsHelper headingSpeedsHelper;
+	frc::ProfiledPIDController<units::radian> headingController{
+		// PID constants: 
+				5, 0.0, 0.0, frc::TrapezoidProfile < units::radian > ::Constraints {1000_deg_per_s, 850_deg_per_s / 1_s} //Constraints max velocity, max acceleration
+	};
+	HeadingSpeedsHelper headingSpeedsHelper;
 
-    frc::Translation2d targetObjective;
+	frc::Translation2d targetObjective;
 
-    frc::SlewRateLimiter<units::meters_per_second> xInput {7_mps_sq};
-    frc::SlewRateLimiter<units::meters_per_second> yInput {7_mps_sq};
+	frc::SlewRateLimiter<units::meters_per_second> xInput{ 6_mps_sq };
+	frc::SlewRateLimiter<units::meters_per_second> yInput{ 6_mps_sq };
 
-    int allianceMulti;
-    double slowMulti = 1;
+	int allianceMulti;
+	double slowMulti = 1;
 
-    units::meters_per_second_t shootWhileMoveMaxSpeedToHub = 1.5_mps;
+	units::meters_per_second_t shootWhileMoveMaxSpeedToHub = 1.5_mps;
 
-    bool speedHelperMoved = false;
+	bool speedHelperMoved = false;
 };

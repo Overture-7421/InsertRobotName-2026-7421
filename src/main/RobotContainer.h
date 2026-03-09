@@ -44,54 +44,54 @@
  * commands, and trigger mappings) should be declared here.
  */
 class RobotContainer {
- public:
-  RobotContainer();
+public:
+	RobotContainer();
 
-  frc2::Command* GetAutonomousCommand();
-  std::unique_ptr<frc2::Command> launchCommand;
+	frc2::Command* GetAutonomousCommand();
+	std::unique_ptr<frc2::Command> launchCommand;
 
-  Chassis chassis;
+	Chassis chassis;
 
-  void UpdateTelemetry();
+	void UpdateTelemetry();
 
 
- private:
-  
+private:
+
 	OverXboxController driver{ 0, 0.20, 0.2 };
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	OverXboxController test{ 3, 0.20, 0.2 };
 
-  #ifndef __FRC_ROBORIO__
+#ifndef __FRC_ROBORIO__
 	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
 #else
-	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
-	//frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
+	// frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
+	frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
 #endif 
 
 
-  Shooter shooter;
-  Turret turret{&chassis};
-  Intake intake;
-  Processor processor;
-  // Climber climber;
+	Shooter shooter;
+	Turret turret{ &chassis };
+	Intake intake;
+	Processor processor;
+	// Climber climber;
 
-  LaunchModeManager launchModeManager;
-  ShiftManager shiftManager;
+	LaunchModeManager launchModeManager;
+	ShiftManager shiftManager;
 
 
-  // The robot's subsystems are defined here...
+	// The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;
 
-  // necessary robot controllers and subsystems
+	// necessary robot controllers and subsystems
 
-  void ConfigureBindings();
-  void ConfigDriverBindings();
-  void ConfigOperatorBindings();
-  void ConfigConsoleBindings();
-  void ConfigTestBindings();
+	void ConfigureBindings();
+	void ConfigDriverBindings();
+	void ConfigOperatorBindings();
+	void ConfigConsoleBindings();
+	void ConfigTestBindings();
 
-  static AprilTags::Config camIntakeConfig();
+	static AprilTags::Config camIntakeConfig();
 	static AprilTags::Config camStorageConfig();
 	static AprilTags::Config camRadioConfig();
 	static AprilTags::Config camRoboRioConfig();
@@ -104,14 +104,14 @@ class RobotContainer {
 	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 
-  LedsManager leds{8, 240, {{"all", {0, 239}}}};
+	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
 
-  frc2::Trigger isHubActive {[this] {
-	    return shiftManager.GetHubState().isActive;
-	}};
+	frc2::Trigger isHubActive{ [this] {
+		  return shiftManager.GetHubState().isActive;
+	  } };
 
-  frc2::Trigger isTransitioning {[this] {
-	    return shiftManager.GetHubState().isTransitioning;
-	}};
+	frc2::Trigger isTransitioning{ [this] {
+		  return shiftManager.GetHubState().isTransitioning;
+	  } };
 
 };

@@ -9,63 +9,63 @@
 
 void Robot::RobotInit() {
 
-  #ifndef __FRC_ROBORIO__
-      simMotorManager.Init({
-        {8, "Rebuilt2026/motors/back_right_drive"},
-        {6, "Rebuilt2026/motors/back_left_drive"},
-        {2, "Rebuilt2026/motors/front_left_drive"},
-        {4, "Rebuilt2026/motors/front_right_drive"},
-        
-        {7, "Rebuilt2026/motors/back_right_rotation"},
-        {5, "Rebuilt2026/motors/back_left_rotation"},
-        {1, "Rebuilt2026/motors/front_left_rotation"},
-        {3, "Rebuilt2026/motors/front_right_rotation"},
+#ifndef __FRC_ROBORIO__
+	simMotorManager.Init({
+	  {8, "Rebuilt2026/motors/back_right_drive"},
+	  {6, "Rebuilt2026/motors/back_left_drive"},
+	  {2, "Rebuilt2026/motors/front_left_drive"},
+	  {4, "Rebuilt2026/motors/front_right_drive"},
 
-        {23,"Rebuilt2026/motors/turret"},
-        {17,"Rebuilt2026/motors/spindexer"},
-        {21,"Rebuilt2026/motors/shooterWheels"},
-        {16,"Rebuilt2026/motors/intakeRollers"},
-        {14,"Rebuilt2026/motors/intake"},
-        {19,"Rebuilt2026/motors/hood"},
-        {26,"Rebuilt2026/motors/elevatorRight"},
-        {25,"Rebuilt2026/motors/elevatorLeft"}
+	  {7, "Rebuilt2026/motors/back_right_rotation"},
+	  {5, "Rebuilt2026/motors/back_left_rotation"},
+	  {1, "Rebuilt2026/motors/front_left_rotation"},
+	  {3, "Rebuilt2026/motors/front_right_rotation"},
 
-    
-          });
+	  {23,"Rebuilt2026/motors/turret"},
+	  {17,"Rebuilt2026/motors/spindexer"},
+	  {21,"Rebuilt2026/motors/shooterWheels"},
+	  {16,"Rebuilt2026/motors/intakeRollers"},
+	  {14,"Rebuilt2026/motors/intake"},
+	  {19,"Rebuilt2026/motors/hood"},
+	  {26,"Rebuilt2026/motors/elevatorRight"},
+	  {25,"Rebuilt2026/motors/elevatorLeft"}
 
-      simPigeonManager.Init("Rebuilt2026/imu");
 
-      simCANCoderManager.Init({
-        {24, "Rebuilt2026/cancoders/turret_cancoder1"},
-        {28, "Rebuilt2026/cancoders/turret_cancoder2"},
-        {11, "Rebuilt2026/cancoders/back_right_cancoder"},
-        {10, "Rebuilt2026/cancoders/back_left_cancoder"},
-        {9, "Rebuilt2026/cancoders/front_left_cancoder"},
-        {12, "Rebuilt2026/cancoders/front_right_cancoder"},
+		});
 
-        {20, "Rebuilt2026/cancoders/hood"},
-        {15, "Rebuilt2026/cancoders/intake"},
-        {30, "Rebuilt2026/cancoders/turret"}
-        });
+	simPigeonManager.Init("Rebuilt2026/imu");
 
-      simDutyCycleEncoderManager.Init({});
+	simCANCoderManager.Init({
+	  {24, "Rebuilt2026/cancoders/turret_cancoder1"},
+	  {28, "Rebuilt2026/cancoders/turret_cancoder2"},
+	  {11, "Rebuilt2026/cancoders/back_right_cancoder"},
+	  {10, "Rebuilt2026/cancoders/back_left_cancoder"},
+	  {9, "Rebuilt2026/cancoders/front_left_cancoder"},
+	  {12, "Rebuilt2026/cancoders/front_right_cancoder"},
 
-      frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(
-            frc::AprilTagField::k2026RebuiltAndyMark);
-    simPhotonVisionManager.Init(tagLayout);
-  #endif
-  AddPeriodic([&] {
+	  {20, "Rebuilt2026/cancoders/hood"},
+	  {15, "Rebuilt2026/cancoders/intake"},
+	  {30, "Rebuilt2026/cancoders/turret"}
+		});
+
+	simDutyCycleEncoderManager.Init({});
+
+	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(
+		frc::AprilTagField::k2026RebuiltAndyMark);
+	simPhotonVisionManager.Init(tagLayout);
+#endif
+	AddPeriodic([&] {
 		frc2::CommandScheduler::GetInstance().Run();
-    #ifndef __FRC_ROBORIO__
-      nt::NetworkTableInstance::GetDefault().Flush();
-    #endif
+#ifndef __FRC_ROBORIO__
+		nt::NetworkTableInstance::GetDefault().Flush();
+#endif
 	}, RobotConstants::LoopTime, RobotConstants::TimingOffset);
 
 }
 
 /**
  * This function is called every 20 ms, no matter the mode. Use
- * 
+ *
  * this for items like diagnostics that you want to run during disabled,
  * autonomous, teleoperated and test.
  *
@@ -73,8 +73,8 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  frc::SmartDashboard::PutNumber("Pigeon Yaw",m_container.chassis.getRotation2d().Degrees().value());
-  m_container.UpdateTelemetry();
+	frc::SmartDashboard::PutNumber("Pigeon Yaw", m_container.chassis.getRotation2d().Degrees().value());
+	m_container.UpdateTelemetry();
 }
 
 /**
@@ -83,7 +83,7 @@ void Robot::RobotPeriodic() {
  * robot is disabled.
  */
 void Robot::DisabledInit() {
-  frc2::CommandScheduler::GetInstance().Cancel(m_container.launchCommand.get());
+	frc2::CommandScheduler::GetInstance().Cancel(m_container.launchCommand.get());
 
 }
 
@@ -94,27 +94,24 @@ void Robot::DisabledPeriodic() {}
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
-  m_autonomousCommand = m_container.GetAutonomousCommand();
+	m_autonomousCommand = m_container.GetAutonomousCommand();
 
-    if (m_autonomousCommand) {
+	if (m_autonomousCommand) {
 		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
-    }
+	}
 }
 
 void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {
 
-  frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
-
-
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
 }
 
 /**
  * This function is called periodically during operator control.
  */
-void Robot::TeleopPeriodic() {
-}
+void Robot::TeleopPeriodic() {}
 
 /**
  * This function is called periodically during test mode.
@@ -133,6 +130,6 @@ void Robot::SimulationPeriodic() {}
 
 #ifndef RUNNING_FRC_TESTS
 int main() {
-  return frc::StartRobot<Robot>();
+	return frc::StartRobot<Robot>();
 }
 #endif

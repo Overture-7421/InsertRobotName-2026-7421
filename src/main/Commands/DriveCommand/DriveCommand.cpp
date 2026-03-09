@@ -8,102 +8,102 @@
 #include <OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h>
 #include "Commands/LaunchCommand/LaunchConstants.h"
 
-DriveCommand::DriveCommand(Chassis *chassis, OverXboxController *gamepad, Processor* processor) : headingSpeedsHelper {headingController,
-        chassis} {
-    this->chassis = chassis;
-    this->gamepad = gamepad;
-    this->processor = processor;
-    // Use addRequirements() here to declare subsystem dependencies.
-    AddRequirements( {chassis});
+DriveCommand::DriveCommand(Chassis* chassis, OverXboxController* gamepad, Processor* processor) : headingSpeedsHelper{ headingController,
+		chassis } {
+	this->chassis = chassis;
+	this->gamepad = gamepad;
+	this->processor = processor;
+	// Use addRequirements() here to declare subsystem dependencies.
+	AddRequirements({ chassis });
 }
 
 // Called when the command is initially scheduled.
 void DriveCommand::Initialize() {
-    if (isRedAlliance()) {
-        allianceMulti = -1;
-    } else {
-        allianceMulti = 1;
-    }
+	if (isRedAlliance()) {
+		allianceMulti = -1;
+	} else {
+		allianceMulti = 1;
+	}
 
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveCommand::Execute() {
-    /*
-     frc::Rotation2d targetAngle {gamepad->getRightStickDirection()};
+	/*
+	 frc::Rotation2d targetAngle {gamepad->getRightStickDirection()};
 
-     if (allianceMulti == -1) {
-     targetAngle = targetAngle.RotateBy( {180_deg});
-     }
+	 if (allianceMulti == -1) {
+	 targetAngle = targetAngle.RotateBy( {180_deg});
+	 }
 
-     double squares = sqrt(gamepad->GetRightY() * gamepad->GetRightY() + gamepad->GetRightX() * gamepad->GetRightX());
+	 double squares = sqrt(gamepad->GetRightY() * gamepad->GetRightY() + gamepad->GetRightX() * gamepad->GetRightX());
 
-     if (squares > 0.71) {
-     if (speedHelperMoved == false) {
-     speedHelperMoved = true;
-     chassis->enableSpeedHelper(&headingSpeedsHelper);
-     }
+	 if (squares > 0.71) {
+	 if (speedHelperMoved == false) {
+	 speedHelperMoved = true;
+	 chassis->enableSpeedHelper(&headingSpeedsHelper);
+	 }
 
-     } else if (speedHelperMoved == true) {
-     speedHelperMoved = false;
-     chassis->disableSpeedHelper();
-     }
-     */
+	 } else if (speedHelperMoved == true) {
+	 speedHelperMoved = false;
+	 chassis->disableSpeedHelper();
+	 }
+	 */
 
-    //headingSpeedsHelper.setTargetAngle(targetAngle);
-    auto xSpeed = xInput.Calculate(
-            Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.2, 0.5)
-                    * chassis->getMaxModuleSpeed() * slowMulti);
-    auto ySpeed = yInput.Calculate(
-            Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.2, 0.5)
-                    * chassis->getMaxModuleSpeed() * slowMulti);
-
-
-
-    if(processor->isPasserActive()){
-        units::degree_t velocityAngle = units::math::atan2(ySpeed, xSpeed);
-        auto targetCoords = LaunchConstants::HubPose;
-
-        if(isRedAlliance()){
-            targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
-        }
-        targetCoords = targetCoords - chassis->getEstimatedPose().Translation();
-        units::meters_per_second_t magSpeed = units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed));
-        
-        units::degree_t angleHub = targetCoords.Angle().Degrees();
-
-        units::degree_t speedToHubAngle = angleHub - velocityAngle;
-        units::meters_per_second_t speedToHubProyectionMag = magSpeed * units::math::cos(speedToHubAngle);
-
-        if( units::math::abs(speedToHubProyectionMag) > shootWhileMoveMaxSpeedToHub){
-            auto speedToHubFactor =  units::math::abs(shootWhileMoveMaxSpeedToHub / (units::math::cos(speedToHubAngle) * magSpeed));
-
-            xSpeed = xSpeed * speedToHubFactor;
-            ySpeed = ySpeed * speedToHubFactor;
-        }
-
-    }
+	 //headingSpeedsHelper.setTargetAngle(targetAngle);
+	auto xSpeed = xInput.Calculate(
+		Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.06, 0.75)
+		* chassis->getMaxModuleSpeed() * slowMulti);
+	auto ySpeed = yInput.Calculate(
+		Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.06, 0.75)
+		* chassis->getMaxModuleSpeed() * slowMulti);
 
 
-    //auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
-    auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.5) * 1_tps); //-0.7
-    // frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
 
-    frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed,
-            chassis->getEstimatedPose().Rotation());
+	if (processor->isPasserActive()) {
+		units::degree_t velocityAngle = units::math::atan2(ySpeed, xSpeed);
+		auto targetCoords = LaunchConstants::HubPose;
+
+		if (isRedAlliance()) {
+			targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
+		}
+		targetCoords = targetCoords - chassis->getEstimatedPose().Translation();
+		units::meters_per_second_t magSpeed = units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed));
+
+		units::degree_t angleHub = targetCoords.Angle().Degrees();
+
+		units::degree_t speedToHubAngle = angleHub - velocityAngle;
+		units::meters_per_second_t speedToHubProyectionMag = magSpeed * units::math::cos(speedToHubAngle);
+
+		if (units::math::abs(speedToHubProyectionMag) > shootWhileMoveMaxSpeedToHub) {
+			auto speedToHubFactor = units::math::abs(shootWhileMoveMaxSpeedToHub / (units::math::cos(speedToHubAngle) * magSpeed));
+
+			xSpeed = xSpeed * speedToHubFactor;
+			ySpeed = ySpeed * speedToHubFactor;
+		}
+
+	}
 
 
-    chassis->setTargetSpeeds(speeds);
+	//auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
+	auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * 1_tps); //-0.7
+	// frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
+
+	frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed,
+		chassis->getEstimatedPose().Rotation());
+
+
+	chassis->setTargetSpeeds(speeds);
 
 }
 
 // Called once the command ends or is interrupted.
 void DriveCommand::End(bool interrupted) {
-    chassis->disableSpeedHelper();
+	chassis->disableSpeedHelper();
 
 }
 
 // Returns true when the command should end.
 bool DriveCommand::IsFinished() {
-    return false;
+	return false;
 }

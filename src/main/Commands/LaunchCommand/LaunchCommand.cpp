@@ -5,14 +5,14 @@
 #include "LaunchCommand.h"
 
 LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
-  this->turret = turret;
-  this->shooter = shooter;
-  this->chassis = chassis;
-  this->launchModeManager = launchModeManager;
-  this->targetSupplier = std::move(targetSupplier);
+	this->turret = turret;
+	this->shooter = shooter;
+	this->chassis = chassis;
+	this->launchModeManager = launchModeManager;
+	this->targetSupplier = std::move(targetSupplier);
 
-  // Use addRequirements() here to declare subsystem dependencies.
-  AddRequirements({turret, shooter});
+	// Use addRequirements() here to declare subsystem dependencies.
+	AddRequirements({ turret, shooter });
 }
 
 
@@ -23,53 +23,53 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-  frc::Translation2d targetCoords = targetSupplier();
+	frc::Translation2d targetCoords = targetSupplier();
 
-  if(isRedAlliance()){
-    targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
-  }
-
-
-  targetWhileMoving.setTargetLocation(targetCoords);
-  frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());
-  ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
-  frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
-
-  turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
-
-  units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
-  // frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
-
-  units::degree_t hoodAngle;
-  units::turns_per_second_t shooterSpeed;
-
-  auto launchMode = launchModeManager->getLaunchMode();
-  if(launchMode == LaunchModes::Hub){
-    hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
-    shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
-  } else if (launchMode == LaunchModes::HighPass){
-    hoodAngle = LaunchConstants::DistanceToHoodForHighPass[distanceToTarget];
-    shooterSpeed = LaunchConstants::DistanceToShooterForHighPass[distanceToTarget];
-  } else {
-    hoodAngle = LaunchConstants::DistanceToHoodForLowPass[distanceToTarget];
-    shooterSpeed = LaunchConstants::DistanceToShooterForLowPass[distanceToTarget];
-  }
-
-  shooter->setHoodAngle(hoodAngle);
-  shooter->setObjectiveVelocity(shooterSpeed);
+	if (isRedAlliance()) {
+		targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
+	}
 
 
-  targetPublisher.Set(movingGoalLocation);
+	targetWhileMoving.setTargetLocation(targetCoords);
+	frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());
+	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
+	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
-  frc::SmartDashboard::PutBoolean("TurretData/isAimAtFieldPosition", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
+	turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
 
-  
+	units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
+	// frc::SmartDashboard::PutNumber("Launch_Distance_m", distanceToTarget.value());
+
+	units::degree_t hoodAngle;
+	units::turns_per_second_t shooterSpeed;
+
+	auto launchMode = launchModeManager->getLaunchMode();
+	if (launchMode == LaunchModes::Hub) {
+		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
+	} else if (launchMode == LaunchModes::HighPass) {
+		hoodAngle = LaunchConstants::DistanceToHoodForHighPass[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForHighPass[distanceToTarget];
+	} else {
+		hoodAngle = LaunchConstants::DistanceToHoodForLowPass[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForLowPass[distanceToTarget];
+	}
+
+	shooter->setHoodAngle(hoodAngle);
+	shooter->setObjectiveVelocity(shooterSpeed);
+
+
+	targetPublisher.Set(movingGoalLocation);
+
+	frc::SmartDashboard::PutBoolean("TurretData/isAimAtFieldPosition", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
+
+
 }
-  
+
 // Called once the command ends or is interrupted.
 void LaunchCommand::End(bool interrupted) {}
 
 // Returns true when the command should end.
 bool LaunchCommand::IsFinished() {
-  return false;
+	return false;
 }
