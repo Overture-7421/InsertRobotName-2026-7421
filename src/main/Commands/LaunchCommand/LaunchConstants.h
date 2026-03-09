@@ -15,9 +15,8 @@
 namespace LaunchConstants {
 
 	constexpr static const frc::Translation2d HubPose = { 4.6115986_m, 4.0213534_m }; //Poner
-	constexpr static const frc::Translation2d LeftPass = { 2.072_m, 6.513_m }; //Poner
-	constexpr static const frc::Translation2d CenterPass = { 2.486_m, 4.029_m }; //Poner
-	constexpr static const frc::Translation2d RightPass = { 2.098_m, 1.156_m }; //Poner
+	constexpr static const frc::Translation2d LeftPass = { 2.000_m, 6.400_m }; //Poner
+	constexpr static const frc::Translation2d RightPass = { 2.000_m, 1.600_m }; //Poner
 
 	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForHub{
 		{
@@ -46,70 +45,39 @@ namespace LaunchConstants {
 	  }
 	};
 
-	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForLowPass{
+	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForPass{
 		{
-		  {1.66_m, 0.0_deg},
-		  {1.9_m, 0.0_deg},
-		  {2.4_m, 0.0_deg},
-		  {2.9_m, 0.0_deg},
-		  {3.4_m, 0.0_deg},
-		  {3.9_m, 0.0_deg},
-		  {4.4_m, 0.0_deg},
-		  {4.9_m, 0.0_deg},
-		  {5.4_m, 0.0_deg},
-		  {5.9_m, 0.0_deg},
-		  {6.4_m, 0.0_deg},
-		  {6.9_m, 0.0_deg}
+		  {3.5_m, 12.0_deg},
+		  {4.0_m, 12.0_deg},
+		  {4.5_m, 12.0_deg},
+		  {5.0_m, 12.0_deg},
+		  {5.5_m, 12.0_deg},
+		  {6.0_m, 12.0_deg},
+		  {6.5_m, 12.0_deg},
+		  {7.0_m, 12.0_deg},
+		  {7.5_m, 12.0_deg},
+		  {8.0_m, 12.0_deg},
+		  {8.5_m, 12.0_deg},
+		  {9.0_m, 12.0_deg}
 		}
 	};
 
 
-	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForLowPass{
+	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForPass{
 	  {
-		  {0.1_m, 0_tps},
-		  {0.5_m, 0_tps},
-		  {1.0_m, 0_tps},
-		  {1.5_m, 0_tps},
-		  {2.0_m, 0_tps},
-		  {2.5_m, 0_tps},
-		  {3.0_m, 0_tps},
-		  {3.5_m, 0_tps},
-		  {4.0_m, 0_tps},
-		  {4.5_m, 0_tps},
-	  }
-	};
-
-	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForHighPass{
-		{
-		  {1.66_m, 0.0_deg},
-		  {1.9_m, 0.0_deg},
-		  {2.4_m, 0.0_deg},
-		  {2.9_m, 0.0_deg},
-		  {3.4_m, 0.0_deg},
-		  {3.9_m, 0.0_deg},
-		  {4.4_m, 0.0_deg},
-		  {4.9_m, 0.0_deg},
-		  {5.4_m, 0.0_deg},
-		  {5.9_m, 0.0_deg},
-		  {6.4_m, 0.0_deg},
-		  {6.9_m, 0.0_deg}
+		  {3.5_m, 30.0_tps},
+		  {4.0_m, 30.5_tps},
+		  {4.5_m, 31.0_tps},
+		  {5.0_m, 31.5_tps},
+		  {5.5_m, 32.0_tps},
+		  {6.0_m, 32.5_tps},
+		  {6.5_m, 33.0_tps},
+		  {7.0_m, 33.5_tps},
+		  {7.5_m, 34.0_tps},
+		  {8.0_m, 34.5_tps},
+		  {8.5_m, 35.0_tps},
+		  {9.0_m, 35.5_tps}
 		}
-	};
-
-
-	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForHighPass{
-	  {
-		  {0.1_m, 0_tps},
-		  {0.5_m, 0_tps},
-		  {1.0_m, 0_tps},
-		  {1.5_m, 0_tps},
-		  {2.0_m, 0_tps},
-		  {2.5_m, 0_tps},
-		  {3.0_m, 0_tps},
-		  {3.5_m, 0_tps},
-		  {4.0_m, 0_tps},
-		  {4.5_m, 0_tps},
-	  }
 	};
 
 };

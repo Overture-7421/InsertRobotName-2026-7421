@@ -5,5 +5,5 @@
 #pragma once
 
 enum class LaunchModes {
-  Hub, LowPass, HighPass
+  Hub, Pass
 };

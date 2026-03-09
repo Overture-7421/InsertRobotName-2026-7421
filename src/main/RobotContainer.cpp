@@ -87,28 +87,13 @@ void RobotContainer::ConfigOperatorBindings() {
 
 	oprtr.X().OnTrue(frc2::cmd::RunOnce([this] {
 		selectedTarget.store(&LaunchConstants::LeftPass);
-		launchModeManager.setLaunchMode(LaunchModes::LowPass);
-	}));
-
-	//   oprtr.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
-	//     selectedTarget.store(&LaunchConstants::LeftPass);
-	// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-	//   }));
-
-	oprtr.Y().OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::CenterPass);
-		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 
 	oprtr.B().OnTrue(frc2::cmd::RunOnce([this] {
 		selectedTarget.store(&LaunchConstants::RightPass);
-		launchModeManager.setLaunchMode(LaunchModes::LowPass);
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
-
-	// oprtr.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
-	// 	selectedTarget.store(&LaunchConstants::RightPass);
-	// 	launchModeManager.setLaunchMode(LaunchModes::HighPass);
-	// }));
 
 }
 
@@ -126,27 +111,12 @@ void RobotContainer::ConfigConsoleBindings() {
 
 	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
 		selectedTarget.store(&LaunchConstants::LeftPass);
-		launchModeManager.setLaunchMode(LaunchModes::LowPass);
-	}));
-
-	console.Button(3).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::LeftPass);
-		launchModeManager.setLaunchMode(LaunchModes::HighPass);
-	}));
-
-	console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::CenterPass);
-		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 
 	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
 		selectedTarget.store(&LaunchConstants::RightPass);
-		launchModeManager.setLaunchMode(LaunchModes::LowPass);
-	}));
-
-	console.Button(6).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::RightPass);
-		launchModeManager.setLaunchMode(LaunchModes::HighPass);
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 }
 

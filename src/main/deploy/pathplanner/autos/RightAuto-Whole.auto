@@ -53,7 +53,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 3.0
                       }
                     }
                   ]
@@ -91,7 +91,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.8
+                        "waitTime": 2.0
                       }
                     }
                   ]
@@ -127,7 +127,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 2.19
+                              "waitTime": 3.0
                             }
                           }
                         ]
@@ -172,51 +172,6 @@
                 "type": "named",
                 "data": {
                   "name": "LaunchCommand"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right4-Whole"
-                }
-              },
-              {
-                "type": "deadline",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EjectCommand"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.51
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "LaunchCommand"
-                      }
-                    }
-                  ]
                 }
               }
             ]

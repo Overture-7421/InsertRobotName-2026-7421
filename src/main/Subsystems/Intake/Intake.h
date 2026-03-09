@@ -28,6 +28,7 @@ class Intake : public frc2::SubsystemBase {
 
  private:
  OverTalonFX intakeMotor {IntakeConstants::intakeMotorConfig(), robotConstants::rio};
+ OverTalonFX intakeFollowerMotor {IntakeConstants::intakeFollowerMotorConfig(), robotConstants::rio};
  OverTalonFX rollersMotor {IntakeConstants::rollersMotorConfig(), robotConstants::rio};
  OverCANCoder intakeCANCoder {IntakeConstants::intakeCanCoderConfig(), robotConstants::rio};
 

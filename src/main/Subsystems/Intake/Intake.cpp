@@ -11,6 +11,7 @@ Intake::Intake() {
     intakeMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor) ;
     intakeMotor.setFusedCANCoder(IntakeConstants::intakeCanCoderConfig().CanCoderId);
 
+	intakeFollowerMotor.setFollow(intakeMotor.GetDeviceID(), true);
 
     intakeMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
 }

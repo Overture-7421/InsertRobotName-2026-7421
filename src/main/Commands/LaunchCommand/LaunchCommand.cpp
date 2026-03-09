@@ -47,12 +47,9 @@ void LaunchCommand::Execute() {
 	if (launchMode == LaunchModes::Hub) {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
-	} else if (launchMode == LaunchModes::HighPass) {
-		hoodAngle = LaunchConstants::DistanceToHoodForHighPass[distanceToTarget];
-		shooterSpeed = LaunchConstants::DistanceToShooterForHighPass[distanceToTarget];
-	} else {
-		hoodAngle = LaunchConstants::DistanceToHoodForLowPass[distanceToTarget];
-		shooterSpeed = LaunchConstants::DistanceToShooterForLowPass[distanceToTarget];
+	} else if (launchMode == LaunchModes::Pass) {
+		hoodAngle = LaunchConstants::DistanceToHoodForPass[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	}
 
 	shooter->setHoodAngle(hoodAngle);
