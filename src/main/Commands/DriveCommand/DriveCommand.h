@@ -48,8 +48,8 @@ private:
 
 	frc::Translation2d targetObjective;
 
-	frc::SlewRateLimiter<units::meters_per_second> xInput{ 6_mps_sq };
-	frc::SlewRateLimiter<units::meters_per_second> yInput{ 6_mps_sq };
+	frc::SlewRateLimiter<units::meters_per_second> xInput{ 9_mps_sq };
+	frc::SlewRateLimiter<units::meters_per_second> yInput{ 9_mps_sq };
 
 	int allianceMulti;
 	double slowMulti = 1;
