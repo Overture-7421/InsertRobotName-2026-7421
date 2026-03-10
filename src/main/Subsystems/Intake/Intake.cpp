@@ -10,10 +10,13 @@
 Intake::Intake() {
     intakeMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor) ;
     intakeMotor.setFusedCANCoder(IntakeConstants::intakeCanCoderConfig().CanCoderId);
+	intakeSecondMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor) ;
+    intakeSecondMotor.setFusedCANCoder(IntakeConstants::intakeSecondCanCoderConfig().CanCoderId);
 
-	intakeFollowerMotor.setFollow(intakeMotor.GetDeviceID(), true);
 
     intakeMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
+    intakeSecondMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
+
 }
 
 void Intake::setRollersVoltage(units::volt_t targetVoltage){

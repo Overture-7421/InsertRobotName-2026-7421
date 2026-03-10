@@ -31,7 +31,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
 	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake));
-	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
 
 
 	driver.RightTrigger().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setRollersCmd(IntakeConstants::RollersEject)));
