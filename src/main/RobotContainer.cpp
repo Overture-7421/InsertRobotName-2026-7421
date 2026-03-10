@@ -153,33 +153,37 @@ void RobotContainer::UpdateTelemetry() {
 
 
 AprilTags::Config RobotContainer::camStorageConfig() {
-	AprilTags::Config config;
-	config.cameraName = "camStorage";
-	config.cameraToRobot = { -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
-	return config;
+	return AprilTags::Config{
+		"camStorage",
+		{ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} },
+		{ 2.0, 2.0, 4.0 },
+		{ 0.1, 0.1, 0.3 }
+	};
 }
 
 AprilTags::Config RobotContainer::camRadioConfig() {
-	AprilTags::Config config;
-	config.cameraName = "camRadio";
-	config.cameraToRobot = { -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
-	return config;
+	return AprilTags::Config{
+		"camRadio",
+		{ -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} },
+		{ 2.0, 2.0, 4.0 },
+		{ 0.1, 0.1, 0.3 }
+	};
 }
 
 AprilTags::Config RobotContainer::camIntakeConfig() {
-	AprilTags::Config config;
-	config.cameraName = "camIntake";
-	config.cameraToRobot = { -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
-	return config;
+	return AprilTags::Config{
+		"camIntake",
+		{ -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} },
+		{ 2.0, 2.0, 4.0 },
+		{ 0.1, 0.1, 0.3 }
+	};
 }
 
 AprilTags::Config RobotContainer::camRoboRioConfig() {
-	AprilTags::Config config;
-	config.cameraName = "camRoboRio";
-	config.cameraToRobot = { -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }; //o -160
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m} , {4, 5.5_m} };
-	return config;
+	return AprilTags::Config{
+		"camRoboRio",
+		{ -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }, //o -160
+		{ 2.0, 2.0, 4.0 },
+		{ 0.1, 0.1, 0.3 }
+	};
 }
