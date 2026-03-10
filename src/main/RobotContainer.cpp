@@ -27,11 +27,7 @@ RobotContainer::RobotContainer() {
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager,
-		[this]() -> frc::Translation2d {
-		return *selectedTarget.load();
-	}
-	);
+	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager);
 
 }
 
@@ -52,16 +48,14 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.RightTrigger().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setRollersCmd(IntakeConstants::RollersEject)));
 	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
 
+	// driver.RightTrigger().WhileTrue(EjectCommand(&processor, &turret, &intake).ToPtr());
+	// driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
+
 	// 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));
 	// 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
 
-
-
-
-	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, [this]() -> frc::Translation2d {
-	// 	return *selectedTarget.load();
-	// }).ToPtr());
+	driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
 
 
 
@@ -75,23 +69,27 @@ void RobotContainer::ConfigDriverBindings() {
 
 void RobotContainer::ConfigOperatorBindings() {
 
-	oprtr.LeftBumper().WhileTrue(frc2::cmd::Sequence(intake.setRollersCmd(IntakeConstants::RollersEject), frc2::cmd::Wait(0.2_s), intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
+	oprtr.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeGiver));
 	oprtr.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	oprtr.RightBumper().WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+	oprtr.RightBumper().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
 	oprtr.A().OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::HubPose);
+		// selectedTarget.store(&LaunchConstants::HubPose);
+		launchModeManager.setSideMode(SideMode::Hub);
 		launchModeManager.setLaunchMode(LaunchModes::Hub);
 	}));
 
 	oprtr.X().OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::LeftPass);
+		// selectedTarget.store(&LaunchConstants::LeftPass);
+		launchModeManager.setSideMode(SideMode::Left);
 		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 
 	oprtr.B().OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::RightPass);
+		// selectedTarget.store(&LaunchConstants::RightPass);
+		launchModeManager.setSideMode(SideMode::Right);
 		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 
@@ -99,24 +97,28 @@ void RobotContainer::ConfigOperatorBindings() {
 
 void RobotContainer::ConfigConsoleBindings() {
 
-	console.Button(7).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+	console.Button(3).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
+	console.Button(3).OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
-	console.Button(8).WhileTrue(frc2::cmd::Sequence(intake.setRollersCmd(IntakeConstants::RollersEject), frc2::cmd::Wait(0.2_s), intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
-	console.Button(8).OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
-
-	console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::HubPose);
-		launchModeManager.setLaunchMode(LaunchModes::Hub);
-	}));
+	console.Button(6).WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeGiver));
+	console.Button(6).OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::LeftPass);
-		launchModeManager.setLaunchMode(LaunchModes::Pass);
+		// selectedTarget.store(&LaunchConstants::HubPose);
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+		launchModeManager.setSideMode(SideMode::Hub);
 	}));
 
-	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
-		selectedTarget.store(&LaunchConstants::RightPass);
+	console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
+		// selectedTarget.store(&LaunchConstants::LeftPass);
 		launchModeManager.setLaunchMode(LaunchModes::Pass);
+		launchModeManager.setSideMode(SideMode::Left);
+	}));
+
+	console.Button(12).OnTrue(frc2::cmd::RunOnce([this] {
+		// selectedTarget.store(&LaunchConstants::RightPass);
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
+		launchModeManager.setSideMode(SideMode::Right);
 	}));
 }
 
@@ -131,17 +133,14 @@ void RobotContainer::ConfigTestBindings() {
 // test.LeftTrigger().WhileTrue(climber.setClimberCmd(0_deg));
 // test.LeftTrigger().OnFalse(climber.setClimberCmd(0_deg));
 
-	test.A().WhileTrue(shooter.setShooterVelocityCommand(36_tps));
-	test.A().OnFalse(shooter.setShooterVelocityCommand(27_tps));
+	// test.A().WhileTrue(shooter.setShooterVelocityCommand(36_tps));
+	// test.A().OnFalse(shooter.setShooterVelocityCommand(27_tps));
 
 	// test.A().WhileTrue(frc2::cmd::Sequence(intake.setRollersVoltageCommand(6_V), frc2::cmd::Wait(0.2_s), intake.setIntakeCharacterization(-100.0_deg, 6_V)));
 	// test.A().OnFalse(intake.setIntakeCharacterization(-151.0_deg, 0_V));
 
-	// test.A().WhileTrue(climber.setClimberCmd(720_deg));
-	// test.A().OnFalse(climber.setClimberCmd(300_deg));
-
-	// test.B().WhileTrue(intake.setIntakeCharacterization(-151.0_deg, 5_V));
-	// test.B().OnFalse(intake.setIntakeCharacterization(-8.0_deg, 0_V));
+	test.B().WhileTrue(intake.setIntakeCharacterization(120.0_deg, 5_V));
+	test.B().OnFalse(intake.setIntakeCharacterization(30.0_deg, 0_V));
 
 	// test.A().WhileTrue(shooter.setHoodAngleCommand(32.0_deg));
 	// test.A().OnFalse(shooter.setHoodAngleCommand(3.0_deg));
@@ -167,7 +166,7 @@ void RobotContainer::UpdateTelemetry() {
 AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camStorage";
-	config.cameraToRobot = { -8.5_in, -6.125_in, 18.3_in, {0_deg, -35_deg, 90.0_deg} };
+	config.cameraToRobot = { -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };
 	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }
@@ -175,7 +174,7 @@ AprilTags::Config RobotContainer::camStorageConfig() {
 AprilTags::Config RobotContainer::camRadioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRadio";
-	config.cameraToRobot = { -8.5_in , -11.125_in, 18.3_in, {0_deg, -35_deg, -90.0_deg} };
+	config.cameraToRobot = { -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };
 	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }

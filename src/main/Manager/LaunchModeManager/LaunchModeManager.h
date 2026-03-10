@@ -5,16 +5,22 @@
 #pragma once
 
 #include "Enums/LaunchModes.h"
+#include "Enums/SideMode.h"
 #include "frc2/command/Commands.h"
 
 
 class LaunchModeManager {
- public:
-  LaunchModeManager();
+public:
+	LaunchModeManager();
 
-  LaunchModes getLaunchMode();
-  void setLaunchMode(LaunchModes desiredLaunchMode);
-  frc2::CommandPtr setLaunchModeCmd(LaunchModes desiredLaunchMode);
+	LaunchModes getLaunchMode();
+	void setLaunchMode(LaunchModes desiredLaunchMode);
 
-  LaunchModes launchMode = LaunchModes::Hub;
+	SideMode getSideMode();
+	void setSideMode(SideMode desiredSideMode);
+
+	frc2::CommandPtr setLaunchModeCmd(LaunchModes desiredLaunchMode);
+
+	LaunchModes launchMode = LaunchModes::Hub;
+	SideMode sideMode = SideMode::Hub;
 };

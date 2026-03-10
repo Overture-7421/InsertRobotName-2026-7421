@@ -4,12 +4,13 @@
 
 #include "TabulateCommand.h"
 
-TabulateCommand::TabulateCommand(Shooter* shooter, Chassis* chassis, Turret* turret, std::function<frc::Translation2d()> targetSupplier) {
+TabulateCommand::TabulateCommand(Shooter* shooter, Chassis* chassis, Turret* turret, LaunchModeManager* launchModeManager) {
 	// Use addRequirements() here to declare subsystem dependencies.
 	this->shooter = shooter;
 	this->chassis = chassis;
 	this->turret = turret;
-	this->targetSupplier = std::move(targetSupplier);
+	// this->targetSupplier = std::move(targetSupplier);
+	this->launchModeManager = launchModeManager;
 
 	AddRequirements({ shooter, turret });
 }
@@ -25,7 +26,15 @@ void TabulateCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TabulateCommand::Execute() {
-	frc::Translation2d targetCoords = targetSupplier();
+	auto sideMode = launchModeManager->getSideMode();
+	frc::Translation2d targetCoords;
+	if (sideMode == SideMode::Left) {
+		targetCoords = LaunchConstants::LeftPass;
+	} else if (sideMode == SideMode::Right) {
+		targetCoords = LaunchConstants::RightPass;
+	} else {
+		targetCoords = LaunchConstants::HubPose;
+	}
 
 	if (isRedAlliance()) {
 		targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);

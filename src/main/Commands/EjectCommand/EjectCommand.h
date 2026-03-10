@@ -6,15 +6,9 @@
 
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
-#include <Subsystems/Shooter/Shooter.h>
-#include <Subsystems/Chassis/Chassis.h>
-#include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
-#include "pathplanner/lib/util/FlippingUtil.h"
-#include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
+#include "Subsystems/Processor/Processor.h"
 #include "Subsystems/Turret/Turret.h"
-#include "Manager/LaunchModeManager/LaunchModeManager.h"
-#include "Commands/LaunchCommand/LaunchConstants.h"
-
+#include "Subsystems/Intake/Intake.h"
 
 /**
  * An example command.
@@ -23,13 +17,13 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class TabulateCommand
-	: public frc2::CommandHelper<frc2::Command, TabulateCommand> {
+class EjectCommand
+	: public frc2::CommandHelper<frc2::Command, EjectCommand> {
 public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	TabulateCommand(Shooter* shooter, Chassis* chassis, Turret* turret, LaunchModeManager* launchModeManager);
+	EjectCommand(Processor* processor, Turret* turret, Intake* intake);
 
 	void Initialize() override;
 
@@ -38,14 +32,7 @@ public:
 	void End(bool interrupted) override;
 
 	bool IsFinished() override;
-
-	Shooter* shooter;
-	Chassis* chassis;
-	Turret* turret;
-	// std::function<frc::Translation2d()> targetSupplier;
-	LaunchModeManager* launchModeManager = nullptr;
-
-
-
-
+	Processor* processor = nullptr;
+	Turret* turret = nullptr;
+	Intake* intake = nullptr;
 };

@@ -4,12 +4,11 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<frc::Translation2d()> targetSupplier) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager) {
 	this->turret = turret;
 	this->shooter = shooter;
 	this->chassis = chassis;
 	this->launchModeManager = launchModeManager;
-	this->targetSupplier = std::move(targetSupplier);
 
 	// Use addRequirements() here to declare subsystem dependencies.
 	AddRequirements({ turret, shooter });
@@ -23,7 +22,15 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-	frc::Translation2d targetCoords = targetSupplier();
+	auto sideMode = launchModeManager->getSideMode();
+	frc::Translation2d targetCoords;
+	if (sideMode == SideMode::Left) {
+		targetCoords = LaunchConstants::LeftPass;
+	} else if (sideMode == SideMode::Right) {
+		targetCoords = LaunchConstants::RightPass;
+	} else {
+		targetCoords = LaunchConstants::HubPose;
+	}
 
 	if (isRedAlliance()) {
 		targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);

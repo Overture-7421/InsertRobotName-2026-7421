@@ -34,6 +34,7 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
+#include "Commands/EjectCommand/EjectCommand.h"
 
 
 /**
@@ -101,7 +102,8 @@ private:
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
 
-	std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
+	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
+
 
 
 	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
