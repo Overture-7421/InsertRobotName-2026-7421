@@ -14,7 +14,7 @@ frc::SimpleMotorFeedforward<units::meters> feedForwardBackLeft {0.0_V, 2.0879_V 
 frc::SimpleMotorFeedforward<units::meters> feedForwardBackRight {0.0_V, 2.0879_V / 1_mps, 0.098433_V / 1_mps_sq};
 
 Chassis::Chassis() : SwerveChassis() {
-    configureSwerveBase(PIDConstants(6.5, 0.0, 0.0), PIDConstants(6.5, 0.0, 0.0));
+    configureSwerveBase();
     setAcceptingVisionMeasurements(true);
     resetHeading();
     // pigeon.GetConfigurator().Apply(Chassis::PigeonConfig());
