@@ -17,7 +17,8 @@ struct IntakeConstants {
 
 	constexpr static const intakeValues IntakeOpen{ 5_V, 137.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeGiver{ 4_V, 108.0_deg };
-	constexpr static const intakeValues IntakeSustain{ 0_V, 137.0_deg };
+	constexpr static const intakeValues IntakeSustain{ 5_V, 137.0_deg };
+	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 137.0_deg };
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
 	constexpr static const intakeValues IntakeInitial{ 0_V, 0_deg };
 	constexpr static const units::volt_t RollersStop = 0_V;
@@ -48,20 +49,22 @@ struct IntakeConstants {
 	}
 
 
-	constexpr static OverTalonFXConfig intakeFollowerMotorConfig() {
-		OverTalonFXConfig intakeMotorConfig;
-		intakeMotorConfig.MotorId = 14;
-		intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		intakeMotorConfig.Inverted = false;
-		intakeMotorConfig.useFOC = true;
+	constexpr static OverTalonFXConfig intakeSecondMotorConfig() {
+		OverTalonFXConfig intakeSecondMotorConfig;
+		intakeSecondMotorConfig.MotorId = 14;
+		intakeSecondMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+		intakeSecondMotorConfig.Inverted = false;
+		intakeSecondMotorConfig.useFOC = true;
+		intakeSecondMotorConfig.PIDConfigs.GravityType = 1;
+		intakeSecondMotorConfig.PIDConfigs.WithKP(45.0).WithKG(0.5);
 
-		intakeMotorConfig.ClosedLoopRampRate = 0.05_s;
-		intakeMotorConfig.CurrentLimit = 30_A;
-		intakeMotorConfig.OpenLoopRampRate = 0.0_s;
-		intakeMotorConfig.StatorCurrentLimit = 120_A;
-		intakeMotorConfig.TriggerThreshold = 40_A;
+		intakeSecondMotorConfig.ClosedLoopRampRate = 0.05_s;
+		intakeSecondMotorConfig.CurrentLimit = 30_A;
+		intakeSecondMotorConfig.OpenLoopRampRate = 0.0_s;
+		intakeSecondMotorConfig.StatorCurrentLimit = 120_A;
+		intakeSecondMotorConfig.TriggerThreshold = 40_A;
 
-		return intakeMotorConfig;
+		return intakeSecondMotorConfig;
 	}
 
 	constexpr static OverTalonFXConfig rollersMotorConfig() {
@@ -89,6 +92,19 @@ struct IntakeConstants {
 		intakeCanCoderConfig.CanCoderId = 15;
 		intakeCanCoderConfig.Offset = 0.136474609375_tr;
 		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
+		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
+
+		return intakeCanCoderConfig;
+	}
+
+		constexpr static CanCoderConfig intakeSecondCanCoderConfig() {
+
+		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
+
+		CanCoderConfig intakeCanCoderConfig;
+		intakeCanCoderConfig.CanCoderId = 40;
+		intakeCanCoderConfig.Offset = 0.0_tr;
+		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
 
 		return intakeCanCoderConfig;
