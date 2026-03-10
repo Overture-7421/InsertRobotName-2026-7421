@@ -99,6 +99,9 @@ void Robot::AutonomousInit() {
 	if (m_autonomousCommand) {
 		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
 	}
+
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
+
 }
 
 void Robot::AutonomousPeriodic() {}
