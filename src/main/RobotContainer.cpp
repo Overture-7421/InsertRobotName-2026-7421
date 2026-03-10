@@ -155,35 +155,28 @@ void RobotContainer::UpdateTelemetry() {
 AprilTags::Config RobotContainer::camStorageConfig() {
 	return AprilTags::Config{
 		"camStorage",
-		{ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} },
-		{ 2.0, 2.0, 4.0 },
-		{ 0.1, 0.1, 0.3 }
+		{ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} }
 	};
 }
 
 AprilTags::Config RobotContainer::camRadioConfig() {
 	return AprilTags::Config{
 		"camRadio",
-		{ -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} },
-		{ 2.0, 2.0, 4.0 },
-		{ 0.1, 0.1, 0.3 }
+		{ -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} }
+
 	};
 }
 
 AprilTags::Config RobotContainer::camIntakeConfig() {
 	return AprilTags::Config{
 		"camIntake",
-		{ -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} },
-		{ 2.0, 2.0, 4.0 },
-		{ 0.1, 0.1, 0.3 }
+		{ -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} }
 	};
 }
 
 AprilTags::Config RobotContainer::camRoboRioConfig() {
 	return AprilTags::Config{
 		"camRoboRio",
-		{ -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }, //o -160
-		{ 2.0, 2.0, 4.0 },
-		{ 0.1, 0.1, 0.3 }
+		{ -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }
 	};
 }
