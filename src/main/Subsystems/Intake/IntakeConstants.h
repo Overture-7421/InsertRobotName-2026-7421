@@ -26,9 +26,9 @@ struct IntakeConstants {
 
 
 	constexpr static const double intakeRotorToSensor = 15.8667;
-	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 10_tps;
+	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 5_tps;
 	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 10_tr_per_s_sq;
-	constexpr static const units::degree_t IntakeRangeError = 2_deg;
+	constexpr static const units::degree_t IntakeRangeError = 3_deg;
 
 	constexpr static OverTalonFXConfig intakeMotorConfig() {
 		OverTalonFXConfig intakeMotorConfig;
@@ -90,20 +90,20 @@ struct IntakeConstants {
 
 		CanCoderConfig intakeCanCoderConfig;
 		intakeCanCoderConfig.CanCoderId = 15;
-		intakeCanCoderConfig.Offset = 0.136474609375_tr;
+		intakeCanCoderConfig.Offset = 0.13818359375_tr;
 		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
 		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
 
 		return intakeCanCoderConfig;
 	}
 
-		constexpr static CanCoderConfig intakeSecondCanCoderConfig() {
+	constexpr static CanCoderConfig intakeSecondCanCoderConfig() {
 
 		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
 
 		CanCoderConfig intakeCanCoderConfig;
 		intakeCanCoderConfig.CanCoderId = 40;
-		intakeCanCoderConfig.Offset = 0.0_tr;
+		intakeCanCoderConfig.Offset = 0.0537109375_tr;
 		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
 
