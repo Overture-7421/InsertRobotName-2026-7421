@@ -15,10 +15,10 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 5.5_V, 137.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeOpen{ 5.5_V, 140.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeGiver{ 4_V, 105.0_deg };
-	constexpr static const intakeValues IntakeSustain{ 5_V, 137.0_deg };
-	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 137.0_deg };
+	constexpr static const intakeValues IntakeSustain{ 5_V, 140.0_deg };
+	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 140.0_deg };
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
 	constexpr static const intakeValues IntakeInitial{ 0_V, 0_deg };
 	constexpr static const units::volt_t RollersStop = 0_V;
@@ -26,8 +26,8 @@ struct IntakeConstants {
 
 
 	constexpr static const double intakeRotorToSensor = 15.8667;
-	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 5_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 10_tr_per_s_sq;
+	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 7_tps;
+	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 12_tr_per_s_sq;
 	constexpr static const units::degree_t IntakeRangeError = 3_deg;
 
 	constexpr static OverTalonFXConfig intakeMotorConfig() {
