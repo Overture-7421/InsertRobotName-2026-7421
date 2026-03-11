@@ -8,7 +8,11 @@
 
 RobotContainer::RobotContainer() {
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
+	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
+	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop))));
+	pathplanner::NamedCommands::registerCommand("IntakeGiver", std::move(intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
+	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCommand(0_tps)));
 
 
 	autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
@@ -156,7 +160,6 @@ AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camStorage";
 	config.cameraToRobot = { -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }
 
@@ -164,7 +167,6 @@ AprilTags::Config RobotContainer::camRadioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRadio";
 	config.cameraToRobot = { -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }
 
@@ -172,7 +174,6 @@ AprilTags::Config RobotContainer::camIntakeConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camIntake";
 	config.cameraToRobot = { -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} };
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m}, {4, 5.5_m} };
 	return config;
 }
 
@@ -180,6 +181,5 @@ AprilTags::Config RobotContainer::camRoboRioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRoboRio";
 	config.cameraToRobot = { -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }; //o -160
-	config.tagValidDistances = { {1, 3.5_m}, {2, 4.0_m}, {3, 4.5_m} , {4, 5.5_m} };
 	return config;
 }

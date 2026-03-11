@@ -15,8 +15,8 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 5_V, 137.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeGiver{ 4_V, 108.0_deg };
+	constexpr static const intakeValues IntakeOpen{ 5.5_V, 137.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeGiver{ 4_V, 105.0_deg };
 	constexpr static const intakeValues IntakeSustain{ 5_V, 137.0_deg };
 	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 137.0_deg };
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
