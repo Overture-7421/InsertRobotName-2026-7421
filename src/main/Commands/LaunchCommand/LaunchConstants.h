@@ -22,26 +22,26 @@ namespace LaunchConstants {
 		{
 		  {1.50_m, 0.0_deg},
 		  {2.00_m, 0.0_deg},
-		  {2.50_m, 0.25_deg},
-		  {3.00_m, 1.80_deg},
-		  {3.50_m, 3.25_deg},
-		  {4.00_m, 5.50_deg},
-		  {4.50_m, 7.5_deg},
-		  {5.00_m, 8.5_deg}
+		  {2.50_m, 1.0_deg},
+		  {3.00_m, 2.0_deg},
+		  {3.50_m, 5.5_deg},
+		  {4.00_m, 7.75_deg},
+		  {4.50_m, 9.5_deg},
+		  {5.00_m, 10.0_deg}
 		}
 	};
 
 
 	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForHub{
 	  {
-		  {1.50_m, 26.0_tps},
-		  {2.00_m, 26.25_tps},
-		  {2.50_m, 28.0_tps},
-		  {3.00_m, 29.5_tps},
-		  {3.50_m, 31.0_tps},
-		  {4.00_m, 31.3_tps},
-		  {4.50_m, 33.5_tps},
-		  {5.00_m, 34_tps}
+		  {1.50_m, 27.0_tps},
+		  {2.00_m, 28.0_tps},
+		  {2.50_m, 29.25_tps},
+		  {3.00_m, 30.25_tps},
+		  {3.50_m, 31.75_tps},
+		  {4.00_m, 32.75_tps},
+		  {4.50_m, 33.75_tps},
+		  {5.00_m, 34.75_tps}
 	  }
 	};
 
@@ -50,7 +50,9 @@ namespace LaunchConstants {
 		  {3.80_m, 10.0_deg},
 		  {4.80_m, 11.0_deg},
 		  {5.80_m, 12.0_deg},
-		  {6.80_m, 15.5_deg}
+		  {6.80_m, 15.5_deg},
+		  {7.80_m, 17.0_deg},
+		  {8.80_m, 18.5_deg}
 		}
 	};
 
@@ -60,7 +62,9 @@ namespace LaunchConstants {
 		  {3.80_m, 31.0_tps},
 		  {4.80_m, 32.0_tps},
 		  {5.80_m, 33.0_tps},
-		  {6.80_m, 34.5_tps}
+		  {6.80_m, 34.5_tps},
+		  {7.80_m, 36.0_tps},
+		  {8.80_m, 37.5_tps}
 		}
 	};
 

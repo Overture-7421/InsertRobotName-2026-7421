@@ -60,7 +60,7 @@ void LaunchCommand::Execute() {
 	}
 
 	shooter->setHoodAngle(hoodAngle);
-	shooter->setObjectiveVelocity(shooterSpeed * 1.03);
+	shooter->setObjectiveVelocity(shooterSpeed);
 
 
 	targetPublisher.Set(movingGoalLocation);

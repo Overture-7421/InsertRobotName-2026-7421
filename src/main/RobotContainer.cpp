@@ -27,6 +27,7 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureBindings() {
 	ConfigDriverBindings();
 	ConfigOperatorBindings();
+	ConfigConsoleBindings();
 	ConfigTestBindings();
 }
 
@@ -48,7 +49,7 @@ void RobotContainer::ConfigDriverBindings() {
 	// 	driver.Y().OnFalse(CloseCommand(&intake, &processor));
 
 
-	driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
+	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
 
 
 
