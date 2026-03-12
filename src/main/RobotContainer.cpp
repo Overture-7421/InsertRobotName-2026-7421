@@ -151,7 +151,7 @@ void RobotContainer::UpdateTelemetry() {
 	intake.UpdateTelemetry();
 	// climber.UpdateTelemetry();
 
-	// frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
+	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
 
 }
 

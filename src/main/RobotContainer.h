@@ -25,7 +25,8 @@
 #include "Subsystems/Shooter/Shooter.h"
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
-#include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
+// #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
+#include "Lib/AprilTags.h"
 #include "Commands/SwallowCommand/SwallowCommand.h"
 #include "Commands/CloseCommand/CloseCommand.h"
 
@@ -54,6 +55,10 @@ public:
 	Chassis chassis;
 
 	void UpdateTelemetry();
+	Processor processor;
+	Intake intake;
+
+
 
 
 private:
@@ -73,8 +78,6 @@ private:
 
 	Shooter shooter;
 	Turret turret{ &chassis };
-	Intake intake;
-	Processor processor;
 	// Climber climber;
 
 	LaunchModeManager launchModeManager;

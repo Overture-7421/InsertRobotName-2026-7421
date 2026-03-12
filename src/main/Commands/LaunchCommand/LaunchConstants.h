@@ -52,7 +52,8 @@ namespace LaunchConstants {
 		  {5.80_m, 12.0_deg},
 		  {6.80_m, 15.5_deg},
 		  {7.80_m, 17.0_deg},
-		  {8.80_m, 18.5_deg}
+		  {8.80_m, 18.0_deg},
+		  {9.80_m, 18.5_deg}
 		}
 	};
 
@@ -63,8 +64,9 @@ namespace LaunchConstants {
 		  {4.80_m, 32.0_tps},
 		  {5.80_m, 33.0_tps},
 		  {6.80_m, 34.5_tps},
-		  {7.80_m, 36.0_tps},
-		  {8.80_m, 37.5_tps}
+		  {7.80_m, 37.0_tps},
+		  {8.80_m, 39.0_tps},
+		  {9.80_m, 41.0_tps}
 		}
 	};
 
