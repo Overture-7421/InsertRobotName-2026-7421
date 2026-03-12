@@ -4,7 +4,7 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier) : multiSupplier(std::move(multiSupplier)) {
 	this->turret = turret;
 	this->shooter = shooter;
 	this->chassis = chassis;
@@ -60,7 +60,9 @@ void LaunchCommand::Execute() {
 	}
 
 	shooter->setHoodAngle(hoodAngle);
-	shooter->setObjectiveVelocity(shooterSpeed * 1.08);
+	shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
+	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
+
 
 
 	targetPublisher.Set(movingGoalLocation);

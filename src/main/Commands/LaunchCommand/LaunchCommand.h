@@ -30,7 +30,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager);
+	LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier);
 
 	void Initialize() override;
 
@@ -47,6 +47,8 @@ public:
 	// std::function<frc::Translation2d()> targetSupplier;
 
 	LaunchModeManager* launchModeManager = nullptr;
+
+	std::function<double()> multiSupplier;
 
 	TargetingWhileMoving targetWhileMoving{ //Tiempo de Vuelo desde que sale la pieza hasta que llega al objetivo
 	  {

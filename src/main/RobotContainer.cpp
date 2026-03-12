@@ -20,7 +20,7 @@ RobotContainer::RobotContainer() {
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager);
+	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this]{return launchShooterMulti;});
 
 }
 
@@ -113,6 +113,14 @@ void RobotContainer::ConfigConsoleBindings() {
 		// selectedTarget.store(&LaunchConstants::RightPass);
 		launchModeManager.setLaunchMode(LaunchModes::Pass);
 		launchModeManager.setSideMode(SideMode::Right);
+	}));
+
+	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+		this->launchShooterMulti += 0.01;
+	}));
+
+	console.Button(4	).OnTrue(frc2::cmd::RunOnce([this] {
+		this->launchShooterMulti -= 0.01;
 	}));
 }
 

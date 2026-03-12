@@ -107,6 +107,8 @@ private:
 
 	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
+	double launchShooterMulti = 1.05;
+
 
 
 	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
