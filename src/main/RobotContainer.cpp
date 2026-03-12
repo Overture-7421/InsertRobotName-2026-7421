@@ -133,8 +133,8 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().WhileTrue(frc2::cmd::Sequence(intake.setRollersVoltageCommand(6_V), frc2::cmd::Wait(0.2_s), intake.setIntakeCharacterization(-100.0_deg, 6_V)));
 	// test.A().OnFalse(intake.setIntakeCharacterization(-151.0_deg, 0_V));
 
-	test.B().WhileTrue(intake.setIntakeCharacterization(120.0_deg, 0_V));
-	test.B().OnFalse(intake.setIntakeCharacterization(30.0_deg, 0_V));
+	// test.B().WhileTrue(intake.setIntakeCharacterization(120.0_deg, 0_V));
+	// test.B().OnFalse(intake.setIntakeCharacterization(30.0_deg, 0_V));
 
 	// test.A().WhileTrue(shooter.setHoodAngleCommand(32.0_deg));
 	// test.A().OnFalse(shooter.setHoodAngleCommand(3.0_deg));

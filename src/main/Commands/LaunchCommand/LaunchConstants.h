@@ -14,7 +14,7 @@
 
 namespace LaunchConstants {
 
-	constexpr static const frc::Translation2d HubPose = { 4.6115986_m, 4.0213534_m }; //Poner
+	constexpr static const frc::Translation2d HubPose = { 4.6115986_m, 4.0213534_m }; //Poner 21 y 26
 	constexpr static const frc::Translation2d LeftPass = { 2.000_m, 6.400_m }; //Poner
 	constexpr static const frc::Translation2d RightPass = { 2.000_m, 1.600_m }; //Poner
 
