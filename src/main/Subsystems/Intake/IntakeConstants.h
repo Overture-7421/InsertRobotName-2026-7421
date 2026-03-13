@@ -75,10 +75,10 @@ struct IntakeConstants {
 		rollersMotorConfig.useFOC = true;
 
 		rollersMotorConfig.ClosedLoopRampRate = 0.0_s;
-		rollersMotorConfig.CurrentLimit = 40_A;
+		rollersMotorConfig.CurrentLimit = 20_A;
 		rollersMotorConfig.OpenLoopRampRate = 0.05_s;
-		rollersMotorConfig.StatorCurrentLimit = 120_A;
-		rollersMotorConfig.TriggerThreshold = 70_A;
+		rollersMotorConfig.StatorCurrentLimit = 80_A;
+		rollersMotorConfig.TriggerThreshold = 30_A;
 		rollersMotorConfig.TriggerThresholdTime = 0.5_s;
 
 		return rollersMotorConfig;

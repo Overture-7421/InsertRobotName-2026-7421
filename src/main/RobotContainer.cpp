@@ -11,7 +11,7 @@ RobotContainer::RobotContainer() {
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
 	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop))));
-	pathplanner::NamedCommands::registerCommand("IntakeGiver", std::move(intake.setIntakeCmd(IntakeConstants::IntakeGiver)));
+	pathplanner::NamedCommands::registerCommand("IntakeGiver", std::move(intake.setIntakeCmd(IntakeConstants::IntakeGiver).WithTimeout(0.5_s)));
 	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCommand(0_tps)));
 
 
@@ -20,7 +20,7 @@ RobotContainer::RobotContainer() {
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this]{return launchShooterMulti;});
+	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;});
 
 }
 
@@ -39,7 +39,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
 
 
-	driver.RightTrigger().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setRollersCmd(IntakeConstants::RollersEject)));
+	driver.RightTrigger().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
 	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
 
 	// driver.RightTrigger().WhileTrue(EjectCommand(&processor, &turret, &intake).ToPtr());
@@ -94,8 +94,8 @@ void RobotContainer::ConfigConsoleBindings() {
 	console.Button(3).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
 	console.Button(3).OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
-	console.Button(6).WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeGiver));
-	console.Button(6).OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+	console.Button(6).WhileTrue(intake.setPivotCmd(IntakeConstants::IntakeGiver.intake));
+	console.Button(6).OnFalse(intake.setPivotCmd(IntakeConstants::IntakeSustain.intake));
 
 	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
 		// selectedTarget.store(&LaunchConstants::HubPose);
@@ -115,11 +115,11 @@ void RobotContainer::ConfigConsoleBindings() {
 		launchModeManager.setSideMode(SideMode::Right);
 	}));
 
-	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti += 0.01;
 	}));
 
-	console.Button(4	).OnTrue(frc2::cmd::RunOnce([this] {
+	console.Button(11).OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti -= 0.01;
 	}));
 }
