@@ -18,7 +18,7 @@
 
 #include "OvertureLib/Subsystems/Swerve/SwerveChassis/SwerveChassis.h"
 
-class AprilTags: public frc2::SubsystemBase {
+class AprilTags : public frc2::SubsystemBase {
 public:
 	struct Config {
 		std::string cameraName;
@@ -28,16 +28,16 @@ public:
 				6.0_m }, { 3, 8.0_m } };
 	};
 
-	AprilTags(frc::AprilTagFieldLayout *tagLayout, SwerveChassis *chassis,
-			Config config);
+	AprilTags(frc::AprilTagFieldLayout* tagLayout, SwerveChassis* chassis,
+		Config config);
 	Eigen::Matrix<double, 3, 1> GetEstimationStdDevs(
-			const photon::PhotonPipelineResult &result,
-			frc::Pose2d estimatedPose);
+		const photon::PhotonPipelineResult& result,
+		frc::Pose2d estimatedPose);
 	const photon::PhotonPipelineResult& GetLatestResult() const {
 		return m_latestResult;
 	}
-	void addMeasurementToChassis(const photon::PhotonPipelineResult &result,
-			frc::Pose2d pose, units::second_t timestamp);
+	void addMeasurementToChassis(const photon::PhotonPipelineResult& result,
+		frc::Pose2d pose, units::second_t timestamp);
 	void setEnabled(bool enabled);
 	void Periodic() override;
 
@@ -48,11 +48,11 @@ private:
 	photon::PhotonPipelineResult m_latestResult;
 
 	// Standard deviations for vision measurements
-	const Eigen::Matrix<double, 3, 1> singleTagStdDevs { 2, 2, 2 };
-	const Eigen::Matrix<double, 3, 1> multiTagStdDevs { 0.1, 0.1, 0.5 };
+	const Eigen::Matrix<double, 3, 1> singleTagStdDevs{ 2, 2, 2 };
+	const Eigen::Matrix<double, 3, 1> multiTagStdDevs{ 0.07, 0.07, 0.5 };
 
-	frc::AprilTagFieldLayout *tagLayout;
-	SwerveChassis *chassis;
+	frc::AprilTagFieldLayout* tagLayout;
+	SwerveChassis* chassis;
 	Config config;
 	bool enabled = true;
 	nt::StructArrayPublisher<frc::Pose3d> targetPosesPublisher;

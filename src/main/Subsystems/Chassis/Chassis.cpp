@@ -172,7 +172,7 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 	config.WheelDiameter = 4.0_in;
 	config.DriveMotorConfig.CurrentLimit = 30_A;
 	config.DriveMotorConfig.TriggerThreshold = 60_A;
-	config.DriveMotorConfig.OpenLoopRampRate = 0.01;
+	config.DriveMotorConfig.OpenLoopRampRate = 0.01_s;
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else

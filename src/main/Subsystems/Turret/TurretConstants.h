@@ -10,7 +10,7 @@
 struct TurretConstants {
 
 	constexpr static const units::turns_per_second_t TurretVelocity = 2.5_tps;
-	constexpr static const units::turns_per_second_squared_t TurretAcceleration = 7.5_tr_per_s_sq;
+	constexpr static const units::turns_per_second_squared_t TurretAcceleration = 4.0_tr_per_s_sq;
 	constexpr static const units::degree_t TurretRangeOfError = 1.5_deg;
 
 	constexpr static const double ChassisAngularVelocityCompensator = 1; //Poner

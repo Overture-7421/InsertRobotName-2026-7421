@@ -38,7 +38,7 @@ struct ShooterConstants {
 		shooterLeftConfig.StatorCurrentLimit = 120_A;
 		shooterLeftConfig.TriggerThreshold = 60_A;
 		shooterLeftConfig.TriggerThresholdTime = 0.5_s;
-		shooterLeftConfig.ClosedLoopRampRate = 0.1_s;
+		shooterLeftConfig.ClosedLoopRampRate = 0.5_s;
 		shooterLeftConfig.PIDConfigs.WithKP(0.05).WithKS(0.06).WithKV(0.1225);
 
 		return shooterLeftConfig;
@@ -55,7 +55,7 @@ struct ShooterConstants {
 		shooterRightConfig.StatorCurrentLimit = 120_A;
 		shooterRightConfig.TriggerThreshold = 60_A;
 		shooterRightConfig.TriggerThresholdTime = 0.5_s;
-		shooterRightConfig.ClosedLoopRampRate = 0.1_s;
+		shooterRightConfig.ClosedLoopRampRate = 0.5_s;
 
 
 		return shooterRightConfig;
@@ -81,7 +81,7 @@ struct ShooterConstants {
 	constexpr static const CanCoderConfig HoodCANConfig() {
 		CanCoderConfig hoodCANConfig;
 		hoodCANConfig.CanCoderId = HoodCANCoderId;
-		hoodCANConfig.Offset = -0.384765625_tr;
+		hoodCANConfig.Offset = -0.186767578125_tr;
 		hoodCANConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
 		hoodCANConfig.absoluteDiscontinuityPoint = 0.85_tr;
 		return hoodCANConfig;

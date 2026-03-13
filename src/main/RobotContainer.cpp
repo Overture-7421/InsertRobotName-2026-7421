@@ -39,8 +39,8 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
 
 
-	driver.RightTrigger().WhileTrue(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Eject), intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
-	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
+	driver.RightTrigger().WhileTrue(processor.setProcessorCmd(ProcessorConstants::Eject));
+	driver.RightTrigger().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
 	// driver.RightTrigger().WhileTrue(EjectCommand(&processor, &turret, &intake).ToPtr());
 	// driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
@@ -90,12 +90,11 @@ void RobotContainer::ConfigOperatorBindings() {
 }
 
 void RobotContainer::ConfigConsoleBindings() {
-
 	console.Button(3).WhileTrue(processor.setProcessorCmd(ProcessorConstants::ReverseProcessor));
 	console.Button(3).OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
-	console.Button(6).WhileTrue(intake.setPivotCmd(IntakeConstants::IntakeGiver.intake));
-	console.Button(6).OnFalse(intake.setPivotCmd(IntakeConstants::IntakeSustain.intake));
+	console.Button(6).OnTrue(intake.setIntakeCmd(IntakeConstants::IntakeGiver).WithTimeout(0.1_s).Unless([this] {return driver.LeftTrigger().Get();}));
+	console.Button(6).OnFalse(intake.setIntakeCmd(IntakeConstants::SustainAfterGiver).WithTimeout(0.1_s).Unless([this] {return driver.LeftTrigger().Get();}));
 
 	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
 		// selectedTarget.store(&LaunchConstants::HubPose);
@@ -116,11 +115,11 @@ void RobotContainer::ConfigConsoleBindings() {
 	}));
 
 	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
-		this->launchShooterMulti += 0.01;
+		this->launchShooterMulti += 0.03;
 	}));
 
 	console.Button(11).OnTrue(frc2::cmd::RunOnce([this] {
-		this->launchShooterMulti -= 0.01;
+		this->launchShooterMulti -= 0.03;
 	}));
 }
 
@@ -160,6 +159,8 @@ void RobotContainer::UpdateTelemetry() {
 	// climber.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
+
+	Logging::WriteDouble("Shoot Multiplier", launchShooterMulti);
 
 }
 

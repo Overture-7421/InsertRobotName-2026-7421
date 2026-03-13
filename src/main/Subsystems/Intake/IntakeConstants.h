@@ -15,14 +15,15 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 5.5_V, 140.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeGiver{ 4_V, 105.0_deg };
-	constexpr static const intakeValues IntakeSustain{ 5_V, 140.0_deg };
+	constexpr static const intakeValues IntakeOpen{ 7.0_V, 140.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeGiver{ 7.0_V, 100.0_deg };
+	constexpr static const intakeValues IntakeSustain{ 7.0_V, 140.0_deg };
+	constexpr static const intakeValues SustainAfterGiver{ 2.0_V, 140.0_deg };
 	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 140.0_deg };
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
 	constexpr static const intakeValues IntakeInitial{ 0_V, 0_deg };
 	constexpr static const units::volt_t RollersStop = 0_V;
-	constexpr static const units::volt_t RollersEject = 5_V;
+	constexpr static const units::volt_t RollersEject = 7.0_V;
 
 
 	constexpr static const double intakeRotorToSensor = 15.8667;
@@ -76,8 +77,8 @@ struct IntakeConstants {
 
 		rollersMotorConfig.ClosedLoopRampRate = 0.0_s;
 		rollersMotorConfig.CurrentLimit = 20_A;
-		rollersMotorConfig.OpenLoopRampRate = 0.05_s;
-		rollersMotorConfig.StatorCurrentLimit = 80_A;
+		rollersMotorConfig.OpenLoopRampRate = 0.1_s;
+		rollersMotorConfig.StatorCurrentLimit = 120_A;
 		rollersMotorConfig.TriggerThreshold = 30_A;
 		rollersMotorConfig.TriggerThresholdTime = 0.5_s;
 
