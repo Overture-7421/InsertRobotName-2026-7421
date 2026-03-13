@@ -67,6 +67,7 @@ private:
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
 	// OverXboxController test{ 3, 0.20, 0.2 };
+	nt::StructPublisher<frc::Pose3d> targetPosesPublisher;
 
 #ifndef __FRC_ROBORIO__
 	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);

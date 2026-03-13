@@ -22,6 +22,11 @@ RobotContainer::RobotContainer() {
 
 	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;});
 
+	auto cameraTable = nt::NetworkTableInstance::GetDefault().GetTable(
+			"CAMERA TRANSFORM");
+	targetPosesPublisher = cameraTable->GetStructTopic < frc::Pose3d
+			> ("TRANSFORM").Publish();
+
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -160,6 +165,7 @@ void RobotContainer::UpdateTelemetry() {
 	// climber.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
+	targetPosesPublisher.Set({ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} });
 
 }
 
