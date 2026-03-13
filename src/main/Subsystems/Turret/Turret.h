@@ -52,10 +52,7 @@ private:
 	units::degree_t calculateTurretAngleFromCANCoderDegrees();
 
 	bool enableChassisComp = false;
-	const frc::Transform3d robotToTurret{
-		  frc::Translation3d{-4.2_in, 5.2_in, 0.0_in}, //Posicion del robot al centro de la torreta
-		  frc::Rotation3d{0.0_deg} //Orientacion de la torreta respecto al robot
-	};
+	frc::Transform3d robotToTurret;
 
 	units::degree_t turretActualAngle;
 
@@ -66,6 +63,10 @@ private:
 	nt::StructPublisher<frc::Pose2d> turretPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
 		>("SmartDashboard/TurretPose").Publish();
+
+	nt::StructPublisher<frc::Pose3d> cameraTurretPublisher =
+		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose3d
+		>("SmartDashboard/CameraTurretPose").Publish();
 
 
 	// ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};

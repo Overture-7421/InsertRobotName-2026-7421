@@ -97,7 +97,7 @@ double Turret::getForceFactorCables(units::degree_t turretAngleDegrees) {
 
 frc::Rotation2d Turret::GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition){
     frc::Pose2d turretPose = GetTurretPose(robotPose); //Posicion Global de la Torreta
-
+	cameraTurretPublisher.Set(frc::Pose3d(frc::Translation3d{robotPose.Translation().X(), robotPose.Translation().Y(), 0_m}, {0_deg, 0_deg, robotPose.Rotation().Degrees()}).TransformBy(GetRobotToTurret()).TransformBy({ 7.0_in, -1.0_in, 0.0_in, {0_deg, -20.0_deg, 0_deg} }));
 
     units::meter_t deltaX = targetPosition.X() - turretPose.X(); //Para calcular el Angulo Absoluto al Target
     units::meter_t deltaY = targetPosition.Y() - turretPose.Y();
@@ -169,5 +169,9 @@ const units::degree_t& Turret::GetRobotRelativeHeading(){
 
 void Turret::Periodic() {
     turretActualAngle = calculateTurretAngleFromCANCoderDegrees();
+	robotToTurret = frc::Transform3d{
+		  frc::Translation3d{-4.2_in, 5.2_in, 0.0_in}, //Posicion del robot al centro de la torreta
+		  frc::Rotation3d{turretActualAngle} //Orientacion de la torreta respecto al robot
+	};
 }
   

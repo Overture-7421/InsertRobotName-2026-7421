@@ -198,7 +198,7 @@ AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
 	AprilTags::Config config;
 	config.cameraName = "camTurret";
 	config.cameraToRobotSupplier = [&] {
-		return turret->GetRobotToTurret() + frc::Transform3d{ 0.0_in, 0.0_in, 0.0_in, {0_deg, 0.0_deg, 0_deg} };
-	}; //o -160
+		return turret->GetRobotToTurret() + frc::Transform3d{ 7.0_in, -1.0_in, 0.0_in, {0_deg, -20.0_deg, 0_deg} };
+	};
 	return config;
 }
