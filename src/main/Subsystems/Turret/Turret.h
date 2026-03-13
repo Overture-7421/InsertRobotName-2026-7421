@@ -20,50 +20,61 @@
 #include "Subsystems/Chassis/Chassis.h"
 
 class Turret : public frc2::SubsystemBase {
- public:
-  Turret(Chassis* chassis);
+public:
+	Turret(Chassis* chassis);
 
-  void setTargetAngle(units::degree_t turretTarget);
-  units::degree_t convertToClosestBoundedTurretAngleDegrees(units::degree_t targetAngleDegrees);
-  units::degree_t calculateTurretAngleFromCANCoderDegrees();
+	void setTargetAngle(units::degree_t turretTarget);
 
-  frc::Rotation2d GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
+	frc::Rotation2d GetTurretAimingParameterFromRobotPose(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
-  void AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
+	void AimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
-  bool isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
+	bool isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
-  frc::Pose2d GetTurretPose(const frc::Pose2d& robotPose);
+	frc::Pose2d GetTurretPose(const frc::Pose2d& robotPose);
+	const frc::Transform3d& GetRobotToTurret();
 
-  frc2::CommandPtr TestCommand(units::degree_t setPoint);
+	frc2::CommandPtr TestCommand(units::degree_t setPoint);
 
-  double getForceFactorCables(units::degree_t turretAngleDegrees);
+	double getForceFactorCables(units::degree_t turretAngleDegrees);
 
-  bool isMotorAtPosition();
+	const units::degree_t& GetRobotRelativeHeading();
 
-  void UpdateTelemetry();
-  
-  void Periodic() override;
+	bool isMotorAtPosition();
 
- private:
-  bool enableChassisComp = false;
-  
-  OverTalonFX turretMotor{TurretConstants::TurretConfig(), robotConstants::rio};
-  OverCANCoder turret1CANCoder{TurretConstants::Turret2CANConfig(), robotConstants::rio};
-  OverCANCoder turret2CANCoder{TurretConstants::Turret1CANConfig(), robotConstants::rio};
+	void UpdateTelemetry();
 
-  nt::StructPublisher<frc::Pose2d> turretPublisher =
-			nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
-					> ("SmartDashboard/TurretPose").Publish();
+	void Periodic() override;
+
+private:
+
+	units::degree_t convertToClosestBoundedTurretAngleDegrees(units::degree_t targetAngleDegrees);
+	units::degree_t calculateTurretAngleFromCANCoderDegrees();
+
+	bool enableChassisComp = false;
+	const frc::Transform3d robotToTurret{
+		  frc::Translation3d{-4.2_in, 5.2_in, 0.0_in}, //Posicion del robot al centro de la torreta
+		  frc::Rotation3d{0.0_deg} //Orientacion de la torreta respecto al robot
+	};
+
+	units::degree_t turretActualAngle;
+
+	OverTalonFX turretMotor{ TurretConstants::TurretConfig(), robotConstants::rio };
+	OverCANCoder turret1CANCoder{ TurretConstants::Turret2CANConfig(), robotConstants::rio };
+	OverCANCoder turret2CANCoder{ TurretConstants::Turret1CANConfig(), robotConstants::rio };
+
+	nt::StructPublisher<frc::Pose2d> turretPublisher =
+		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
+		>("SmartDashboard/TurretPose").Publish();
 
 
-  // ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
-  ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{0.0_tr};
+	// ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
+	ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{ 0.0_tr };
 
 
-    // frc::ProfiledPIDController<units::degree> turretPID {0.1, 0.0, 0.0, {TurretConstants::TurretVelocity,
-    //         TurretConstants::TurretAcceleration}, RobotConstants::LoopTime};
+	// frc::ProfiledPIDController<units::degree> turretPID {0.1, 0.0, 0.0, {TurretConstants::TurretVelocity,
+	//         TurretConstants::TurretAcceleration}, RobotConstants::LoopTime};
 
-  Chassis* chassis;
+	Chassis* chassis;
 
 };

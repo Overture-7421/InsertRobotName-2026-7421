@@ -99,6 +99,7 @@ private:
 	static AprilTags::Config camStorageConfig();
 	static AprilTags::Config camRadioConfig();
 	static AprilTags::Config camRoboRioConfig();
+	static AprilTags::Config camTurretConfig(Turret* turret);
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
 	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
