@@ -171,7 +171,6 @@ void Turret::Periodic() {
     turretActualAngle = calculateTurretAngleFromCANCoderDegrees();
 	robotToTurret = frc::Transform3d{
 		  frc::Translation3d{-4.2_in, 5.2_in, 0.0_in}, //Posicion del robot al centro de la torreta
-		  frc::Rotation3d{turretActualAngle} //Orientacion de la torreta respecto al robot
+		  frc::Rotation3d{0_deg, 0_deg, turretMotor.GetPosition().GetValue()} //Orientacion de la torreta respecto al robot
 	};
 }
-  
