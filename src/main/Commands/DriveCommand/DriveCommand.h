@@ -48,13 +48,13 @@ private:
 
 	frc::Translation2d targetObjective;
 
-	frc::SlewRateLimiter<units::meters_per_second> xInput{ 9_mps_sq };
-	frc::SlewRateLimiter<units::meters_per_second> yInput{ 9_mps_sq };
+	frc::SlewRateLimiter<units::meters_per_second> xInput{ 7_mps_sq };
+	frc::SlewRateLimiter<units::meters_per_second> yInput{ 7_mps_sq };
 
 	int allianceMulti;
 	double slowMulti = 1;
 
-	units::meters_per_second_t shootWhileMoveMaxSpeedToHub = 1.5_mps;
+	units::meters_per_second_t shootWhileMoveMaxSpeedToHub = 1.0_mps;
 
 	bool speedHelperMoved = false;
 };
