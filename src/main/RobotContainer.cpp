@@ -6,7 +6,7 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() : camTurret(&tagLayout, &chassis, camTurretConfig(&turret)) {
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));

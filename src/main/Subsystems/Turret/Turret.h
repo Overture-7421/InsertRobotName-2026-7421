@@ -66,8 +66,8 @@ private:
 	nt::StructPublisher<frc::Pose2d> turretPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
 		>("SmartDashboard/TurretPose").Publish();
-		
-	const frc::Transform3d turretToCamera { 7.0_in, -15.0_in, 0.0_in, {0_deg, -20.0_deg, 0_deg} };
+
+	const frc::Transform3d turretToCamera{ 4.421974_in, -4.544931_in, 19.917364_in, {0_deg, -21.492069_deg, 0_deg} };
 	// ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
 	ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{ 0.0_tr };
 
