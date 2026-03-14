@@ -35,7 +35,7 @@ public:
 
 	const frc::Transform3d& GetRobotToTurretTransform();
 
-	const frc::Transform3d& GetRobotToCameraTransform();
+	frc::Transform3d GetRobotToCameraTransform();
 
 	frc2::CommandPtr TestCommand(units::degree_t setPoint);
 

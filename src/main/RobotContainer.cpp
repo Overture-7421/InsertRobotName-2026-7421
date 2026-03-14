@@ -198,7 +198,9 @@ AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
 	AprilTags::Config config;
 	config.cameraName = "camTurret";
 	config.cameraToRobotSupplier = [=] {
-		return turret->GetRobotToCameraTransform();
+		auto transform = turret->GetRobotToCameraTransform();
+		std::cout << "Robot to Turret: " << transform.X().value() << " " << transform.Y().value() << std::endl;
+		return transform;
 	};
 	return config;
 }

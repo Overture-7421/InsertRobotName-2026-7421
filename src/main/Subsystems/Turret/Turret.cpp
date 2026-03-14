@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "Turret.h"
-
+#include <iostream>
 Turret::Turret(Chassis* chassis) {
     // turretPID.SetTolerance(TurretConstants::TurretRangeOfError);
     turretMotor.setSensorToMechanism(TurretConstants::SensorToMechanism);
@@ -115,7 +115,7 @@ const frc::Transform3d& Turret::GetRobotToTurretTransform() {
 	return robotToTurret;
 }
 
-const frc::Transform3d& Turret::GetRobotToCameraTransform() {
+frc::Transform3d Turret::GetRobotToCameraTransform() {
     return robotToTurret + turretToCamera;
 }
 
