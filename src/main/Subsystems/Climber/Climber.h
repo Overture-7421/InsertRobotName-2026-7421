@@ -13,17 +13,12 @@ class Climber : public frc2::SubsystemBase {
   Climber();
   
   void setClimberAngle(units::degree_t targetAngle);
-  bool climberReached(units::degree_t targetAngle);
+  bool reachedTarget();
+  units::meter_t getHeight();
 
-  void UpdateTelemetry();
-
-  frc2::CommandPtr setClimberCmd(units::degree_t targetPos);
- 
+  void UpdateTelemetry(); 
   void Periodic() override;
 
  private:
- OverTalonFX climberMotor {climberConstants::climberMotorConfig(), robotConstants::rio};
-//  OverCANCoder climberCANCoder {climberConstants::climberCanCoderConfig(), robotConstants::rio};
-
- ctre::phoenix6::controls::MotionMagicVoltage climberVoltage {0_tr};
+ OverTalonFX climberMotor {ClimberConstants::ClimberMotorConfig(), RobotConstants::RIO};
  };

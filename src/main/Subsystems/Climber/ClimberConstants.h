@@ -6,25 +6,20 @@
 
 #include <OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h>
 #include <OvertureLib/Sensors/OverCANCoder/OverCANCoder.h>
+#include <units/velocity.h>
 
-
-struct climberConstants{
-    
+struct ClimberConstants{
     constexpr static const units::degree_t  ClimberOpen = 45.0_deg;
     constexpr static const units::degree_t  ClimberStow = 0.0_deg;
     constexpr static const units::degree_t  ClimberInitial = 0.0_deg;
 
-
-    constexpr static const double climberSensorToMechanism = 20.0;  
-
-    constexpr static const units::turns_per_second_t ClimberCruiseVelocity = 4.5_tps;
-    constexpr static const units::turns_per_second_squared_t ClimberCruiseAcceleration = 14.0_tr_per_s_sq;
-    constexpr static const units::degree_t ClimberRangeError = 2_deg;
-        // constexpr static const units::turn_t ClimberCANCoderOffset = 0.125_tr;
+    constexpr static const double ClimberSensorToMechanism = 20.0;  
+    constexpr static const units::meter_t WinchRadius = 0.08_m;
+    constexpr static const units::meters_per_second_t ClimberCruiseVelocity = 1_mps;
+    constexpr static const units::meters_per_second_squared_t ClimberCruiseAcceleration = 0.5_mps_sq;
+    constexpr static const units::meter_t ClimberRangeError = 0.01_m;
     
-    constexpr static OverTalonFXConfig climberMotorConfig() {
-        
-        // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
+    constexpr static OverTalonFXConfig ClimberMotorConfig() {
         OverTalonFXConfig climberMotorConfig;
         climberMotorConfig.MotorId = 24;
         climberMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
@@ -41,17 +36,4 @@ struct climberConstants{
     
         return climberMotorConfig;
     }
-    
-    
-    // constexpr static CanCoderConfig climberCanCoderConfig(){
-
-    //     // ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
-        
-    //     CanCoderConfig climberCanCoderConfig;
-    //     climberCanCoderConfig.CanCoderId = 15;
-    //     climberCanCoderConfig.Offset = ClimberCANCoderOffset;
-    //     climberCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
-
-    //     return climberCanCoderConfig;
-    // }
 };

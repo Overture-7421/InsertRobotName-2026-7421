@@ -22,7 +22,7 @@ inline constexpr int kDriverControllerPort = 0;
 }  // namespace OperatorConstants
 
 //General robot constants
-namespace robotConstants {
-    constexpr static const ctre::phoenix6::CANBus rio {"rio"};
+namespace RobotConstants {
+    constexpr static const ctre::phoenix6::CANBus RIO {"rio"};
     constexpr static const ctre::phoenix6::CANBus OverCANivore {"OverCANivore"};
 }

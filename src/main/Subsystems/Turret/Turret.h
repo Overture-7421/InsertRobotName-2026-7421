@@ -59,9 +59,9 @@ private:
 
 	units::degree_t turretActualAngle;
 
-	OverTalonFX turretMotor{ TurretConstants::TurretConfig(), robotConstants::rio };
-	OverCANCoder turret1CANCoder{ TurretConstants::Turret2CANConfig(), robotConstants::rio };
-	OverCANCoder turret2CANCoder{ TurretConstants::Turret1CANConfig(), robotConstants::rio };
+	OverTalonFX turretMotor{ TurretConstants::TurretConfig(), RobotConstants::RIO };
+	OverCANCoder turret1CANCoder{ TurretConstants::Turret2CANConfig(), RobotConstants::RIO };
+	OverCANCoder turret2CANCoder{ TurretConstants::Turret1CANConfig(), RobotConstants::RIO };
 
 	nt::StructPublisher<frc::Pose2d> turretPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d

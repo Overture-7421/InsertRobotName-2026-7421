@@ -8,17 +8,16 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 Climber::Climber() {
-    climberMotor.setSensorToMechanism(climberConstants::climberSensorToMechanism) ;
-    // climberMotor.setFusedCANCoder(climberConstants::climberCanCoderConfig().CanCoderId);
-
-
-    climberMotor.configureMotionMagic(climberConstants::ClimberCruiseVelocity, climberConstants::ClimberCruiseAcceleration, 0.0_tr_per_s_cu);
+    climberMotor.setSensorToMechanism(ClimberConstants::ClimberSensorToMechanism) ;
+    climberMotor.configureMotionMagic(ClimberConstants::ClimberCruiseVelocity, ClimberConstants::ClimberCruiseAcceleration, 0.0_tr_per_s_cu);
 }
 
+units::meter_t Climber::getHeight(){
+    return climberMotor.GetPosition() * ClimberConstants::ClimberSensorToMechanism;
+}
 
-bool Climber::climberReached(units::degree_t targetAngle){
-    units::degree_t climberError = targetAngle - climberMotor.GetPosition().GetValue();
-    return (units::math::abs(climberError) < climberConstants::ClimberRangeError);
+bool Climber::reachedTarget(units::degree_t targetAngle){
+    return (climberMotor.GetClosedLoopError().GetValue() < ClimberConstants::ClimberRangeError);
 }
 
 void Climber::setClimberAngle(units::degree_t targetAngle){
