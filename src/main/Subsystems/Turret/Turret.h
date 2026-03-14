@@ -32,7 +32,10 @@ public:
 	bool isAimAtFieldPosition(const frc::Pose2d& robotPose, const frc::Translation2d& targetPosition);
 
 	frc::Pose2d GetTurretPose(const frc::Pose2d& robotPose);
-	const frc::Transform3d& GetRobotToTurret();
+
+	const frc::Transform3d& GetRobotToTurretTransform();
+
+	const frc::Transform3d& GetRobotToCameraTransform();
 
 	frc2::CommandPtr TestCommand(units::degree_t setPoint);
 
@@ -63,12 +66,8 @@ private:
 	nt::StructPublisher<frc::Pose2d> turretPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose2d
 		>("SmartDashboard/TurretPose").Publish();
-
-	nt::StructPublisher<frc::Pose3d> cameraTurretPublisher =
-		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Pose3d
-		>("SmartDashboard/CameraTurretPose").Publish();
-
-
+		
+	const frc::Transform3d turretToCamera { 7.0_in, -15.0_in, 0.0_in, {0_deg, -20.0_deg, 0_deg} };
 	// ctre::phoenix6::controls::VoltageOut turretVoltageRequest{0.0_V};
 	ctre::phoenix6::controls::PositionVoltage turretVoltageRequest{ 0.0_tr };
 

@@ -104,7 +104,7 @@ private:
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
 	AprilTags camStorage{ &tagLayout, &chassis, camStorageConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
-	AprilTags camRoboRio{ &tagLayout, &chassis, camRoboRioConfig() };
+	AprilTags camTurret{ &tagLayout, &chassis, camTurretConfig(&turret) };
 
 	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
