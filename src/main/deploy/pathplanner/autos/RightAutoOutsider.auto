@@ -183,7 +183,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right2"
+                  "pathName": "Right2Outsider"
                 }
               },
               {
@@ -221,19 +221,6 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right3-Whole"
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
@@ -250,7 +237,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.25
                       }
                     },
                     {
@@ -344,69 +331,33 @@
                       }
                     },
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeGiver"
-                      }
-                    },
-                    {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.15
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeGiver"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.15
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeGiver"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.15
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
+                        "waitTime": 1.2
                       }
                     }
                   ]
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "StopIndexer"
+                }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RightOutsider3"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RightAuto",
+  "folder": "RightAutoOutsider",
   "choreoAuto": false
 }

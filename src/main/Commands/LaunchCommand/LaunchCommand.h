@@ -15,6 +15,7 @@
 #include "LaunchConstants.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
 #include "Subsystems/Processor/Processor.h"
+#include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
 
 
 /**
@@ -30,7 +31,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier);
+	LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
 
 	void Initialize() override;
 
@@ -43,6 +44,8 @@ public:
 	Turret* turret = nullptr;
 	Shooter* shooter = nullptr;
 	Chassis* chassis = nullptr;
+
+	OverXboxController* driver = nullptr;
 
 	// std::function<frc::Translation2d()> targetSupplier;
 

@@ -4,11 +4,12 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier) : multiSupplier(std::move(multiSupplier)) {
+LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
 	this->turret = turret;
 	this->shooter = shooter;
 	this->chassis = chassis;
 	this->launchModeManager = launchModeManager;
+	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
 	AddRequirements({ turret, shooter });
@@ -42,7 +43,6 @@ void LaunchCommand::Execute() {
 	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
-	turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
 
 	units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
 	frc::SmartDashboard::PutNumber("TurretData/DistanceTarget", distanceToTarget.value());
@@ -59,8 +59,20 @@ void LaunchCommand::Execute() {
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	}
 
-	shooter->setHoodAngle(hoodAngle);
-	shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
+	if (!driver->GetHID().GetAButton()) {
+		shooter->setHoodAngle(hoodAngle);
+		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
+		turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
+	} else {
+		distanceToTarget = 3.1_m;
+		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
+
+		shooter->setHoodAngle(hoodAngle);
+		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
+		turret->setTargetAngle(0_deg);
+	}
+
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
 
 

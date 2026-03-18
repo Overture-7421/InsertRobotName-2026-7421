@@ -15,9 +15,9 @@ struct ProcessorValues {
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const ProcessorValues Eject{ 6.0_V, 6.0_V };
+	constexpr static const ProcessorValues Eject{ 5.0_V, 6.0_V };
 	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
-	constexpr static const ProcessorValues ReverseProcessor{ -6.0_V, -6.0_V };
+	constexpr static const ProcessorValues ReverseProcessor{ -5.0_V, -6.0_V };
 
 	// constexpr static const ProcessorValues PreloadProcessor{6.0_V, 6.0_V};
 
@@ -33,7 +33,7 @@ struct ProcessorConstants {
 		spindexerConfig.Inverted = false;
 
 		spindexerConfig.CurrentLimit = 30_A;
-		spindexerConfig.StatorCurrentLimit = 60_A;
+		spindexerConfig.StatorCurrentLimit = 120_A;
 		spindexerConfig.TriggerThreshold = 75_A;
 		spindexerConfig.TriggerThresholdTime = 0.5_s;
 		spindexerConfig.ClosedLoopRampRate = 0.0_s;

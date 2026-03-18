@@ -9,6 +9,7 @@
   ],
   "autoFolders": [
     "LeftAuto",
+    "RightAutoOutsider",
     "RightAuto"
   ],
   "defaultMaxVel": 5.0,
