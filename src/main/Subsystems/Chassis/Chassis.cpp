@@ -18,29 +18,7 @@ Chassis::Chassis() : SwerveChassis() {
 	setAcceptingVisionMeasurements(true);
 	resetHeading();
 
-	pathplanner::RobotConfig robotConfig = RobotConfig::fromGUISettings();
-	AutoBuilder::configure(
-		[this]() {return getEstimatedPose();},
-		[this](frc::Pose2d pose) {
-		// resetOdometryPosePublisher.Set(pose);
-		resetOdometry(pose);
-	},
-		[this]() {return getCurrentSpeeds();},
-		[this](frc::ChassisSpeeds speeds) {setTargetSpeeds(speeds);},
-		std::make_shared<PPHolonomicDriveController>(
-			PIDConstants(6.5, 0.0, 0.0),
-			PIDConstants(6.5, 0.0, 0.0)
-		),
-		robotConfig,
-		[]() {
-		auto alliance = frc::DriverStation::GetAlliance();
-		if (alliance) {
-			return alliance.value() == frc::DriverStation::Alliance::kRed;
-		}
-		return false;
-	},
-		this
-	);
+
 
 
 	// pigeon.GetConfigurator().Apply(Chassis::PigeonConfig());

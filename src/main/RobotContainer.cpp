@@ -6,7 +6,7 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer() {
+RobotContainer::RobotContainer() : camTurret(&tagLayout, &chassis, camTurretConfig(&turret)) {
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
@@ -169,27 +169,38 @@ void RobotContainer::UpdateTelemetry() {
 AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camStorage";
-	config.cameraToRobot = { -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };};
 	return config;
 }
 
 AprilTags::Config RobotContainer::camRadioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRadio";
-	config.cameraToRobot = { -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };};
 	return config;
 }
 
 AprilTags::Config RobotContainer::camIntakeConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camIntake";
-	config.cameraToRobot = { -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} };
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} };};
 	return config;
 }
 
 AprilTags::Config RobotContainer::camRoboRioConfig() {
 	AprilTags::Config config;
 	config.cameraName = "camRoboRio";
-	config.cameraToRobot = { -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} }; //o -160
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} };}; //o -160
+	return config;
+}
+
+AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
+	AprilTags::Config config;
+	config.cameraName = "camTurret";
+	config.cameraToRobotSupplier = [=] {
+		auto transform = turret->GetRobotToCameraTransform();
+		std::cout << "Robot to Turret: " << transform.X().value() << " " << transform.Y().value() << std::endl;
+		return transform;
+	};
 	return config;
 }
