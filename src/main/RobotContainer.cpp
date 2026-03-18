@@ -20,7 +20,7 @@ RobotContainer::RobotContainer() : camTurret(&tagLayout, &chassis, camTurretConf
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;});
+	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
 
 }
 
@@ -41,6 +41,8 @@ void RobotContainer::ConfigDriverBindings() {
 
 	driver.RightTrigger().WhileTrue(processor.setProcessorCmd(ProcessorConstants::Eject));
 	driver.RightTrigger().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
+
+	// driver.A().WhileTrue(frc2::cmd::Parallel(turret.setTargetAngle(0_deg))) 3.1distance
 
 	// driver.RightTrigger().WhileTrue(EjectCommand(&processor, &turret, &intake).ToPtr());
 	// driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop)));
@@ -199,7 +201,8 @@ AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
 	config.cameraName = "camTurret";
 	config.cameraToRobotSupplier = [=] {
 		auto transform = turret->GetRobotToCameraTransform();
-		std::cout << "Robot to Turret: " << transform.X().value() << " " << transform.Y().value() << std::endl;
+		frc::SmartDashboard::PutNumber("RobotToCameraX", transform.X().value());
+		frc::SmartDashboard::PutNumber("RobotToCameraY", transform.Y().value());
 		return transform;
 	};
 	return config;
