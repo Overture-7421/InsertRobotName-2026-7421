@@ -4,15 +4,14 @@
 
 #include "TabulateCommand.h"
 
-TabulateCommand::TabulateCommand(Shooter* shooter, Chassis* chassis, Turret* turret, LaunchModeManager* launchModeManager) {
+TabulateCommand::TabulateCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager) {
 	// Use addRequirements() here to declare subsystem dependencies.
 	this->shooter = shooter;
 	this->chassis = chassis;
-	this->turret = turret;
 	// this->targetSupplier = std::move(targetSupplier);
 	this->launchModeManager = launchModeManager;
 
-	AddRequirements({ shooter, turret });
+	AddRequirements({ shooter});
 }
 
 // Called when the command is initially scheduled.
@@ -41,7 +40,7 @@ void TabulateCommand::Execute() {
 	}
 
 
-	units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(targetCoords);
+	units::meter_t distanceToTarget = (chassis->getEstimatedPose()).Translation().Distance(targetCoords);
 
 	frc::SmartDashboard::PutNumber("Tabulate/Distance", distanceToTarget.value());
 	frc::SmartDashboard::PutNumber("Tabulate/HoodAngleCurrent", shooter->getHoodAngle().value());
@@ -50,14 +49,14 @@ void TabulateCommand::Execute() {
 	units::degree_t hoodAngle{ frc::SmartDashboard::GetNumber("Tabulate/HoodAngle", shooter->getHoodAngle().value()) };
 	double targetVel = frc::SmartDashboard::GetNumber("Tabulate/ShooterVel", 0.0);
 
-	turret->AimAtFieldPosition(chassis->getEstimatedPose(), targetCoords);
+	//turret->AimAtFieldPosition(chassis->getEstimatedPose(), targetCoords);
 
 	shooter->setHoodAngle(hoodAngle);
 	shooter->setObjectiveVelocity(targetVel * 1_tps);
 
 	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(targetVel * 1_tps));
 	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/HoodIsHoodAngle", shooter->isHoodAtAngle(hoodAngle));
-	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), targetCoords));
+	//frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), targetCoords));
 }
 
 // Called once the command ends or is interrupted.

@@ -11,7 +11,6 @@
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
-#include "Subsystems/Turret/Turret.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
 #include "Commands/LaunchCommand/LaunchConstants.h"
 
@@ -29,7 +28,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	TabulateCommand(Shooter* shooter, Chassis* chassis, Turret* turret, LaunchModeManager* launchModeManager);
+	TabulateCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager);
 
 	void Initialize() override;
 
@@ -41,7 +40,7 @@ public:
 
 	Shooter* shooter;
 	Chassis* chassis;
-	Turret* turret;
+	
 	// std::function<frc::Translation2d()> targetSupplier;
 	LaunchModeManager* launchModeManager = nullptr;
 
