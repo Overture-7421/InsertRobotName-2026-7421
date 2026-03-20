@@ -21,7 +21,7 @@ void Robot::RobotInit() {
 	  {1, "Rebuilt2026/motors/front_left_rotation"},
 	  {3, "Rebuilt2026/motors/front_right_rotation"},
 
-	  {23,"Rebuilt2026/motors/turret"},
+
 	  {17,"Rebuilt2026/motors/spindexer"},
 	  {21,"Rebuilt2026/motors/shooterWheels"},
 	  {16,"Rebuilt2026/motors/intakeRollers"},
@@ -36,16 +36,15 @@ void Robot::RobotInit() {
 	simPigeonManager.Init("Rebuilt2026/imu");
 
 	simCANCoderManager.Init({
-	  {24, "Rebuilt2026/cancoders/turret_cancoder1"},
-	  {28, "Rebuilt2026/cancoders/turret_cancoder2"},
+	
 	  {11, "Rebuilt2026/cancoders/back_right_cancoder"},
 	  {10, "Rebuilt2026/cancoders/back_left_cancoder"},
 	  {9, "Rebuilt2026/cancoders/front_left_cancoder"},
 	  {12, "Rebuilt2026/cancoders/front_right_cancoder"},
 
 	  {20, "Rebuilt2026/cancoders/hood"},
-	  {15, "Rebuilt2026/cancoders/intake"},
-	  {30, "Rebuilt2026/cancoders/turret"}
+	  {15, "Rebuilt2026/cancoders/intake"}
+	
 		});
 
 	simDutyCycleEncoderManager.Init({});

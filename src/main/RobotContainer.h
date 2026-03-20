@@ -19,15 +19,14 @@
 #include "Subsystems/Intake/Intake.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "Subsystems/Processor/Processor.h"
-#include "Subsystems/Climber/Climber.h"
 
-#include "Subsystems/Turret/Turret.h"
+
 #include "Subsystems/Shooter/Shooter.h"
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
 // #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 #include "Lib/AprilTags.h"
-#include "Commands/SwallowCommand/SwallowCommand.h"
+
 #include "Commands/CloseCommand/CloseCommand.h"
 
 #include <OvertureLib/Subsystems/LedsManager/LedsManager.h>
@@ -35,7 +34,7 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
-#include "Commands/EjectCommand/EjectCommand.h"
+
 
 
 /**
@@ -77,8 +76,8 @@ private:
 
 
 	Shooter shooter;
-	Turret turret{ &chassis };
-	// Climber climber;
+	//Turret turret{ &chassis };
+	
 
 	LaunchModeManager launchModeManager;
 	ShiftManager shiftManager;
@@ -99,11 +98,11 @@ private:
 	static AprilTags::Config camStorageConfig();
 	static AprilTags::Config camRadioConfig();
 	static AprilTags::Config camRoboRioConfig();
-	static AprilTags::Config camTurretConfig(Turret* turret);
+	//static AprilTags::Config camTurretConfig(Turret* turret);
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
-	AprilTags camTurret{ &tagLayout, &chassis, camTurretConfig(&turret) };
+	//AprilTags camTurret{ &tagLayout, &chassis, camTurretConfig(&turret) };
 
 	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
