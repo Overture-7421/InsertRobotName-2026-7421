@@ -4,15 +4,15 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Turret* turret, Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
-	this->turret = turret;
+LaunchCommand::LaunchCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
+
 	this->shooter = shooter;
 	this->chassis = chassis;
 	this->launchModeManager = launchModeManager;
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ turret, shooter });
+	AddRequirements({ shooter });
 }
 
 
@@ -44,8 +44,8 @@ void LaunchCommand::Execute() {
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
 
-	units::meter_t distanceToTarget = turret->GetTurretPose(chassis->getEstimatedPose()).Translation().Distance(movingGoalLocation);
-	frc::SmartDashboard::PutNumber("TurretData/DistanceTarget", distanceToTarget.value());
+	units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
+ 	frc::SmartDashboard::PutNumber("LaunchCommand/DistanceTarget", distanceToTarget.value());
 
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
@@ -62,7 +62,7 @@ void LaunchCommand::Execute() {
 	if (!driver->GetHID().GetAButton()) {
 		shooter->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
-		turret->AimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation);
+		
 	} else {
 		distanceToTarget = 3.1_m;
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
@@ -70,7 +70,7 @@ void LaunchCommand::Execute() {
 
 		shooter->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
-		turret->setTargetAngle(0_deg);
+		
 	}
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
@@ -79,7 +79,7 @@ void LaunchCommand::Execute() {
 
 	targetPublisher.Set(movingGoalLocation);
 
-	frc::SmartDashboard::PutBoolean("TurretData/isAimAtFieldPosition", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), movingGoalLocation));
+	
 
 
 }

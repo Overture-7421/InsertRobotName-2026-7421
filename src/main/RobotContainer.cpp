@@ -6,8 +6,10 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer() : camTurret(&tagLayout, &chassis, camTurretConfig(&turret)) {
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
+RobotContainer::RobotContainer(){
+
+	//Sujto a cambio
+	//pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
 	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop))));
@@ -20,7 +22,7 @@ RobotContainer::RobotContainer() : camTurret(&tagLayout, &chassis, camTurretConf
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&turret, &shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
+	launchCommand = std::make_unique<LaunchCommand>(&shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
 
 }
 
@@ -35,7 +37,7 @@ void RobotContainer::ConfigDriverBindings() {
 	chassis.SetDefaultCommand(DriveCommand(&chassis, &driver, &processor).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-	driver.LeftTrigger().WhileTrue(SwallowCommand(&intake));
+	//driver.LeftTrigger().WhileTrue(SwallowCommand(&intake));
 	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
 
 
@@ -155,7 +157,7 @@ frc2::Command* RobotContainer::GetAutonomousCommand() {
 
 void RobotContainer::UpdateTelemetry() {
 	chassis.shuffleboardPeriodic();
-	turret.UpdateTelemetry();
+	//turret.UpdateTelemetry();
 	shooter.UpdateTelemetry();
 	intake.UpdateTelemetry();
 	// climber.UpdateTelemetry();
@@ -196,7 +198,7 @@ AprilTags::Config RobotContainer::camRoboRioConfig() {
 	return config;
 }
 
-AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
+/*AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
 	AprilTags::Config config;
 	config.cameraName = "camTurret";
 	config.cameraToRobotSupplier = [=] {
@@ -206,4 +208,4 @@ AprilTags::Config RobotContainer::camTurretConfig(Turret* turret) {
 		return transform;
 	};
 	return config;
-}
+}*/
