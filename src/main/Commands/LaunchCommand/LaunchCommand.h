@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/Hood/Hood.h"
 #include "Subsystems/Chassis/Chassis.h"
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
@@ -30,7 +31,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	LaunchCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
+	LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
 
 	void Initialize() override;
 
@@ -42,6 +43,7 @@ public:
 
 
 	Shooter* shooter = nullptr;
+	Hood* hood = nullptr;
 	Chassis* chassis = nullptr;
 
 	OverXboxController* driver = nullptr;

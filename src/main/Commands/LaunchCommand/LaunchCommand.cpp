@@ -4,15 +4,16 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
+LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
 
 	this->shooter = shooter;
+	this->hood = hood;
 	this->chassis = chassis;
 	this->launchModeManager = launchModeManager;
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter });
+	AddRequirements({ shooter, hood});
 }
 
 
@@ -60,7 +61,7 @@ void LaunchCommand::Execute() {
 	}
 
 	if (!driver->GetHID().GetAButton()) {
-		shooter->setHoodAngle(hoodAngle);
+		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
 		
 	} else {
@@ -68,7 +69,7 @@ void LaunchCommand::Execute() {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
 
-		shooter->setHoodAngle(hoodAngle);
+		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
 		
 	}

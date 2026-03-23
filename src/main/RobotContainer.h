@@ -22,6 +22,7 @@
 
 
 #include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/Hood/Hood.h"
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
 // #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
@@ -76,6 +77,7 @@ private:
 
 
 	Shooter shooter;
+	Hood hood;
 	//Turret turret{ &chassis };
 	
 

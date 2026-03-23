@@ -14,7 +14,7 @@ RobotContainer::RobotContainer(){
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
 	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop))));
 	pathplanner::NamedCommands::registerCommand("IntakeGiver", std::move(intake.setIntakeCmd(IntakeConstants::IntakeGiver).WithTimeout(0.5_s)));
-	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCommand(0_tps)));
+	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCmd(0_tps)));
 
 
 	autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
@@ -22,7 +22,7 @@ RobotContainer::RobotContainer(){
 
 	ConfigureBindings();
 
-	launchCommand = std::make_unique<LaunchCommand>(&shooter, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
+	launchCommand = std::make_unique<LaunchCommand>(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
 
 }
 

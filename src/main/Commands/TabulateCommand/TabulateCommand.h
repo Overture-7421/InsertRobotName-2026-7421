@@ -7,6 +7,7 @@
 #include <frc2/command/Command.h>
 #include <frc2/command/CommandHelper.h>
 #include <Subsystems/Shooter/Shooter.h>
+#include <Subsystems/Hood/Hood.h>
 #include <Subsystems/Chassis/Chassis.h>
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
@@ -28,7 +29,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	TabulateCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager);
+	TabulateCommand(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager);
 
 	void Initialize() override;
 
@@ -39,6 +40,7 @@ public:
 	bool IsFinished() override;
 
 	Shooter* shooter;
+	Hood* hood;
 	Chassis* chassis;
 	
 	// std::function<frc::Translation2d()> targetSupplier;
