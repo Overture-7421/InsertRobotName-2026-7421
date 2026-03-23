@@ -26,11 +26,12 @@ void TabulateCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TabulateCommand::Execute() {
-	auto sideMode = launchModeManager->getSideMode();
+	auto launchMode = launchModeManager->getLaunchMode();
+	
 	frc::Translation2d targetCoords;
-	if (sideMode == SideMode::Left) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (sideMode == SideMode::Right) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;

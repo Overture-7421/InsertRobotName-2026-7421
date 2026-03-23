@@ -24,11 +24,12 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-	auto sideMode = launchModeManager->getSideMode();
+	auto launchMode = launchModeManager->getLaunchMode();
+	
 	frc::Translation2d targetCoords;
-	if (sideMode == SideMode::Left) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (sideMode == SideMode::Right) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -51,7 +52,6 @@ void LaunchCommand::Execute() {
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
 
-	auto launchMode = launchModeManager->getLaunchMode();
 	if (launchMode == LaunchModes::Hub) {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
@@ -59,6 +59,7 @@ void LaunchCommand::Execute() {
 		hoodAngle = LaunchConstants::DistanceToHoodForPass[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	}
+	
 
 	if (!driver->GetHID().GetAButton()) {
 		hood->setHoodAngle(hoodAngle);
@@ -79,8 +80,6 @@ void LaunchCommand::Execute() {
 
 
 	targetPublisher.Set(movingGoalLocation);
-
-	
 
 
 }

@@ -16,11 +16,7 @@ public:
 	LaunchModes getLaunchMode();
 	void setLaunchMode(LaunchModes desiredLaunchMode);
 
-	SideMode getSideMode();
-	void setSideMode(SideMode desiredSideMode);
-
 	frc2::CommandPtr setLaunchModeCmd(LaunchModes desiredLaunchMode);
 
 	LaunchModes launchMode = LaunchModes::Hub;
-	SideMode sideMode = SideMode::Hub;
 };

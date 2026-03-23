@@ -100,13 +100,9 @@ private:
 	static AprilTags::Config camStorageConfig();
 	static AprilTags::Config camRadioConfig();
 	static AprilTags::Config camRoboRioConfig();
-	//static AprilTags::Config camTurretConfig(Turret* turret);
 
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
-	//AprilTags camTurret{ &tagLayout, &chassis, camTurretConfig(&turret) };
-
-	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
 
 	double launchShooterMulti = 1.02;
 
