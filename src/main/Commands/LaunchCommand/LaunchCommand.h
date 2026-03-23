@@ -45,12 +45,11 @@ public:
 	Shooter* shooter = nullptr;
 	Hood* hood = nullptr;
 	Chassis* chassis = nullptr;
-
 	OverXboxController* driver = nullptr;
 
-	// std::function<frc::Translation2d()> targetSupplier;
-
 	LaunchModeManager* launchModeManager = nullptr;
+
+	HeadingSpeedsHelper headingSpeedsHelper;
 
 	std::function<double()> multiSupplier;
 
