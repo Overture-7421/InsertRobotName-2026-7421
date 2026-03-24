@@ -9,16 +9,12 @@
 
 Intake::Intake() {
 
-	leftMotor.setFollow(rightMotor .GetDeviceID(), true);
+	pivotLeftMotor.setFollow(pivotRightMotor.GetDeviceID(), true);
 
-	rightMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor);
-	rightMotor.setFusedCANCoder(IntakeConstants::RightCanCoderConfig().CanCoderId);
-	leftMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor);
-	leftMotor.setFusedCANCoder(IntakeConstants::LeftCanCoderConfig().CanCoderId);
+	pivotRightMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor);
+	pivotRightMotor.setFusedCANCoder(IntakeConstants::pivotRightCanCoderConfig().CanCoderId);
 
-
-	rightMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
-	leftMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
+	pivotRightMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
 
 }
 
@@ -26,27 +22,26 @@ void Intake::setRollersVoltage(units::volt_t targetVoltage) {
 	rollersMotor.SetControl(rollersVoltage.WithOutput(targetVoltage).WithEnableFOC(true));
 }
 
-units::degree_t Intake::transformCentimetersToDegrees(units::centimeter_t distance){
-	return units::degree_t((distance.value()/IntakeConstants::PinionRadius.value())*180/3.14);	
+units::turn_t Intake::transformMetersToTurns(units::meter_t distance){
+	return units::turn_t(distance.value()/IntakeConstants::PinionDiameter.value()*M_PI);	
 }
 
-units::centimeter_t Intake::transformDegreesToCentimeters(units::degree_t angle){
-	return units::centimeter_t((angle.value()*3.14/180)*IntakeConstants::PinionRadius.value());
+units::meter_t Intake::transformTurnsToMeters(units::turn_t angle){
+	return units::meter_t (angle.value()*IntakeConstants::PinionDiameter.value()*M_PI);
 }
 
-bool Intake::intakeReached(units::centimeter_t targetDistance) {
+bool Intake::intakeReached(units::meter_t targetDistance) {
 	//units::degree_t targetAngle = units::degree_t(targetDistance.value()/IntakeConstants::PinionRadius.value()*180/3.14);
-	units::degree_t targetAngle = transformCentimetersToDegrees(targetDistance);
+	units::turn_t targetAngle = transformMetersToTurns(targetDistance);
 
-	//units::centimeter_t intakeError = units::centimeter_t((targetAngle.value() - rightMotor.GetPosition().GetValue().value())*2*3.14*IntakeConstants::PinionRadius/360);
-	units::centimeter_t intakeError = units::centimeter_t(targetAngle.value() - transformDegreesToCentimeters(rightMotor.GetPosition().GetValue()).value());
+	//units::meter_t intakeError = units::meter_t((targetAngle.value() - pivotRightMotor.GetPosition().GetValue().value())*2*3.14*IntakeConstants::PinionRadius/360);
+	units::meter_t intakeError = units::meter_t(targetAngle.value() - transformTurnsToMeters(pivotRightMotor.GetPosition().GetValue()).value());
 	return (units::math::abs(intakeError) < IntakeConstants::IntakeRangeError);
 }
 
-void Intake::setIntakeDistance(units::centimeter_t targetDistance) {
-	units::degree_t targetAngle = units::degree_t(targetDistance.value()/IntakeConstants::PinionRadius.value()*180/3.14);
-	rightMotor.SetControl(intakeVoltage.WithPosition(targetAngle).WithEnableFOC(true));
-	leftMotor.SetControl(intakeVoltage.WithPosition(targetAngle).WithEnableFOC(true));
+void Intake::setIntakeDistance(units::meter_t targetDistance) {
+	units::turn_t targetAngle = transformMetersToTurns(targetDistance);
+	pivotRightMotor.SetControl(intakeVoltage.WithPosition(targetAngle).WithEnableFOC(true));
 }
 
 
@@ -64,11 +59,11 @@ frc2::CommandPtr Intake::setIntakeCmd(intakeValues targetPos) {
 
 	[this, targetPos] {
 		return (intakeReached(targetPos.intake));
-	}
+	}, {this}
 	).ToPtr();
 }
 
-frc2::CommandPtr Intake::setPivotCmd(units::centimeter_t targetDistance) {
+frc2::CommandPtr Intake::setPivotCmd(units::meter_t targetDistance) {
 	return frc2::FunctionalCommand(
 		[this, targetDistance]() {
 		setIntakeDistance(targetDistance);
@@ -81,16 +76,15 @@ frc2::CommandPtr Intake::setPivotCmd(units::centimeter_t targetDistance) {
 
 	[this, targetDistance] {
 		return (intakeReached(targetDistance));
-	}
-	).ToPtr();
-}
+	}, {this}
+	).ToPtr();}
 
-frc2::CommandPtr Intake::setIntakeCharacterization(units::centimeter_t distance, units::volt_t voltage) {
+frc2::CommandPtr Intake::setIntakeCharacterization(units::meter_t distance, units::volt_t voltage) {
 	return frc2::cmd::RunOnce(
 		[this, distance, voltage] {
 		setIntakeDistance(distance);
 		setRollersVoltage(voltage);
-	}
+	}, {this}
 	);
 }
 
@@ -107,7 +101,7 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 
 	[] {
 		return true;
-	}
+	}, {this}
 	).ToPtr();
 }
 
@@ -115,11 +109,11 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 void Intake::Periodic() {}
 
 void Intake::UpdateTelemetry() {
-	frc::SmartDashboard::PutNumber("Intake/Current", rightMotor.GetPosition().GetValue().value() * 360.0);
+	frc::SmartDashboard::PutNumber("Intake/Current", pivotRightMotor.GetPosition().GetValue().value() * 360.0);
 
 
-	double targetDistance = rightMotor.GetClosedLoopReference().GetValue();
-	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", rightMotor.GetClosedLoopError().GetValue());
+	double targetDistance = pivotRightMotor.GetClosedLoopReference().GetValue();
+	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", pivotRightMotor.GetClosedLoopError().GetValue());
 	frc::SmartDashboard::PutNumber("Intake/TargetAngle", targetDistance);
-	frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::centimeter_t(targetDistance)));
+	frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::meter_t(targetDistance)));
 }
