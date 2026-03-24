@@ -50,6 +50,7 @@ public:
 	LaunchModeManager* launchModeManager = nullptr;
 
 	HeadingSpeedsHelper headingSpeedsHelper;
+	bool speedHelperMoved = false;
 
 	std::function<double()> multiSupplier;
 

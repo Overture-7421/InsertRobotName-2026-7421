@@ -29,7 +29,7 @@ units::turns_per_second_t Shooter::getShooterVelocity(){
 
 bool Shooter::isShooterAtVelocity(units::turns_per_second_t targetVelocity){
     units::turns_per_second_t shooterError = targetVelocity - shooter1Motor.GetVelocity().GetValue();
-    return units::math::abs(shooterError) < 2.0_tps;
+    return units::math::abs(shooterError) < ShooterConstants::RangeOfError;
 }
 
 frc2::CommandPtr Shooter::setShooterVelocityCmd(units::turns_per_second_t velocity){

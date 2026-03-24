@@ -9,13 +9,15 @@
 struct HoodConstants {
 
 
-  constexpr static const units::turns_per_second_t CruiseVelocity = 2.0_tps;
+	constexpr static const units::turns_per_second_t CruiseVelocity = 2.0_tps;
 	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 9.0_tr_per_s_sq;
 
-  constexpr static const double RotorToSensor = 0.0;
+	constexpr static const units::degree_t RangeOfError = 2.0_deg;
+
+	constexpr static const double RotorToSensor = 0.0;
 	constexpr static const double SensorToMechanism = 0.0;
 
-  constexpr static const int MotorId = 19;
+	constexpr static const int MotorId = 19;
 	constexpr static const int CANCoderId = 20;
 
 	constexpr static const OverTalonFXConfig MotorConfig() {

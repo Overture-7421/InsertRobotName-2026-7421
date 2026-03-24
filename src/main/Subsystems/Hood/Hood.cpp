@@ -26,7 +26,7 @@ units::degree_t Hood::getHoodAngle(){
 
 bool Hood::isHoodAtAngle(units::degree_t targetAngle){
     units::degree_t hoodError = targetAngle - hoodMotor.GetPosition().GetValue();
-    return units::math::abs(hoodError) < 2.0_deg;
+    return units::math::abs(hoodError) < HoodConstants::RangeOfError;
 }
 
 frc2::CommandPtr Hood::setHoodAngleCommand(units::degree_t angle){

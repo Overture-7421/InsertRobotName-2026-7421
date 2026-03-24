@@ -46,11 +46,14 @@ void LaunchCommand::Execute() {
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
 	if(driver->GetHID().GetRightBumperButton()){
-		chassis->enableSpeedHelper(&headingSpeedsHelper);
-		frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
-  		headingSpeedsHelper.setTargetAngle(targetAngle);
-	} 
-	if(driver->GetHID().GetRightBumperButtonReleased()){
+		if (speedHelperMoved == false) {
+			speedHelperMoved = true;
+			chassis->enableSpeedHelper(&headingSpeedsHelper);
+			frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
+  			headingSpeedsHelper.setTargetAngle(targetAngle);
+		}
+	} else if (speedHelperMoved == true) {
+		speedHelperMoved = false;
 		chassis->disableSpeedHelper();
 	}
 
