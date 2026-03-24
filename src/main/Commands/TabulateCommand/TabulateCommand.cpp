@@ -4,20 +4,21 @@
 
 #include "TabulateCommand.h"
 
-TabulateCommand::TabulateCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager) {
+TabulateCommand::TabulateCommand(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager) {
 	// Use addRequirements() here to declare subsystem dependencies.
 	this->shooter = shooter;
+	this->hood = hood;
 	this->chassis = chassis;
 	// this->targetSupplier = std::move(targetSupplier);
 	this->launchModeManager = launchModeManager;
 
-	AddRequirements({ shooter});
+	AddRequirements({ shooter, hood});
 }
 
 // Called when the command is initially scheduled.
 void TabulateCommand::Initialize() {
 
-	frc::SmartDashboard::PutNumber("Tabulate/HoodAngle", shooter->getHoodAngle().value());
+	frc::SmartDashboard::PutNumber("Tabulate/HoodAngle", hood->getHoodAngle().value());
 	frc::SmartDashboard::PutNumber("Tabulate/ShooterVel", shooter->getShooterVelocity().value());
 
 
@@ -25,11 +26,12 @@ void TabulateCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void TabulateCommand::Execute() {
-	auto sideMode = launchModeManager->getSideMode();
+	auto launchMode = launchModeManager->getLaunchMode();
+	
 	frc::Translation2d targetCoords;
-	if (sideMode == SideMode::Left) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (sideMode == SideMode::Right) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -43,19 +45,19 @@ void TabulateCommand::Execute() {
 	units::meter_t distanceToTarget = (chassis->getEstimatedPose()).Translation().Distance(targetCoords);
 
 	frc::SmartDashboard::PutNumber("Tabulate/Distance", distanceToTarget.value());
-	frc::SmartDashboard::PutNumber("Tabulate/HoodAngleCurrent", shooter->getHoodAngle().value());
+	frc::SmartDashboard::PutNumber("Tabulate/HoodAngleCurrent", hood->getHoodAngle().value());
 	frc::SmartDashboard::PutNumber("Tabulate/ShooterVelCurrent", shooter->getShooterVelocity().value());
 
-	units::degree_t hoodAngle{ frc::SmartDashboard::GetNumber("Tabulate/HoodAngle", shooter->getHoodAngle().value()) };
+	units::degree_t hoodAngle{ frc::SmartDashboard::GetNumber("Tabulate/HoodAngle", hood->getHoodAngle().value()) };
 	double targetVel = frc::SmartDashboard::GetNumber("Tabulate/ShooterVel", 0.0);
 
 	//turret->AimAtFieldPosition(chassis->getEstimatedPose(), targetCoords);
 
-	shooter->setHoodAngle(hoodAngle);
+	hood->setHoodAngle(hoodAngle);
 	shooter->setObjectiveVelocity(targetVel * 1_tps);
 
 	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(targetVel * 1_tps));
-	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/HoodIsHoodAngle", shooter->isHoodAtAngle(hoodAngle));
+	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/HoodIsHoodAngle", hood->isHoodAtAngle(hoodAngle));
 	//frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), targetCoords));
 }
 

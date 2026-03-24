@@ -21,12 +21,8 @@ class Shooter : public frc2::SubsystemBase {
   void setObjectiveVelocity(units::turns_per_second_t velocity);
   units::turns_per_second_t getShooterVelocity();
   bool isShooterAtVelocity(units::turns_per_second_t targetVelocity);
-  frc2::CommandPtr setShooterVelocityCommand(units::turns_per_second_t velocity);
+  frc2::CommandPtr setShooterVelocityCmd(units::turns_per_second_t velocity);
 
-  void setHoodAngle(units::degree_t angle);
-  units::degree_t getHoodAngle();
-  bool isHoodAtAngle(units::degree_t targetAngle);
-  frc2::CommandPtr setHoodAngleCommand(units::degree_t angle);
 
   void UpdateTelemetry();
 
@@ -35,13 +31,11 @@ class Shooter : public frc2::SubsystemBase {
 
  private:
 
- OverTalonFX shooterLeftMotor{ShooterConstants::ShooterLeftConfig(), robotConstants::rio};
- OverTalonFX shooterRightMotor{ShooterConstants::ShooterRightConfig(), robotConstants::rio};
-
- OverTalonFX hoodMotor{ShooterConstants::HoodConfig(), robotConstants::rio};
- OverCANCoder hoodCANCoder{ShooterConstants::HoodCANConfig(), robotConstants::rio};
+ OverTalonFX shooter1Motor{ShooterConstants::Shooter1Config(), robotConstants::rio};
+ OverTalonFX shooter2Motor{ShooterConstants::Shooter2Config(), robotConstants::rio};
+ OverTalonFX shooter3Motor{ShooterConstants::Shooter3Config(), robotConstants::rio};
+ OverTalonFX shooter4Motor{ShooterConstants::Shooter4Config(), robotConstants::rio};
 
   ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
-  ctre::phoenix6::controls::MotionMagicVoltage hoodVoltageRequest{0.0_tr};
   
 };

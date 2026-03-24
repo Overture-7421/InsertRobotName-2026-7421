@@ -14,14 +14,6 @@ void LaunchModeManager::setLaunchMode(LaunchModes desiredLaunchMode) {
 	this->launchMode = desiredLaunchMode;
 }
 
-SideMode LaunchModeManager::getSideMode() {
-	return sideMode;
-}
-
-void LaunchModeManager::setSideMode(SideMode desiredSideMode) {
-	this->sideMode = desiredSideMode;
-}
-
 frc2::CommandPtr LaunchModeManager::setLaunchModeCmd(LaunchModes desiredLaunchMode) {
 	return frc2::cmd::RunOnce([this, desiredLaunchMode] {
 		this->launchMode = desiredLaunchMode;

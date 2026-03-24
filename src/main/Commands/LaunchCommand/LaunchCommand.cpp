@@ -4,15 +4,16 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Shooter* shooter, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)) {
+LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper({7, 0, 0.5,{1200_deg_per_s, 1200_deg_per_s_sq}}, chassis) {
 
 	this->shooter = shooter;
+	this->hood = hood;
 	this->chassis = chassis;
 	this->launchModeManager = launchModeManager;
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter });
+	AddRequirements({ shooter, hood});
 }
 
 
@@ -23,11 +24,12 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-	auto sideMode = launchModeManager->getSideMode();
+	auto launchMode = launchModeManager->getLaunchMode();
+	
 	frc::Translation2d targetCoords;
-	if (sideMode == SideMode::Left) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (sideMode == SideMode::Right) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -43,6 +45,18 @@ void LaunchCommand::Execute() {
 	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
 
+	if(driver->GetHID().GetRightBumperButton()){
+		if (speedHelperMoved == false) {
+			speedHelperMoved = true;
+			chassis->enableSpeedHelper(&headingSpeedsHelper);
+			frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
+  			headingSpeedsHelper.setTargetAngle(targetAngle);
+		}
+	} else if (speedHelperMoved == true) {
+		speedHelperMoved = false;
+		chassis->disableSpeedHelper();
+	}
+
 
 	units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
  	frc::SmartDashboard::PutNumber("LaunchCommand/DistanceTarget", distanceToTarget.value());
@@ -50,7 +64,6 @@ void LaunchCommand::Execute() {
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
 
-	auto launchMode = launchModeManager->getLaunchMode();
 	if (launchMode == LaunchModes::Hub) {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
@@ -58,9 +71,10 @@ void LaunchCommand::Execute() {
 		hoodAngle = LaunchConstants::DistanceToHoodForPass[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	}
+	
 
 	if (!driver->GetHID().GetAButton()) {
-		shooter->setHoodAngle(hoodAngle);
+		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
 		
 	} else {
@@ -68,7 +82,7 @@ void LaunchCommand::Execute() {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
 
-		shooter->setHoodAngle(hoodAngle);
+		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
 		
 	}
@@ -78,8 +92,6 @@ void LaunchCommand::Execute() {
 
 
 	targetPublisher.Set(movingGoalLocation);
-
-	
 
 
 }
