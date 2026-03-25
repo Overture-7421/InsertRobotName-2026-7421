@@ -10,29 +10,28 @@
 
 struct intakeValues {
 	units::volt_t rollers;
-	units::meter_t intake;
+	units::degree_t intake;
 };
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.0_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeGiver{ 7.0_V, 0.0_m };
-	constexpr static const intakeValues IntakeSustain{ 7.0_V, 0.0_m };
-	constexpr static const intakeValues SustainAfterGiver{ 2.0_V, 0.0_m };
-	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 0.0_m };
-	constexpr static const intakeValues IntakeClose{ 0_V, 0_m };
-	constexpr static const intakeValues IntakeInitial{ 0_V, 0_m };
+	constexpr static const intakeValues IntakeOpen{ 7.0_V, 140.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeGiver{ 7.0_V, 100.0_deg };
+	constexpr static const intakeValues IntakeSustain{ 7.0_V, 140.0_deg };
+	constexpr static const intakeValues SustainAfterGiver{ 2.0_V, 140.0_deg };
+	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 140.0_deg };
+	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
+	constexpr static const intakeValues IntakeInitial{ 0_V, 0_deg };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 7.0_V;
-	constexpr static const units::meter_t PinionDiameter = 0.0_m;
 
 
 	constexpr static const double intakeRotorToSensor = 15.8667;
 	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 7_tps;
 	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 12_tr_per_s_sq;
-	constexpr static const units::meter_t IntakeRangeError = 0_m;
+	constexpr static const units::degree_t IntakeRangeError = 3_deg;
 
-	constexpr static OverTalonFXConfig pivotRightMotorConfig() {
+	constexpr static OverTalonFXConfig intakeMotorConfig() {
 		OverTalonFXConfig intakeMotorConfig;
 		intakeMotorConfig.MotorId = 24;
 		intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
@@ -51,14 +50,14 @@ struct IntakeConstants {
 	}
 
 
-	constexpr static OverTalonFXConfig pivotLeftMotorConfig() {
+	constexpr static OverTalonFXConfig intakeSecondMotorConfig() {
 		OverTalonFXConfig intakeSecondMotorConfig;
 		intakeSecondMotorConfig.MotorId = 14;
 		intakeSecondMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
 		intakeSecondMotorConfig.Inverted = false;
 		intakeSecondMotorConfig.useFOC = true;
 		intakeSecondMotorConfig.PIDConfigs.GravityType = 1;
-		
+		intakeSecondMotorConfig.PIDConfigs.WithKP(45.0).WithKG(0.5);
 
 		intakeSecondMotorConfig.ClosedLoopRampRate = 0.05_s;
 		intakeSecondMotorConfig.CurrentLimit = 30_A;
@@ -86,7 +85,7 @@ struct IntakeConstants {
 		return rollersMotorConfig;
 	}
 
-	constexpr static CanCoderConfig pivotRightCanCoderConfig() {
+	constexpr static CanCoderConfig intakeCanCoderConfig() {
 
 		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
 
@@ -99,7 +98,7 @@ struct IntakeConstants {
 		return intakeCanCoderConfig;
 	}
 
-	constexpr static CanCoderConfig pivotLeftCanCoderConfig() {
+	constexpr static CanCoderConfig intakeSecondCanCoderConfig() {
 
 		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
 

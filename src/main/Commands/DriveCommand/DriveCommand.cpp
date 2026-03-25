@@ -29,7 +29,7 @@ void DriveCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void DriveCommand::Execute() {
-	
+	/*
 	 frc::Rotation2d targetAngle {gamepad->getRightStickDirection()};
 
 	 if (allianceMulti == -1) {
@@ -48,7 +48,7 @@ void DriveCommand::Execute() {
 	 speedHelperMoved = false;
 	 chassis->disableSpeedHelper();
 	 }
-	 
+	 */
 
 	 //headingSpeedsHelper.setTargetAngle(targetAngle);
 	auto xSpeed = xInput.Calculate(
@@ -85,8 +85,8 @@ void DriveCommand::Execute() {
 	}
 
 
-	auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
-	//auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * -1_tps); //-0.7
+	//auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
+	auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * -1_tps); //-0.7
 	// frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
 
 	frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed,
