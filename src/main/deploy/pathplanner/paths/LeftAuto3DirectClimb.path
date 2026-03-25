@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.419228070175438,
-        "y": 7.54
+        "x": 3.3053684210526315,
+        "y": 7.3447543859649125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4997725146198837,
-        "y": 7.510766666667422
+        "x": 1.385912865497077,
+        "y": 7.315521052632334
       },
       "isLocked": false,
       "linkedName": "LeftAuto2-3"
@@ -48,7 +48,7 @@
   "folder": "LeftAuto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 110.0
   },
   "useDefaultConstraints": true
 }

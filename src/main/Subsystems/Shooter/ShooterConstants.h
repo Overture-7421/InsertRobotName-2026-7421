@@ -16,7 +16,7 @@ struct ShooterConstants {
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0_tps;
 
-	constexpr static const double SensorToMechanism = 0.0;
+	constexpr static const double SensorToMechanism = 1.0;
 
 	constexpr static const int Motor1ID = 21;
 	constexpr static const int Motor2ID = 22;
