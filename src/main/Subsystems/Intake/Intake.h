@@ -11,33 +11,27 @@
 
 class Intake : public frc2::SubsystemBase {
  public:
-  units::turn_t transformMetersToTurns(units::meter_t distance);
-  units::meter_t transformTurnsToMeters(units::turn_t angle);
   Intake();
   
-  
   void setRollersVoltage(units::volt_t targetVoltage);
-  void setIntakeDistance(units::meter_t targetDistance);
-  bool intakeReached(units::meter_t targetDistance);
-  
-  
-
+  void setIntakeAngle(units::degree_t targetAngle);
+  bool intakeReached(units::degree_t targetAngle);
 
   frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
-  frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
+  frc2::CommandPtr setIntakeCharacterization(units::degree_t angle, units::volt_t voltage);
   frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
-  frc2::CommandPtr setPivotCmd(units::meter_t targetDistance);
+  frc2::CommandPtr setPivotCmd(units::degree_t targetAngle);
 
   void UpdateTelemetry();
 
   void Periodic() override;
 
  private:
- OverTalonFX pivotRightMotor {IntakeConstants::pivotRightMotorConfig(), robotConstants::rio};
- OverTalonFX pivotLeftMotor {IntakeConstants::pivotLeftMotorConfig(), robotConstants::rio};
+ OverTalonFX intakeMotor {IntakeConstants::intakeMotorConfig(), robotConstants::rio};
+ OverTalonFX intakeSecondMotor {IntakeConstants::intakeSecondMotorConfig(), robotConstants::rio};
  OverTalonFX rollersMotor {IntakeConstants::rollersMotorConfig(), robotConstants::rio};
- OverCANCoder pivotRightCanCoder {IntakeConstants::pivotRightCanCoderConfig(), robotConstants::rio};
- OverCANCoder pivotLeftCanCoder {IntakeConstants::pivotLeftCanCoderConfig(), robotConstants::rio};
+ OverCANCoder intakeCANCoder {IntakeConstants::intakeCanCoderConfig(), robotConstants::rio};
+ OverCANCoder intakeSecondCANCoder {IntakeConstants::intakeSecondCanCoderConfig(), robotConstants::rio};
 
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};
