@@ -19,14 +19,16 @@ class Intake : public frc2::SubsystemBase {
   void setRollersVoltage(units::volt_t targetVoltage);
   void setIntakeDistance(units::meter_t targetDistance);
   bool intakeReached(units::meter_t targetDistance);
-  
-  
 
+  
+    void setIntakeLowerSpeed();
+    void setIntakeNormalSpeed();
 
   frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
-  frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
   frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
   frc2::CommandPtr setPivotCmd(units::meter_t targetDistance);
+
+  frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
 
   void UpdateTelemetry();
 

@@ -35,6 +35,7 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
+#include "Commands/EjectCommand/EjectCommand.h"
 
 
 

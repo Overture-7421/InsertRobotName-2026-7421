@@ -16,20 +16,22 @@ struct intakeValues {
 struct IntakeConstants {
 
 	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.0_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeGiver{ 7.0_V, 0.0_m };
-	constexpr static const intakeValues IntakeSustain{ 7.0_V, 0.0_m };
-	constexpr static const intakeValues SustainAfterGiver{ 2.0_V, 0.0_m };
-	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 0.0_m };
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.0_m };
+
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_m };
-	constexpr static const intakeValues IntakeInitial{ 0_V, 0_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 7.0_V;
-	constexpr static const units::meter_t PinionDiameter = 0.0_m;
+
+	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
+	constexpr static const double SensorToMechanism = 3.75;
 
 
-	constexpr static const double intakeRotorToSensor = 15.8667;
-	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 7_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 12_tr_per_s_sq;
+	constexpr static const units::turns_per_second_t IntakeNormalCruiseVelocity = 7_tps;
+	constexpr static const units::turns_per_second_squared_t IntakeNormalCruiseAcceleration = 12_tr_per_s_sq;
+
+	constexpr static const units::turns_per_second_t IntakeLowerCruiseVelocity = 1_tps;
+	constexpr static const units::turns_per_second_squared_t IntakeLowerCruiseAcceleration = 1.5_tr_per_s_sq;
+
 	constexpr static const units::meter_t IntakeRangeError = 0_m;
 
 	constexpr static OverTalonFXConfig pivotRightMotorConfig() {

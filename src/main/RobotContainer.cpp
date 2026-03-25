@@ -9,11 +9,10 @@
 RobotContainer::RobotContainer(){
 
 	//Sujto a cambio
-	//pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(SwallowCommand(&intake)));
-	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(processor.setProcessorCmd(ProcessorConstants::Eject)));
-	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), intake.setRollersCmd(IntakeConstants::RollersStop))));
-	pathplanner::NamedCommands::registerCommand("IntakeGiver", std::move(intake.setIntakeCmd(IntakeConstants::IntakeGiver).WithTimeout(0.5_s)));
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
+	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(EjectCommand(&intake, &processor)));
+	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
 	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCmd(0_tps)));
 
 
@@ -39,11 +38,11 @@ void RobotContainer::ConfigDriverBindings() {
 	chassis.SetDefaultCommand(DriveCommand(&chassis, &driver, &processor).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
 
-	// driver.LeftBumper().WhileTrue(SwallowCommand(&intake));   Reahacer Logica
-	// driver.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
+	driver.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
+	driver.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 
-	driver.RightBumper().WhileTrue(processor.setProcessorCmd(ProcessorConstants::Eject));
+	driver.RightBumper().WhileTrue(EjectCommand(&intake, &processor));
 	driver.RightBumper().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
 	// 	driver.Y().WhileTrue(CloseCommand(&intake, &processor));   Estaria padre tener este, nose si para el Operador, Igual Rehacer logica con Intake nuevo

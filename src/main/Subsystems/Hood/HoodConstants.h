@@ -14,8 +14,8 @@ struct HoodConstants {
 
 	constexpr static const units::degree_t RangeOfError = 2.0_deg;
 
-	constexpr static const double RotorToSensor = 0.0;
-	constexpr static const double SensorToMechanism = 0.0;
+	constexpr static const double RotorToSensor = 20.0;
+	constexpr static const double SensorToMechanism = 6.4;
 
 	constexpr static const int MotorId = 19;
 	constexpr static const int CANCoderId = 20;

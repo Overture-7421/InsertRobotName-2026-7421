@@ -11,10 +11,10 @@ Intake::Intake() {
 
 	pivotLeftMotor.setFollow(pivotRightMotor.GetDeviceID(), true);
 
-	pivotRightMotor.setRotorToSensorRatio(IntakeConstants::intakeRotorToSensor);
+	pivotRightMotor.setSensorToMechanism(IntakeConstants::SensorToMechanism);
 	pivotRightMotor.setFusedCANCoder(IntakeConstants::pivotRightCanCoderConfig().CanCoderId);
 
-	pivotRightMotor.configureMotionMagic(IntakeConstants::IntakeCruiseVelocity, IntakeConstants::IntakeCruiseAcceleration, 0.0_tr_per_s_cu);
+	pivotRightMotor.configureMotionMagic(IntakeConstants::IntakeNormalCruiseVelocity, IntakeConstants::IntakeNormalCruiseAcceleration, 0.0_tr_per_s_cu);
 
 }
 
@@ -31,11 +31,7 @@ units::meter_t Intake::transformTurnsToMeters(units::turn_t angle){
 }
 
 bool Intake::intakeReached(units::meter_t targetDistance) {
-	//units::degree_t targetAngle = units::degree_t(targetDistance.value()/IntakeConstants::PinionRadius.value()*180/3.14);
-	units::turn_t targetAngle = transformMetersToTurns(targetDistance);
-
-	//units::meter_t intakeError = units::meter_t((targetAngle.value() - pivotRightMotor.GetPosition().GetValue().value())*2*3.14*IntakeConstants::PinionRadius/360);
-	units::meter_t intakeError = units::meter_t(targetAngle.value() - transformTurnsToMeters(pivotRightMotor.GetPosition().GetValue()).value());
+	units::meter_t intakeError = targetDistance - transformTurnsToMeters(pivotRightMotor.GetPosition().GetValue());
 	return (units::math::abs(intakeError) < IntakeConstants::IntakeRangeError);
 }
 
@@ -105,12 +101,21 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 	).ToPtr();
 }
 
+void Intake::setIntakeLowerSpeed(){
+	pivotRightMotor.configureMotionMagic(IntakeConstants::IntakeLowerCruiseVelocity, IntakeConstants::IntakeLowerCruiseAcceleration, 0.0_tr_per_s_cu);
+
+}
+
+void Intake::setIntakeNormalSpeed(){
+	pivotRightMotor.configureMotionMagic(IntakeConstants::IntakeNormalCruiseVelocity, IntakeConstants::IntakeNormalCruiseAcceleration, 0.0_tr_per_s_cu);
+
+}
+
 // This method will be called once per scheduler run
 void Intake::Periodic() {}
 
 void Intake::UpdateTelemetry() {
 	frc::SmartDashboard::PutNumber("Intake/Current", pivotRightMotor.GetPosition().GetValue().value() * 360.0);
-
 
 	double targetDistance = pivotRightMotor.GetClosedLoopReference().GetValue();
 	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", pivotRightMotor.GetClosedLoopError().GetValue());
