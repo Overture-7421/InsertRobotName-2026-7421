@@ -35,11 +35,11 @@ class Intake : public frc2::SubsystemBase {
   void Periodic() override;
 
  private:
- OverTalonFX pivotRightMotor {IntakeConstants::pivotRightMotorConfig(), robotConstants::rio};
- OverTalonFX pivotLeftMotor {IntakeConstants::pivotLeftMotorConfig(), robotConstants::rio};
- OverTalonFX rollersMotor {IntakeConstants::rollersMotorConfig(), robotConstants::rio};
- OverCANCoder pivotRightCanCoder {IntakeConstants::pivotRightCanCoderConfig(), robotConstants::rio};
- OverCANCoder pivotLeftCanCoder {IntakeConstants::pivotLeftCanCoderConfig(), robotConstants::rio};
+ OverTalonFX sliderRightMotor {IntakeConstants::sliderRightMotorConfig(), robotConstants::rio};
+ OverTalonFX sliderLeftMotor {IntakeConstants::sliderLeftMotorConfig(), robotConstants::rio};
+ OverTalonFX rollersRightMotor {IntakeConstants::rollersRightMotorConfig(), robotConstants::rio};
+ OverTalonFX rollersLeftMotor {IntakeConstants::rollersLeftMotorConfig(), robotConstants::rio};
+ OverCANCoder sliderRightCanCoder {IntakeConstants::SliderCanCoderConfig(), robotConstants::rio};
 
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};

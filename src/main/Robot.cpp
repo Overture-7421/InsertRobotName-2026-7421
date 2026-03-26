@@ -11,6 +11,26 @@ void Robot::RobotInit() {
 
 #ifndef __FRC_ROBORIO__
 	simMotorManager.Init({
+	  {6, "Rebuilt2026/motors/back_left_drive"},
+	  {5, "Rebuilt2026/motors/back_left_rotation"},
+	  {8, "Rebuilt2026/motors/back_right_drive"},
+	  {7, "Rebuilt2026/motors/back_right_rotation"},
+	  {2, "Rebuilt2026/motors/front_left_drive"},
+	  {1, "Rebuilt2026/motors/front_left_rotation"},
+	  {4, "Rebuilt2026/motors/front_right_drive"},
+	  {3, "Rebuilt2026/motors/front_right_rotation"},
+
+	  {23, "Rebuilt2026/motors/hood"},
+	  {19, "Rebuilt2026/motors/indexer"},
+	  {14, "Rebuilt2026/motors/intake"},
+	  {19, "Rebuilt2026/motors/intake_roller"},
+	  {21, "Rebuilt2026/motors/passer"},
+	  {25, "Rebuilt2026/motors/shooter"}
+
+	  
+	  
+	  
+		/*
 	  {8, "Rebuilt2026/motors/back_right_drive"},
 	  {6, "Rebuilt2026/motors/back_left_drive"},
 	  {2, "Rebuilt2026/motors/front_left_drive"},
@@ -29,7 +49,7 @@ void Robot::RobotInit() {
 	  {19,"Rebuilt2026/motors/hood"},
 	  {26,"Rebuilt2026/motors/elevatorRight"},
 	  {25,"Rebuilt2026/motors/elevatorLeft"}
-
+		*/
 
 		});
 
@@ -42,8 +62,8 @@ void Robot::RobotInit() {
 	  {9, "Rebuilt2026/cancoders/front_left_cancoder"},
 	  {12, "Rebuilt2026/cancoders/front_right_cancoder"},
 
-	  {20, "Rebuilt2026/cancoders/hood"},
-	  {15, "Rebuilt2026/cancoders/intake"}
+	  {24, "Rebuilt2026/cancoders/hood"},
+	  {16, "Rebuilt2026/cancoders/intake"}
 	
 		});
 
@@ -109,7 +129,7 @@ void Robot::TeleopInit() {
 
 	frc2::CommandScheduler::GetInstance().CancelAll();
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::StopProcessor));
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
 
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
 }

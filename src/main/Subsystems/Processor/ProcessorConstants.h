@@ -19,10 +19,10 @@ struct ProcessorConstants {
 	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
 	constexpr static const ProcessorValues ReverseProcessor{ -5.0_V, -6.0_V };
 
-	constexpr static const double Indexer1MotorID = 17;
-	constexpr static const double Indexer2MotorID = 00;
-	constexpr static const double Passer1MotorID = 18;
-	constexpr static const double Passer2MotorID = 00;
+	constexpr static const double Indexer1MotorID = 19;
+	constexpr static const double Indexer2MotorID = 20;
+	constexpr static const double Passer1MotorID = 21;
+	constexpr static const double Passer2MotorID = 22;
 
 
 	//Ajustar límites de corriente

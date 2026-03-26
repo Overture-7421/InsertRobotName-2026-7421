@@ -17,8 +17,8 @@ struct HoodConstants {
 	constexpr static const double RotorToSensor = 20.0;
 	constexpr static const double SensorToMechanism = 6.4;
 
-	constexpr static const int MotorId = 19;
-	constexpr static const int CANCoderId = 20;
+	constexpr static const int MotorId = 23;
+	constexpr static const int CANCoderId = 24;
 
 	constexpr static const OverTalonFXConfig MotorConfig() {
 		OverTalonFXConfig motorConfig;

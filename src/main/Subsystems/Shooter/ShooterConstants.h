@@ -18,10 +18,10 @@ struct ShooterConstants {
 
 	constexpr static const double SensorToMechanism = 1.0;
 
-	constexpr static const int Motor1ID = 21;
-	constexpr static const int Motor2ID = 22;
-	constexpr static const int Motor3ID = 0;
-	constexpr static const int Motor4ID = 0;
+	constexpr static const int Motor1ID = 25;
+	constexpr static const int Motor2ID = 26;
+	constexpr static const int Motor3ID = 27;
+	constexpr static const int Motor4ID = 28;
 
 
 	constexpr static const OverTalonFXConfig Shooter1Config() {
