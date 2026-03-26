@@ -23,7 +23,8 @@ struct IntakeConstants {
 	constexpr static const units::volt_t RollersEject = 7.0_V;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
-	constexpr static const double SensorToMechanism = 3.75;
+	constexpr static const double SensorToMechanism = 1/6;
+	constexpr static const double RotorToSensor = 22.5;
 
 
 	constexpr static const units::turns_per_second_t IntakeNormalCruiseVelocity = 7_tps;

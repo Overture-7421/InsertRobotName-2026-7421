@@ -11,6 +11,7 @@ Intake::Intake() {
 
 	sliderLeftMotor.setFollow(sliderRightMotor.GetDeviceID(), true);
 
+	sliderLeftMotor.setRotorToSensorRatio(IntakeConstants::RotorToSensor);
 	sliderRightMotor.setSensorToMechanism(IntakeConstants::SensorToMechanism);
 	sliderRightMotor.setFusedCANCoder(IntakeConstants::SliderCanCoderConfig().CanCoderId);
 
