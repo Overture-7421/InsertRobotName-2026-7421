@@ -14,7 +14,7 @@ HubState ShiftManager::GetHubState() const {
   HubState state;
   std::optional<frc::DriverStation::Alliance> alliance = frc::DriverStation::GetAlliance();
 
-  if (!alliance.has_value() || !frc::DriverStation::IsTeleopEnabled()) {
+  if (!alliance.has_value()) {
     return state; // False, false
   }
 

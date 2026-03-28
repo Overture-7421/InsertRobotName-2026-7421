@@ -24,12 +24,10 @@ void DriveCommand::Initialize() {
 	} else {
 		allianceMulti = 1;
 	}
-
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveCommand::Execute() {
-	
 	frc::Rotation2d targetAngle {gamepad->getRightStickDirection()};
 
 	if (allianceMulti == -1) {
@@ -57,8 +55,6 @@ void DriveCommand::Execute() {
 		Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.06, 0.75)
 		* chassis->getMaxModuleSpeed() * slowMulti);
 
-
-
 	if (processor->isPasserActive()) {
 		units::degree_t velocityAngle = units::math::atan2(ySpeed, xSpeed);
 		auto targetCoords = LaunchConstants::HubPose;
@@ -83,7 +79,6 @@ void DriveCommand::Execute() {
 
 	}
 
-
 	auto rotationSpeed = (gamepad->getTwist() * 0.8_tps);
 	// auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * -1_tps); //-0.7
 	// frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
@@ -91,15 +86,12 @@ void DriveCommand::Execute() {
 	frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xSpeed, ySpeed, rotationSpeed,
 		chassis->getEstimatedPose().Rotation());
 
-
 	chassis->setTargetSpeeds(speeds);
-
 }
 
 // Called once the command ends or is interrupted.
 void DriveCommand::End(bool interrupted) {
 	chassis->disableSpeedHelper();
-
 }
 
 // Returns true when the command should end.

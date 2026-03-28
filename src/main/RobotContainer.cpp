@@ -7,7 +7,6 @@
 #include <frc2/command/button/Trigger.h>
 
 RobotContainer::RobotContainer(){
-
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
@@ -18,11 +17,8 @@ RobotContainer::RobotContainer(){
 
 	autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
-
 	ConfigureBindings();
-
 	launchCommand = std::make_unique<LaunchCommand>(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver);
-
 }
 
 void RobotContainer::ConfigureBindings() {
@@ -51,14 +47,11 @@ void RobotContainer::ConfigDriverBindings() {
 
 	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
 
-
-
 	(isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 0, 255, 0 }).ToPtr().IgnoringDisable(true)); //Our turn
 	(isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 0, 255, 0 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Over
 
 	(!isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 107, 53, 170 }).ToPtr().IgnoringDisable(true)); //Inactive
 	(!isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 107, 53, 170 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Our Turn
-
 }
 
 void RobotContainer::ConfigOperatorBindings() {
@@ -77,7 +70,6 @@ void RobotContainer::ConfigOperatorBindings() {
 	oprtr.POVDown().OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti -= 0.03;
 	}));
-
 }
 
 void RobotContainer::ConfigConsoleBindings() {
@@ -124,12 +116,8 @@ void RobotContainer::UpdateTelemetry() {
 	intake.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
-
 	Logging::WriteDouble("Shoot Multiplier", launchShooterMulti);
-
 }
-
-
 
 AprilTags::Config RobotContainer::camStorageConfig() {
 	AprilTags::Config config;

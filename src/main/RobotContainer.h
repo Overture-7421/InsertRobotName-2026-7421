@@ -76,20 +76,15 @@ private:
 	// frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
 #endif 
 
-
+	// The robot's subsystems are defined here...
 	Shooter shooter;
 	Hood hood;
-	//Turret turret{ &chassis };
-	
 
 	LaunchModeManager launchModeManager;
 	ShiftManager shiftManager;
 
 
-	// The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;
-
-	// necessary robot controllers and subsystems
 
 	void ConfigureBindings();
 	void ConfigDriverBindings();
@@ -105,9 +100,7 @@ private:
 	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
 	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
 
-	double launchShooterMulti = 1.02;
-
-
+	double launchShooterMulti = 1.0;
 
 	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
 

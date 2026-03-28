@@ -5,7 +5,6 @@
 #include "LaunchCommand.h"
 
 LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper({7, 0, 0.5,{1200_deg_per_s, 1200_deg_per_s_sq}}, chassis) {
-
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
@@ -16,11 +15,8 @@ LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Laun
 	AddRequirements({ shooter, hood});
 }
 
-
 // Called when the command is initially scheduled.
-void LaunchCommand::Initialize() {
-
-}
+void LaunchCommand::Initialize() { }
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
@@ -72,7 +68,6 @@ void LaunchCommand::Execute() {
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	}
 	
-
 	if (!driver->GetHID().GetAButton()) {
 		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
@@ -88,12 +83,7 @@ void LaunchCommand::Execute() {
 	}
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
-
-
-
 	targetPublisher.Set(movingGoalLocation);
-
-
 }
 
 // Called once the command ends or is interrupted.
