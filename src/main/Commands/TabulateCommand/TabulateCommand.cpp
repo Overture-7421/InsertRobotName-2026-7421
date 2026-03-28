@@ -29,9 +29,9 @@ void TabulateCommand::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
 	
 	frc::Translation2d targetCoords;
-	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.2_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 3.8_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;

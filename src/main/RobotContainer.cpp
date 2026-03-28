@@ -108,6 +108,10 @@ void RobotContainer::ConfigTestBindings() {
 	//Hood
 	// test.A().WhileTrue(shooter.setHoodAngleCommand(32.0_deg));
 	// test.A().OnFalse(shooter.setHoodAngleCommand(3.0_deg));
+
+	//Intake
+	test.A().WhileTrue(intake.setIntakeCharacterization(0.20_m, 2_V));
+	test.A().OnFalse(intake.setIntakeCharacterization(0.0_m, 0_V));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

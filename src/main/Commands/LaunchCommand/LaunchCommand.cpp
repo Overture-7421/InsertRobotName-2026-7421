@@ -27,9 +27,9 @@ void LaunchCommand::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
 	
 	frc::Translation2d targetCoords;
-	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.0_m) {
+	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.2_m) {
 		targetCoords = LaunchConstants::LeftPass;
-	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 4.0_m) {
+	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 3.8_m) {
 		targetCoords = LaunchConstants::RightPass;
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -49,13 +49,13 @@ void LaunchCommand::Execute() {
 		if (speedHelperMoved == false) {
 			speedHelperMoved = true;
 			chassis->enableSpeedHelper(&headingSpeedsHelper);
-			frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
-  			headingSpeedsHelper.setTargetAngle(targetAngle);
 		}
 	} else if (speedHelperMoved == true) {
 		speedHelperMoved = false;
 		chassis->disableSpeedHelper();
 	}
+	frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
+  	headingSpeedsHelper.setTargetAngle(targetAngle);
 
 
 	units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);

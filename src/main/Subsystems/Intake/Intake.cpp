@@ -25,11 +25,11 @@ void Intake::setRollersVoltage(units::volt_t targetVoltage) {
 }
 
 units::turn_t Intake::transformMetersToTurns(units::meter_t distance){
-	return units::turn_t(distance.value()/IntakeConstants::PinionDiameter.value()*M_PI);	
+	return units::turn_t(distance.value()/(IntakeConstants::PinionDiameter.value()*M_PI));	
 }
 
 units::meter_t Intake::transformTurnsToMeters(units::turn_t angle){
-	return units::meter_t (angle.value()*IntakeConstants::PinionDiameter.value()*M_PI);
+	return units::meter_t (angle.value()*(IntakeConstants::PinionDiameter.value()*M_PI));
 }
 
 bool Intake::intakeReached(units::meter_t targetDistance) {
@@ -117,7 +117,7 @@ void Intake::setIntakeNormalSpeed(){
 void Intake::Periodic() {}
 
 void Intake::UpdateTelemetry() {
-	frc::SmartDashboard::PutNumber("Intake/Current", sliderRightMotor.GetPosition().GetValue().value() * 360.0);
+	frc::SmartDashboard::PutNumber("Intake/Current", sliderRightMotor.GetPosition().GetValue().value());
 
 	double targetDistance = sliderRightMotor.GetClosedLoopReference().GetValue();
 	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", sliderRightMotor.GetClosedLoopError().GetValue());

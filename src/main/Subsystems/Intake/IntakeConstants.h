@@ -27,25 +27,25 @@ struct IntakeConstants {
 	constexpr static const double RotorToSensor = 22.5;
 
 
-	constexpr static const units::turns_per_second_t IntakeNormalCruiseVelocity = 7_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeNormalCruiseAcceleration = 12_tr_per_s_sq;
+	constexpr static const units::turns_per_second_t IntakeNormalCruiseVelocity = 20_tps;
+	constexpr static const units::turns_per_second_squared_t IntakeNormalCruiseAcceleration = 25_tr_per_s_sq;
 
 	constexpr static const units::turns_per_second_t IntakeLowerCruiseVelocity = 1_tps;
 	constexpr static const units::turns_per_second_squared_t IntakeLowerCruiseAcceleration = 1.5_tr_per_s_sq;
 
-	constexpr static const units::meter_t IntakeRangeError = 0_m;
+	constexpr static const units::meter_t IntakeRangeError = 0.02_m;
 
-	constexpr static const double SliderCanCoderID = 0;
+	constexpr static const double SliderCanCoderID = 16;
 
 
 	constexpr static OverTalonFXConfig sliderRightMotorConfig() {
 		OverTalonFXConfig sliderRightMotorConfig;
 		sliderRightMotorConfig.MotorId = 15;
 		sliderRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		sliderRightMotorConfig.Inverted = true;
+		sliderRightMotorConfig.Inverted = false;
 		sliderRightMotorConfig.useFOC = true;
 		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
-		sliderRightMotorConfig.PIDConfigs.WithKP(45.0).WithKG(0.5);
+		sliderRightMotorConfig.PIDConfigs.WithKP(1.0).WithKS(0.0);
 
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;
@@ -114,10 +114,10 @@ struct IntakeConstants {
 		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
 
 		CanCoderConfig SliderCanCoderConfig;
-		SliderCanCoderConfig.CanCoderId = 0;
+		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
 		SliderCanCoderConfig.Offset = 0.0_tr;
-		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
-		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
+		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
+		// SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.0_tr;
 
 		return SliderCanCoderConfig;
 	}
