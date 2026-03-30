@@ -9,7 +9,7 @@ Processor::Processor(){
     passer2Motor.setFollow(passer1Motor.GetDeviceID(), false);
 }
 
-void Processor::setSpindexerPasserVoltage(ProcessorValues processorValues){
+void Processor::setProcessorVoltages(ProcessorValues processorValues){
     indexer1Motor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
     passer1Motor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
 }
@@ -21,7 +21,7 @@ void Processor::setOnlySpindexer(units::volt_t voltage){
 frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
      return frc2::FunctionalCommand(
         [this, processorValues] () {
-            setSpindexerPasserVoltage(processorValues);
+            setProcessorVoltages(processorValues);
 
         },
 

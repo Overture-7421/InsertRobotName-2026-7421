@@ -28,7 +28,7 @@ struct ShooterConstants {
 		OverTalonFXConfig shooter1Config;
 		shooter1Config.MotorId = Motor1ID;
 		shooter1Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter1Config.Inverted = true;
+		shooter1Config.Inverted = false;
 		shooter1Config.useFOC = true; // ??????????????
 
 		shooter1Config.CurrentLimit = 40_A;
@@ -36,7 +36,7 @@ struct ShooterConstants {
 		shooter1Config.TriggerThreshold = 60_A;
 		shooter1Config.TriggerThresholdTime = 0.5_s;
 		shooter1Config.ClosedLoopRampRate = 0.5_s;
-		shooter1Config.PIDConfigs.WithKP(0.0).WithKS(0.0).WithKV(0.0); // 0.05, 0.06, 0.1225
+		shooter1Config.PIDConfigs.WithKP(0.255).WithKS(0.0).WithKV(0.12); // 0.05, 0.06, 0.1225
 
 		return shooter1Config;
 	}
@@ -45,7 +45,7 @@ struct ShooterConstants {
 		OverTalonFXConfig shooter2Config;
 		shooter2Config.MotorId = Motor2ID;
 		shooter2Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter2Config.Inverted = true;
+		shooter2Config.Inverted = false;
 		shooter2Config.useFOC = true; // ??????????????
 
 		shooter2Config.CurrentLimit = 40_A;
@@ -62,7 +62,7 @@ struct ShooterConstants {
 		OverTalonFXConfig shooter3Config;
 		shooter3Config.MotorId = Motor3ID;
 		shooter3Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter3Config.Inverted = true;
+		shooter3Config.Inverted = false;
 		shooter3Config.useFOC = true; // ??????????????
 
 		shooter3Config.CurrentLimit = 40_A;
@@ -79,7 +79,7 @@ struct ShooterConstants {
 		OverTalonFXConfig shooter4Config;
 		shooter4Config.MotorId = Motor4ID;
 		shooter4Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter4Config.Inverted = true;
+		shooter4Config.Inverted = false;
 		shooter4Config.useFOC = true; // ??????????????
 
 		shooter4Config.CurrentLimit = 40_A;

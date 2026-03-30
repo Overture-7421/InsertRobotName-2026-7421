@@ -9,6 +9,8 @@
 #include "Subsystems/Shooter/Shooter.h"
 #include "Subsystems/Hood/Hood.h"
 #include "Subsystems/Chassis/Chassis.h"
+#include "Subsystems/Intake/Intake.h"
+#include "Subsystems/Processor/Processor.h"
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
@@ -31,7 +33,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
+	LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
 
 	void Initialize() override;
 
@@ -45,12 +47,13 @@ public:
 	Shooter* shooter = nullptr;
 	Hood* hood = nullptr;
 	Chassis* chassis = nullptr;
+	Intake* intake = nullptr;
+	Processor* processor = nullptr;
 	OverXboxController* driver = nullptr;
 
 	LaunchModeManager* launchModeManager = nullptr;
 
 	HeadingSpeedsHelper headingSpeedsHelper;
-	bool speedHelperMoved = false;
 
 	std::function<double()> multiSupplier;
 

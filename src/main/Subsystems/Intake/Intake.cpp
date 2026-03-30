@@ -43,6 +43,10 @@ void Intake::setIntakeDistance(units::meter_t targetDistance) {
 	sliderRightMotor.SetControl(intakeVoltage.WithPosition(targetAngle).WithEnableFOC(true));
 }
 
+units::meter_t Intake::getIntakePosition() {
+	return transformTurnsToMeters(sliderRightMotor.GetPosition().GetValue());
+}
+
 
 frc2::CommandPtr Intake::setIntakeCmd(intakeValues targetPos) {
 	return frc2::FunctionalCommand(
@@ -66,12 +70,12 @@ frc2::CommandPtr Intake::setIntakeSlowModeCmd(intakeValues targetPos) {
 	return frc2::FunctionalCommand(
 		[this, targetPos]() {
 		setRollersVoltage(targetPos.rollers);
-		auto currentMeters = transformTurnsToMeters(sliderRightMotor.GetPosition().GetValue());
-		slowModeFilter.Reset(currentMeters);
+		auto currentMeters = getIntakePosition();
+		intakeSlowModeFilter.Reset(currentMeters);
 	},
 
 		[this, targetPos]() {
-		setIntakeDistance(slowModeFilter.Calculate(targetPos.intake));
+		setIntakeDistance(intakeSlowModeFilter.Calculate(targetPos.intake));
 
 	},
 

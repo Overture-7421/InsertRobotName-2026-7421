@@ -22,6 +22,7 @@ class Intake : public frc2::SubsystemBase {
   void setRollersVoltage(units::volt_t targetVoltage);
   void setIntakeDistance(units::meter_t targetDistance);
   bool intakeReached(units::meter_t targetDistance);
+  units::meter_t getIntakePosition();
 
 
   frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
@@ -35,6 +36,8 @@ class Intake : public frc2::SubsystemBase {
 
   void Periodic() override;
 
+  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.1_mps}; //0.1 m/s de velocidad máxima de cambio
+
  private:
  OverTalonFX sliderRightMotor {IntakeConstants::sliderRightMotorConfig(), robotConstants::rio};
  OverTalonFX sliderLeftMotor {IntakeConstants::sliderLeftMotorConfig(), robotConstants::rio};
@@ -45,5 +48,4 @@ class Intake : public frc2::SubsystemBase {
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};
 
-  frc::SlewRateLimiter<units::length::meter> slowModeFilter {0.1_mps}; //0.1 m/s de velocidad máxima de cambio
 };

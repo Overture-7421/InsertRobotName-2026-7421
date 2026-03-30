@@ -19,7 +19,7 @@ class Processor : public frc2::SubsystemBase {
  public:
   Processor();
 
-  void setSpindexerPasserVoltage(ProcessorValues processorValues);
+  void setProcessorVoltages(ProcessorValues processorValues);
   void setOnlySpindexer(units::volt_t voltage);
 
   frc2::CommandPtr setProcessorCmd(ProcessorValues processorValues);

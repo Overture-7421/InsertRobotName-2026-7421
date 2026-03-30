@@ -14,6 +14,8 @@ struct HoodConstants {
 
 	constexpr static const units::degree_t RangeOfError = 2.0_deg;
 
+	constexpr static const units::degree_t Close = 0.0_deg;
+
 	constexpr static const double RotorToSensor = 20.0;
 	constexpr static const double SensorToMechanism = 6.4;
 
@@ -32,7 +34,7 @@ struct HoodConstants {
 		motorConfig.TriggerThreshold = 40_A;
 		motorConfig.TriggerThresholdTime = 0.5_s;
 		motorConfig.ClosedLoopRampRate = 0.05_s;
-		motorConfig.PIDConfigs.WithKP(0.0).WithKI(0.0).WithKV(0.0);
+		motorConfig.PIDConfigs.WithKP(150.0).WithKI(0.0).WithKV(1.0);
 
 		return motorConfig;
 	}
@@ -42,7 +44,7 @@ struct HoodConstants {
 		canCoderConfig.CanCoderId = CANCoderId;
 		canCoderConfig.Offset = 0.0_tr;
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
-		canCoderConfig.absoluteDiscontinuityPoint = 0.0_tr;
+		// canCoderConfig.absoluteDiscontinuityPoint = 0.0_tr;
 		return canCoderConfig;
 	}
 };

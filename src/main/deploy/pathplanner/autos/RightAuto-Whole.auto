@@ -32,12 +32,6 @@
                     }
                   ]
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterStop"
-                }
               }
             ]
           }
@@ -53,28 +47,15 @@
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "EjectCommand"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 4.0
-                      }
-                    }
-                  ]
+                  "name": "EjectCommand"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "StopIndexer"
+                  "name": "AfterEject"
                 }
               }
             ]
@@ -105,14 +86,14 @@
                       "data": {
                         "waitTime": 4.5
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSustain"
+                      }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ShooterStop"
                 }
               }
             ]
@@ -133,9 +114,9 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 4.0
+                        "name": "AfterEject"
                       }
                     }
                   ]

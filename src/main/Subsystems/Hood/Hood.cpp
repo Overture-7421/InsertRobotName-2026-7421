@@ -8,7 +8,7 @@ Hood::Hood(){
     hoodMotor.setRotorToSensorRatio(HoodConstants::RotorToSensor);
     hoodMotor.setSensorToMechanism(HoodConstants::SensorToMechanism);
 
-    hoodMotor.setFusedCANCoder(HoodConstants::CANCoderId);
+    hoodMotor.setFusedCANCoder(hoodCANCoder.GetDeviceID());
     
     hoodMotor.configureMotionMagic(HoodConstants::CruiseVelocity,
                                   HoodConstants::CruiseAcceleration,
@@ -39,14 +39,13 @@ frc2::CommandPtr Hood::setHoodAngleCommand(units::degree_t angle){
 
 
 void Hood::UpdateTelemetry(){
-    frc::SmartDashboard::PutNumber("Shooter/Hood/ActualAngle", hoodMotor.GetPosition().GetValue().value() * 360.0);
-    frc::SmartDashboard::PutNumber("Shooter/Hood/EncoderAngle", hoodCANCoder.GetAbsolutePosition().GetValue().value()* 360.0);
-
+    frc::SmartDashboard::PutNumber("Hood/ActualAngle", hoodMotor.GetPosition().GetValue().convert<units::degree>().value());
+    frc::SmartDashboard::PutNumber("Hood/EncoderAngle", hoodCANCoder.GetAbsolutePosition().GetValue().convert<units::degree>().value());
 
     double targetAngle = hoodMotor.GetClosedLoopReference().GetValue();
-    frc::SmartDashboard::PutNumber("Shooter/Hood/ErrorAngle", hoodMotor.GetClosedLoopError().GetValue());
-    frc::SmartDashboard::PutNumber("Shooter/Hood/TargetAngle", targetAngle);
-    frc::SmartDashboard::PutBoolean("Shooter/Hood/isHoodAtAngle", isHoodAtAngle(units::degree_t(targetAngle)));
+    frc::SmartDashboard::PutNumber("Hood/ErrorAngle", hoodMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Hood/TargetAngle", targetAngle * 360.0);
+    frc::SmartDashboard::PutBoolean("Hood/isHoodAtAngle", isHoodAtAngle(units::degree_t(targetAngle)));
 }
 
 void Hood::Periodic() {}

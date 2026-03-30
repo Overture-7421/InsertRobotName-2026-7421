@@ -39,7 +39,7 @@ void Robot::RobotInit() {
 	  {11, "Shelby2/cancoders/front_left_cancoder"},
 	  {10, "Shelby2/cancoders/front_right_cancoder"},
 
-	  {24, "Shelby2/cancoders/hood"},
+	  {24, "Shelby2/cancoders/hood_cancoder"},
 	  {16, "Shelby2/cancoders/intake_cancoder"}
 	
 		});
