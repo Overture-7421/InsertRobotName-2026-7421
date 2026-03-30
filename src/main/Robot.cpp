@@ -79,7 +79,6 @@ void Robot::RobotPeriodic() {
  * robot is disabled.
  */
 void Robot::DisabledInit() {
-	frc2::CommandScheduler::GetInstance().Cancel(m_container.launchCommand.get());
 
 }
 
@@ -96,7 +95,6 @@ void Robot::AutonomousInit() {
 		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
 	}
 
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
 
 }
 
@@ -107,8 +105,6 @@ void Robot::TeleopInit() {
 	frc2::CommandScheduler::GetInstance().CancelAll();
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
-
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
 }
 
 /**

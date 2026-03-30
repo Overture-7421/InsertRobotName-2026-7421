@@ -6,7 +6,7 @@
 
 frc2::CommandPtr EjectCommand(Intake* intake, Processor* processor){
     return frc2::cmd::Parallel(
-        intake->setIntakeCmd(IntakeConstants::IntakeClose),
+        intake->setIntakeSlowModeCmd(IntakeConstants::IntakeClose),
         processor->setProcessorCmd(ProcessorConstants::Eject)
-    ).BeforeStarting(frc2::cmd::RunOnce([intake]{return intake->setIntakeLowerSpeed();})).FinallyDo([intake]{return intake->setIntakeNormalSpeed();});
+    ).WithTimeout(5.0_s);
 }

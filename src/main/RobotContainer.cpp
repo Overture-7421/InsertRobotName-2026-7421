@@ -37,7 +37,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
 	driver.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
-
+	//Hacer que el launch tambien aparezca aqui, aun nose si cuando todo esta listo o que seprenda todo a  la vez. Y cuando acabe solo el hood a 0
 	driver.RightBumper().WhileTrue(EjectCommand(&intake, &processor));
 	driver.RightBumper().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
@@ -102,8 +102,11 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().OnFalse(shooter.setHoodAngleCommand(3.0_deg));
 
 	//Intake
-	test.A().WhileTrue(intake.setIntakeCharacterization(0.20_m, 2_V));
-	test.A().OnFalse(intake.setIntakeCharacterization(0.0_m, 0_V));
+	// test.A().WhileTrue(intake.setIntakeCharacterization(0.443_m, 2_V));
+	// test.A().OnFalse(intake.setIntakeCharacterization(0.0_m, 0_V));
+
+	// test.B().WhileTrue(intake.setIntakeSlowModeCmd(intakeValues{2_V, 0.443_m}));
+	// test.B().OnFalse(intake.setIntakeSlowModeCmd(intakeValues{0_V, 0.0_m}));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

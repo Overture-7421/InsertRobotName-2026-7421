@@ -15,9 +15,10 @@ Intake::Intake() {
 	sliderRightMotor.setSensorToMechanism(IntakeConstants::SensorToMechanism);
 	sliderRightMotor.setFusedCANCoder(IntakeConstants::SliderCanCoderConfig().CanCoderId);
 
-	sliderRightMotor.configureMotionMagic(IntakeConstants::IntakeNormalCruiseVelocity, IntakeConstants::IntakeNormalCruiseAcceleration, 0.0_tr_per_s_cu);
+	sliderRightMotor.configureMotionMagic(IntakeConstants::CruiseVelocity, IntakeConstants::CruiseAcceleration, 0.0_tr_per_s_cu);
 
 	rollersLeftMotor.setFollow(rollersRightMotor.GetDeviceID(),true);
+
 }
 
 void Intake::setRollersVoltage(units::volt_t targetVoltage) {
@@ -51,6 +52,27 @@ frc2::CommandPtr Intake::setIntakeCmd(intakeValues targetPos) {
 	},
 
 		[]() {
+	},
+
+	[this](bool interrupted) {},
+
+	[this, targetPos] {
+		return (intakeReached(targetPos.intake));
+	}, {this}
+	).ToPtr();
+}
+
+frc2::CommandPtr Intake::setIntakeSlowModeCmd(intakeValues targetPos) {
+	return frc2::FunctionalCommand(
+		[this, targetPos]() {
+		setRollersVoltage(targetPos.rollers);
+		auto currentMeters = transformTurnsToMeters(sliderRightMotor.GetPosition().GetValue());
+		slowModeFilter.Reset(currentMeters);
+	},
+
+		[this, targetPos]() {
+		setIntakeDistance(slowModeFilter.Calculate(targetPos.intake));
+
 	},
 
 	[this](bool interrupted) {},
@@ -103,24 +125,14 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 	).ToPtr();
 }
 
-void Intake::setIntakeLowerSpeed(){
-	sliderRightMotor.configureMotionMagic(IntakeConstants::IntakeLowerCruiseVelocity, IntakeConstants::IntakeLowerCruiseAcceleration, 0.0_tr_per_s_cu);
-
-}
-
-void Intake::setIntakeNormalSpeed(){
-	sliderRightMotor.configureMotionMagic(IntakeConstants::IntakeNormalCruiseVelocity, IntakeConstants::IntakeNormalCruiseAcceleration, 0.0_tr_per_s_cu);
-
-}
-
 // This method will be called once per scheduler run
 void Intake::Periodic() {}
 
 void Intake::UpdateTelemetry() {
-	frc::SmartDashboard::PutNumber("Intake/Current", sliderRightMotor.GetPosition().GetValue().value());
+	frc::SmartDashboard::PutNumber("Intake/Current", transformTurnsToMeters(units::turn_t(sliderRightMotor.GetPosition().GetValue().value())).value());
 
 	double targetDistance = sliderRightMotor.GetClosedLoopReference().GetValue();
 	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", sliderRightMotor.GetClosedLoopError().GetValue());
-	frc::SmartDashboard::PutNumber("Intake/TargetAngle", targetDistance);
+	frc::SmartDashboard::PutNumber("Intake/TargetAngle", transformTurnsToMeters(units::turn_t(targetDistance)).value());
 	frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::meter_t(targetDistance)));
 }
