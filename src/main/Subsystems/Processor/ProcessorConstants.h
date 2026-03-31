@@ -26,38 +26,38 @@ struct ProcessorConstants {
 
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig IndexerLeftConfig() {
-		OverTalonFXConfig indexer1Config;
-		indexer1Config.MotorId = IndexerLeftMotorID;
-		indexer1Config.NeutralMode = ControllerNeutralMode::Coast;
-		indexer1Config.Inverted = false;
+	// constexpr static const OverTalonFXConfig IndexerLeftConfig() {
+	// 	OverTalonFXConfig indexer1Config;
+	// 	indexer1Config.MotorId = IndexerLeftMotorID;
+	// 	indexer1Config.NeutralMode = ControllerNeutralMode::Coast;
+	// 	indexer1Config.Inverted = false;
 
-		indexer1Config.CurrentLimit = 30_A;
-		indexer1Config.StatorCurrentLimit = 120_A;
-		indexer1Config.TriggerThreshold = 75_A;
-		indexer1Config.TriggerThresholdTime = 0.5_s;
-		indexer1Config.ClosedLoopRampRate = 0.0_s;
-		indexer1Config.OpenLoopRampRate = 0.1_s;
+	// 	indexer1Config.CurrentLimit = 30_A;
+	// 	indexer1Config.StatorCurrentLimit = 120_A;
+	// 	indexer1Config.TriggerThreshold = 75_A;
+	// 	indexer1Config.TriggerThresholdTime = 0.5_s;
+	// 	indexer1Config.ClosedLoopRampRate = 0.0_s;
+	// 	indexer1Config.OpenLoopRampRate = 0.1_s;
 
-		return indexer1Config;
-	};
+	// 	return indexer1Config;
+	// };
 
 	//Ajustar límites de corriente
-	// constexpr static const OverTalonFXConfig IndexerRightConfig() {
-	// 	OverTalonFXConfig indexer2Config;
-	// 	indexer2Config.MotorId = IndexerRightMotorID;
-	// 	indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
-	// 	indexer2Config.Inverted = true;
+	constexpr static const OverTalonFXConfig IndexerRightConfig() {
+		OverTalonFXConfig indexer2Config;
+		indexer2Config.MotorId = IndexerRightMotorID;
+		indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
+		indexer2Config.Inverted = true;
 
-	// 	indexer2Config.CurrentLimit = 30_A;
-	// 	indexer2Config.StatorCurrentLimit = 120_A;
-	// 	indexer2Config.TriggerThreshold = 75_A;
-	// 	indexer2Config.TriggerThresholdTime = 0.5_s;
-	// 	indexer2Config.ClosedLoopRampRate = 0.0_s;
-	// 	indexer2Config.OpenLoopRampRate = 0.1_s;
+		indexer2Config.CurrentLimit = 30_A;
+		indexer2Config.StatorCurrentLimit = 120_A;
+		indexer2Config.TriggerThreshold = 75_A;
+		indexer2Config.TriggerThresholdTime = 0.5_s;
+		indexer2Config.ClosedLoopRampRate = 0.0_s;
+		indexer2Config.OpenLoopRampRate = 0.1_s;
 
-	// 	return indexer2Config;
-	// };
+		return indexer2Config;
+	};
 
 
 	//Ajustar límites de corriente

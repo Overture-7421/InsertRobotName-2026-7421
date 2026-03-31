@@ -10,12 +10,12 @@ Processor::Processor(){
 }
 
 void Processor::setProcessorVoltages(ProcessorValues processorValues){
-    indexerLeftMotor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
+    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
     passerUpMotor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
 }
 
 void Processor::setOnlySpindexer(units::volt_t voltage){
-    indexerLeftMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
+    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
 }
 
 frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
