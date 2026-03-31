@@ -53,7 +53,7 @@ void DriveCommand::Execute() {
 	auto ySpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.06, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
 
-	if (processor->isPasserActive()) {
+	if (gamepad->GetHID().GetRightBumperButton()) {
 		xSpeed = units::meters_per_second_t(std::clamp(xSpeed.value(), -shootWhileMoveMaxSpeed.value(), shootWhileMoveMaxSpeed.value()));
 		ySpeed = units::meters_per_second_t(std::clamp(ySpeed.value(), -shootWhileMoveMaxSpeed.value(), shootWhileMoveMaxSpeed.value()));
 	}
