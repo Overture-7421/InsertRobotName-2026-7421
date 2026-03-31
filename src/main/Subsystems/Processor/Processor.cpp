@@ -43,7 +43,7 @@ frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
 }
 
 bool Processor::isPasserActive(){
-    return passerUpMotor.GetMotorVoltage().GetValue() > 0.0_V;
+    return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
 }
 
 bool Processor::isFuelCharged() {
