@@ -16,7 +16,7 @@
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
 #include "Subsystems/Processor/Processor.h"
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
-
+#include "PassTargetSwitcher.h"
 
 /**
  * An example command.
@@ -71,5 +71,6 @@ public:
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d
 		>("SmartDashboard/MovingTarget").Publish();
 
+	PassTargetSwitcher passTargetSwitcher {LaunchConstants::LeftPass, LaunchConstants::RightPass, 0.2_m};
 
 };

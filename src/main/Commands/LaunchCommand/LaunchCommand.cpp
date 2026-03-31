@@ -21,12 +21,11 @@ void LaunchCommand::Initialize() { }
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
-	
+	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
+
 	frc::Translation2d targetCoords;
-	if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() > 4.2_m) {
-		targetCoords = LaunchConstants::LeftPass;
-	} else if (launchMode == LaunchModes::Pass && chassis->getEstimatedPose().Y() < 3.8_m) {
-		targetCoords = LaunchConstants::RightPass;
+	if (launchMode == LaunchModes::Pass) {
+		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose);
 	} else {
 		targetCoords = LaunchConstants::HubPose;
 	}
@@ -37,9 +36,9 @@ void LaunchCommand::Execute() {
 
 
 	targetWhileMoving.setTargetLocation(targetCoords);
-	frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassis->getEstimatedPose().Rotation());
-	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassis->getEstimatedPose().Rotation());
-	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassis->getEstimatedPose(), speed, accel);
+	frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassisPose.Rotation());
+	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassisPose.Rotation());
+	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassisPose, speed, accel);
 
 	if(driver->GetHID().GetRightBumperButton()){
 		if (speedHelperMoved == false) {
@@ -50,11 +49,11 @@ void LaunchCommand::Execute() {
 		speedHelperMoved = false;
 		chassis->disableSpeedHelper();
 	}
-	frc::Rotation2d targetAngle((chassis->getEstimatedPose().X() - movingGoalLocation.X()).value(), (chassis->getEstimatedPose().Y() - movingGoalLocation.Y()).value());
+	frc::Rotation2d targetAngle((chassisPose.X() - movingGoalLocation.X()).value(), (chassisPose.Y() - movingGoalLocation.Y()).value());
   	headingSpeedsHelper.setTargetAngle(targetAngle);
 
 
-	units::meter_t distanceToTarget = chassis->getEstimatedPose().Translation().Distance(movingGoalLocation);
+	units::meter_t distanceToTarget = chassisPose.Translation().Distance(movingGoalLocation);
  	frc::SmartDashboard::PutNumber("LaunchCommand/DistanceTarget", distanceToTarget.value());
 
 	units::degree_t hoodAngle;
