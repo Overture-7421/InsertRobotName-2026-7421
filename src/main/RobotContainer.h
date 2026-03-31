@@ -25,8 +25,7 @@
 #include "Subsystems/Hood/Hood.h"
 #include <atomic>
 #include "Commands/LaunchCommand/LaunchCommand.h"
-// #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
-#include "Lib/AprilTags.h"
+#include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 
 #include "Commands/CloseCommand/CloseCommand.h"
 
