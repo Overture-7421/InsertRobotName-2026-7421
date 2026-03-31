@@ -32,7 +32,6 @@ class Processor : public frc2::SubsystemBase {
 
  private:
 
-    // OverTalonFX indexerLeftMotor{ProcessorConstants::IndexerLeftConfig(), robotConstants::rio};
     OverTalonFX indexerRightMotor{ProcessorConstants::IndexerRightConfig(), robotConstants::rio};
     OverTalonFX passerUpMotor{ProcessorConstants::PasserUpConfig(), robotConstants::rio};
     OverTalonFX passerDownMotor{ProcessorConstants::PasserDownConfig(), robotConstants::rio};

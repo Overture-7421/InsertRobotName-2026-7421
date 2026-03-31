@@ -19,28 +19,9 @@ struct ProcessorConstants {
 	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
 	constexpr static const ProcessorValues ReverseProcessor{ -6.0_V, -4.0_V };
 
-	constexpr static const double IndexerLeftMotorID = 19;
 	constexpr static const double IndexerRightMotorID = 20;
 	constexpr static const double PasserUpMotorID = 21;
 	constexpr static const double PasserDownMotorID = 22;
-
-
-	//Ajustar límites de corriente
-	// constexpr static const OverTalonFXConfig IndexerLeftConfig() {
-	// 	OverTalonFXConfig indexer1Config;
-	// 	indexer1Config.MotorId = IndexerLeftMotorID;
-	// 	indexer1Config.NeutralMode = ControllerNeutralMode::Coast;
-	// 	indexer1Config.Inverted = false;
-
-	// 	indexer1Config.CurrentLimit = 30_A;
-	// 	indexer1Config.StatorCurrentLimit = 120_A;
-	// 	indexer1Config.TriggerThreshold = 75_A;
-	// 	indexer1Config.TriggerThresholdTime = 0.5_s;
-	// 	indexer1Config.ClosedLoopRampRate = 0.0_s;
-	// 	indexer1Config.OpenLoopRampRate = 0.1_s;
-
-	// 	return indexer1Config;
-	// };
 
 	//Ajustar límites de corriente
 	constexpr static const OverTalonFXConfig IndexerRightConfig() {
