@@ -8,13 +8,11 @@
 
 RobotContainer::RobotContainer(){
 	//Sujto a cambio
-	// pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
-	// pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	// pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
-	// pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
-	// pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCmd(0_tps)));
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
+	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
 
-	// pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close))));
+	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close))));
 
 
 

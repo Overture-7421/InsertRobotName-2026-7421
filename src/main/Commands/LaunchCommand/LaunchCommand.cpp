@@ -14,7 +14,7 @@ LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Inta
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter, hood, intake, processor});
+	AddRequirements({ shooter, hood, processor}); //Intake is crashing
 }
 
 // Called when the command is initially scheduled.
