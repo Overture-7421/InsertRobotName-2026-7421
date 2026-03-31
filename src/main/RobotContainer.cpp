@@ -45,6 +45,8 @@ void RobotContainer::ConfigDriverBindings() {
 
 	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
 
+
+
 	(isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 0, 255, 0 }).ToPtr().IgnoringDisable(true)); //Our turn
 	(isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 0, 255, 0 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Over
 
@@ -54,8 +56,16 @@ void RobotContainer::ConfigDriverBindings() {
 
 void RobotContainer::ConfigOperatorBindings() {
 
-	oprtr.A().WhileTrue(CloseCommand(&intake, &processor));
-	oprtr.A().OnFalse(CloseCommand(&intake, &processor));
+	oprtr.A().OnTrue(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+	}));
+
+	oprtr.Y().OnTrue(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
+	}));
+
+	oprtr.B().WhileTrue(CloseCommand(&intake, &processor));
+	oprtr.B().OnFalse(CloseCommand(&intake, &processor));
 
 	oprtr.POVUp().OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti += 0.03;
@@ -68,8 +78,16 @@ void RobotContainer::ConfigOperatorBindings() {
 
 void RobotContainer::ConfigConsoleBindings() {
 
-	console.Button(1).WhileTrue(CloseCommand(&intake, &processor));
-	console.Button(1).OnFalse(CloseCommand(&intake, &processor));
+	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+	}));
+
+	console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
+	}));
+
+	console.Button(3).WhileTrue(CloseCommand(&intake, &processor));
+	console.Button(3).OnFalse(CloseCommand(&intake, &processor));
 
 	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti += 0.03;
@@ -104,11 +122,15 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().WhileTrue(processor.setProcessorCmd(ProcessorValues{6_V, 0_V}));
 	// test.A().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
-	test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
-	test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+	//Intake Swallow
+	// test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
+	// test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
-	test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(10.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject)));
-	test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
+	//Launch Test
+	// test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(10.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject)));
+	// test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
+
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

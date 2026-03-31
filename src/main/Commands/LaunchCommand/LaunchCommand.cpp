@@ -26,11 +26,11 @@ void LaunchCommand::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-	// auto launchMode = launchModeManager->getLaunchMode();
+	auto launchMode = launchModeManager->getLaunchMode();
 	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
 	frc::Translation2d targetCoords;
 	
-	if(chassisPose.X() > 4.129_m){
+	if(launchMode == LaunchModes::Pass) {
 		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose);
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -55,7 +55,7 @@ void LaunchCommand::Execute() {
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
 
-	if (chassisPose.X() > 4.129_m) {
+	if (launchMode == LaunchModes::Pass) {
 		hoodAngle = LaunchConstants::DistanceToHoodForPass[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
 	} else {
