@@ -61,6 +61,14 @@ frc::Rotation3d Chassis::getRotation3d() {
 	return pigeon.GetRotation3d();
 }
 
+PIDConstants Chassis::getTranslationPID() {
+	return {6.0, 0.0, 0.0};
+}
+
+PIDConstants Chassis::getRotationPID() {
+	return {6.0, 0.0, 0.0};
+}
+
 // ctre::phoenix6::configs::Pigeon2Configuration Chassis::PigeonConfig(){
 //     ctre::phoenix6::configs::Pigeon2Configuration config;
 //     config.GyroTrim.WithGyroScalarZ(-9.45);

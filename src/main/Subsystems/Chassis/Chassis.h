@@ -18,6 +18,9 @@
         frc::Rotation2d getRotation2d() override;
         frc::Rotation3d getRotation3d() override;
 
+        PIDConstants getTranslationPID() override;
+	    PIDConstants getRotationPID() override;
+
         SwerveModule& getFrontLeftModule() override;
         SwerveModule& getFrontRightModule() override;
         SwerveModule& getBackLeftModule() override;

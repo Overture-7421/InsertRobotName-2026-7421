@@ -41,12 +41,12 @@ frc2::CommandPtr Shooter::setShooterVelocityCmd(units::turns_per_second_t veloci
 }
 
 void Shooter::UpdateTelemetry(){
-    frc::SmartDashboard::PutNumber("Shooter/Shooter/ActualVelocity", shooter1Motor.GetVelocity().GetValue().value());
+    frc::SmartDashboard::PutNumber("Shooter/ActualVelocity", shooter1Motor.GetVelocity().GetValue().value());
 
     double targetVelocity = shooter1Motor.GetClosedLoopReference().GetValue();
-    frc::SmartDashboard::PutNumber("Shooter/Shooter/ErrorVelocity", shooter1Motor.GetClosedLoopError().GetValue());
-    frc::SmartDashboard::PutNumber("Shooter/Shooter/TargetVelocity", targetVelocity);
-    frc::SmartDashboard::PutBoolean("Shooter/Shooter/isShooterAtVelocity", isShooterAtVelocity(units::turns_per_second_t(targetVelocity)));
+    frc::SmartDashboard::PutNumber("Shooter/ErrorVelocity", shooter1Motor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Shooter/TargetVelocity", targetVelocity);
+    frc::SmartDashboard::PutBoolean("Shooter/isShooterAtVelocity", isShooterAtVelocity(units::turns_per_second_t(targetVelocity)));
 
 }
 

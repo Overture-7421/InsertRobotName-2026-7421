@@ -8,6 +8,9 @@
 #include "IntakeConstants.h"
 #include "Constants.h"
 #include <frc2/command/Commands.h>
+#include <frc/controller/ProfiledPIDController.h>
+#include <frc/filter/SlewRateLimiter.h>
+
 
 class Intake : public frc2::SubsystemBase {
  public:
@@ -19,12 +22,11 @@ class Intake : public frc2::SubsystemBase {
   void setRollersVoltage(units::volt_t targetVoltage);
   void setIntakeDistance(units::meter_t targetDistance);
   bool intakeReached(units::meter_t targetDistance);
+  units::meter_t getIntakePosition();
 
-  
-    void setIntakeLowerSpeed();
-    void setIntakeNormalSpeed();
 
   frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
+  frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos);
   frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
   frc2::CommandPtr setPivotCmd(units::meter_t targetDistance);
 
@@ -33,6 +35,8 @@ class Intake : public frc2::SubsystemBase {
   void UpdateTelemetry();
 
   void Periodic() override;
+
+  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.1_mps}; //0.1 m/s de velocidad máxima de cambio
 
  private:
  OverTalonFX sliderRightMotor {IntakeConstants::sliderRightMotorConfig(), robotConstants::rio};
@@ -43,4 +47,5 @@ class Intake : public frc2::SubsystemBase {
 
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};
+
 };

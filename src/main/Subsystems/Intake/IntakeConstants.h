@@ -15,8 +15,9 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.0_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.0_m };
+	//En teoria solo se puede extender 0.4445 metros maximo
+	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.444_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.444_m };
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
@@ -27,11 +28,8 @@ struct IntakeConstants {
 	constexpr static const double RotorToSensor = 22.5;
 
 
-	constexpr static const units::turns_per_second_t IntakeNormalCruiseVelocity = 20_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeNormalCruiseAcceleration = 25_tr_per_s_sq;
-
-	constexpr static const units::turns_per_second_t IntakeLowerCruiseVelocity = 1_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeLowerCruiseAcceleration = 1.5_tr_per_s_sq;
+	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;
+	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 48_tr_per_s_sq;
 
 	constexpr static const units::meter_t IntakeRangeError = 0.02_m;
 
@@ -45,7 +43,7 @@ struct IntakeConstants {
 		sliderRightMotorConfig.Inverted = false;
 		sliderRightMotorConfig.useFOC = true;
 		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
-		sliderRightMotorConfig.PIDConfigs.WithKP(1.0).WithKS(0.0);
+		sliderRightMotorConfig.PIDConfigs.WithKP(0.6).WithKS(0.0);
 
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;

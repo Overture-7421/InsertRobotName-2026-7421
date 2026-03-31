@@ -4,32 +4,37 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper({7, 0, 0.5,{1200_deg_per_s, 1200_deg_per_s_sq}}, chassis) {
+LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper({7, 0, 0.5,{1200_deg_per_s, 1200_deg_per_s_sq}}, chassis) {
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
+	this->intake = intake;
+	this->processor = processor;
 	this->launchModeManager = launchModeManager;
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter, hood});
+	AddRequirements({ shooter, hood, intake, processor});
 }
 
 // Called when the command is initially scheduled.
-void LaunchCommand::Initialize() { }
+void LaunchCommand::Initialize() { 
+	chassis->enableSpeedHelper(&headingSpeedsHelper);
+
+	intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
+}
 
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
-	auto launchMode = launchModeManager->getLaunchMode();
+	// auto launchMode = launchModeManager->getLaunchMode();
 	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
-
 	frc::Translation2d targetCoords;
-	if (launchMode == LaunchModes::Pass) {
+	
+	if(chassisPose.X() > 4.129_m){
 		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose);
 	} else {
 		targetCoords = LaunchConstants::HubPose;
 	}
-
 	if (isRedAlliance()) {
 		targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
 	}
@@ -40,15 +45,6 @@ void LaunchCommand::Execute() {
 	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassisPose.Rotation());
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassisPose, speed, accel);
 
-	if(driver->GetHID().GetRightBumperButton()){
-		if (speedHelperMoved == false) {
-			speedHelperMoved = true;
-			chassis->enableSpeedHelper(&headingSpeedsHelper);
-		}
-	} else if (speedHelperMoved == true) {
-		speedHelperMoved = false;
-		chassis->disableSpeedHelper();
-	}
 	frc::Rotation2d targetAngle((chassisPose.X() - movingGoalLocation.X()).value(), (chassisPose.Y() - movingGoalLocation.Y()).value());
   	headingSpeedsHelper.setTargetAngle(targetAngle);
 
@@ -59,14 +55,16 @@ void LaunchCommand::Execute() {
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
 
-	if (launchMode == LaunchModes::Hub) {
-		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
-		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
-	} else if (launchMode == LaunchModes::Pass) {
+	if (chassisPose.X() > 4.129_m) {
 		hoodAngle = LaunchConstants::DistanceToHoodForPass[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForPass[distanceToTarget];
+	} else {
+		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
+		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
 	}
 	
+
+	//Manual
 	if (!driver->GetHID().GetAButton()) {
 		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
@@ -81,12 +79,23 @@ void LaunchCommand::Execute() {
 		
 	}
 
+	//Eject when at position
+	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
+	if(shooter->isShooterAtVelocity(shooterSpeed * multiSupplier()) && hood->isHoodAtAngle(hoodAngle) && chassisError < 2_deg){
+		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
+		processor->setProcessorVoltages(ProcessorConstants::Eject);
+	} else {
+		processor->setProcessorVoltages(ProcessorConstants::StopProcessor);
+	}
+
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
 	targetPublisher.Set(movingGoalLocation);
 }
 
 // Called once the command ends or is interrupted.
-void LaunchCommand::End(bool interrupted) {}
+void LaunchCommand::End(bool interrupted) {
+	chassis->disableSpeedHelper();
+}
 
 // Returns true when the command should end.
 bool LaunchCommand::IsFinished() {
