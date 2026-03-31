@@ -5,7 +5,7 @@
 #include "Processor.h"
 
 Processor::Processor(){
-    indexerRightMotor.setFollow(indexerLeftMotor.GetDeviceID(), true);
+    // indexerRightMotor.setFollow(indexerLeftMotor.GetDeviceID(), true);
     passerDownMotor.setFollow(passerUpMotor.GetDeviceID(), false);
 }
 

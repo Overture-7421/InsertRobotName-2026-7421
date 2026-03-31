@@ -43,21 +43,21 @@ struct ProcessorConstants {
 	};
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig IndexerRightConfig() {
-		OverTalonFXConfig indexer2Config;
-		indexer2Config.MotorId = IndexerRightMotorID;
-		indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
-		indexer2Config.Inverted = true;
+	// constexpr static const OverTalonFXConfig IndexerRightConfig() {
+	// 	OverTalonFXConfig indexer2Config;
+	// 	indexer2Config.MotorId = IndexerRightMotorID;
+	// 	indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
+	// 	indexer2Config.Inverted = true;
 
-		indexer2Config.CurrentLimit = 30_A;
-		indexer2Config.StatorCurrentLimit = 120_A;
-		indexer2Config.TriggerThreshold = 75_A;
-		indexer2Config.TriggerThresholdTime = 0.5_s;
-		indexer2Config.ClosedLoopRampRate = 0.0_s;
-		indexer2Config.OpenLoopRampRate = 0.1_s;
+	// 	indexer2Config.CurrentLimit = 30_A;
+	// 	indexer2Config.StatorCurrentLimit = 120_A;
+	// 	indexer2Config.TriggerThreshold = 75_A;
+	// 	indexer2Config.TriggerThresholdTime = 0.5_s;
+	// 	indexer2Config.ClosedLoopRampRate = 0.0_s;
+	// 	indexer2Config.OpenLoopRampRate = 0.1_s;
 
-		return indexer2Config;
-	};
+	// 	return indexer2Config;
+	// };
 
 
 	//Ajustar límites de corriente
