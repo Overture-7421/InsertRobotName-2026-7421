@@ -5,17 +5,17 @@
 #include "Processor.h"
 
 Processor::Processor(){
-    indexer2Motor.setFollow(indexer1Motor.GetDeviceID(), false);
-    passer2Motor.setFollow(passer1Motor.GetDeviceID(), false);
+    indexerRightMotor.setFollow(indexerLeftMotor.GetDeviceID(), true);
+    passerDownMotor.setFollow(passerUpMotor.GetDeviceID(), false);
 }
 
 void Processor::setProcessorVoltages(ProcessorValues processorValues){
-    indexer1Motor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
-    passer1Motor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
+    indexerLeftMotor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
+    passerUpMotor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
 }
 
 void Processor::setOnlySpindexer(units::volt_t voltage){
-    indexer1Motor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
+    indexerLeftMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
 }
 
 frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
@@ -43,7 +43,7 @@ frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
 }
 
 bool Processor::isPasserActive(){
-    return passer1Motor.GetMotorVoltage().GetValue() > 0.0_V;
+    return passerUpMotor.GetMotorVoltage().GetValue() > 0.0_V;
 }
 
 bool Processor::isFuelCharged() {

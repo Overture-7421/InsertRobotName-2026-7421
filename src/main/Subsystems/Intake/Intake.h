@@ -39,8 +39,7 @@ class Intake : public frc2::SubsystemBase {
   frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.1_mps}; //0.1 m/s de velocidad máxima de cambio
 
  private:
- OverTalonFX sliderRightMotor {IntakeConstants::sliderRightMotorConfig(), robotConstants::rio};
- OverTalonFX sliderLeftMotor {IntakeConstants::sliderLeftMotorConfig(), robotConstants::rio};
+ OverTalonFX sliderMotor {IntakeConstants::sliderMotorConfig(), robotConstants::rio};
  OverTalonFX rollersRightMotor {IntakeConstants::rollersRightMotorConfig(), robotConstants::rio};
  OverTalonFX rollersLeftMotor {IntakeConstants::rollersLeftMotorConfig(), robotConstants::rio};
  OverCANCoder sliderRightCanCoder {IntakeConstants::SliderCanCoderConfig(), robotConstants::rio};

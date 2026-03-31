@@ -15,20 +15,20 @@ struct ProcessorValues {
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const ProcessorValues Eject{ 5.0_V, 6.0_V };
+	constexpr static const ProcessorValues Eject{ 6.0_V, 4.0_V };
 	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
-	constexpr static const ProcessorValues ReverseProcessor{ -5.0_V, -6.0_V };
+	constexpr static const ProcessorValues ReverseProcessor{ -6.0_V, -4.0_V };
 
-	constexpr static const double Indexer1MotorID = 19;
-	constexpr static const double Indexer2MotorID = 20;
-	constexpr static const double Passer1MotorID = 21;
-	constexpr static const double Passer2MotorID = 22;
+	constexpr static const double IndexerLeftMotorID = 19;
+	constexpr static const double IndexerRightMotorID = 20;
+	constexpr static const double PasserUpMotorID = 21;
+	constexpr static const double PasserDownMotorID = 22;
 
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig Indexer1Config() {
+	constexpr static const OverTalonFXConfig IndexerLeftConfig() {
 		OverTalonFXConfig indexer1Config;
-		indexer1Config.MotorId = Indexer1MotorID;
+		indexer1Config.MotorId = IndexerLeftMotorID;
 		indexer1Config.NeutralMode = ControllerNeutralMode::Coast;
 		indexer1Config.Inverted = false;
 
@@ -43,11 +43,11 @@ struct ProcessorConstants {
 	};
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig Indexer2Config() {
+	constexpr static const OverTalonFXConfig IndexerRightConfig() {
 		OverTalonFXConfig indexer2Config;
-		indexer2Config.MotorId = Indexer2MotorID;
+		indexer2Config.MotorId = IndexerRightMotorID;
 		indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
-		indexer2Config.Inverted = false;
+		indexer2Config.Inverted = true;
 
 		indexer2Config.CurrentLimit = 30_A;
 		indexer2Config.StatorCurrentLimit = 120_A;
@@ -61,11 +61,11 @@ struct ProcessorConstants {
 
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig Passer1Config() {
+	constexpr static const OverTalonFXConfig PasserUpConfig() {
 		OverTalonFXConfig passer1Config;
-		passer1Config.MotorId = Passer1MotorID;
+		passer1Config.MotorId = PasserUpMotorID;
 		passer1Config.NeutralMode = ControllerNeutralMode::Coast;
-		passer1Config.Inverted = false;
+		passer1Config.Inverted = true;
 
 		passer1Config.CurrentLimit = 30_A;
 		passer1Config.StatorCurrentLimit = 60_A;
@@ -78,11 +78,11 @@ struct ProcessorConstants {
 	};
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig Passer2Config() {
+	constexpr static const OverTalonFXConfig PasserDownConfig() {
 		OverTalonFXConfig passer2Config;
-		passer2Config.MotorId = Passer2MotorID;
+		passer2Config.MotorId = PasserDownMotorID;
 		passer2Config.NeutralMode = ControllerNeutralMode::Coast;
-		passer2Config.Inverted = false;
+		passer2Config.Inverted = true;
 
 		passer2Config.CurrentLimit = 30_A;
 		passer2Config.StatorCurrentLimit = 60_A;

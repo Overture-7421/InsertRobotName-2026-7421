@@ -18,17 +18,16 @@ struct ShooterConstants {
 
 	constexpr static const double SensorToMechanism = 1.0;
 
-	constexpr static const int Motor1ID = 25;
-	constexpr static const int Motor2ID = 26;
-	constexpr static const int Motor3ID = 27;
-	constexpr static const int Motor4ID = 28;
+	constexpr static const int MotorLeftUpID = 25;
+	constexpr static const int MotorLeftDownID = 26;
+	constexpr static const int MotorRightUpID = 27;
+	constexpr static const int MotorRightDownID = 28;
 
-
-	constexpr static const OverTalonFXConfig Shooter1Config() {
+	constexpr static const OverTalonFXConfig ShooterLeftUpConfig() {
 		OverTalonFXConfig shooter1Config;
-		shooter1Config.MotorId = Motor1ID;
+		shooter1Config.MotorId = MotorLeftUpID;
 		shooter1Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter1Config.Inverted = false;
+		shooter1Config.Inverted = true;
 		shooter1Config.useFOC = true; // ??????????????
 
 		shooter1Config.CurrentLimit = 40_A;
@@ -36,16 +35,16 @@ struct ShooterConstants {
 		shooter1Config.TriggerThreshold = 60_A;
 		shooter1Config.TriggerThresholdTime = 0.5_s;
 		shooter1Config.ClosedLoopRampRate = 0.5_s;
-		shooter1Config.PIDConfigs.WithKP(0.255).WithKS(0.0).WithKV(0.12); // 0.05, 0.06, 0.1225
+		shooter1Config.PIDConfigs.WithKP(0.051).WithKS(0.19).WithKV(0.1166); // 0.05, 0.06, 0.1225
 
 		return shooter1Config;
 	}
 
-	constexpr static const OverTalonFXConfig Shooter2Config() {
+	constexpr static const OverTalonFXConfig ShooterLeftDownConfig() {
 		OverTalonFXConfig shooter2Config;
-		shooter2Config.MotorId = Motor2ID;
+		shooter2Config.MotorId = MotorLeftDownID;
 		shooter2Config.NeutralMode = ControllerNeutralMode::Coast;
-		shooter2Config.Inverted = false;
+		shooter2Config.Inverted = true;
 		shooter2Config.useFOC = true; // ??????????????
 
 		shooter2Config.CurrentLimit = 40_A;
@@ -58,9 +57,9 @@ struct ShooterConstants {
 		return shooter2Config;
 	}
 
-	constexpr static const OverTalonFXConfig Shooter3Config() {
+	constexpr static const OverTalonFXConfig ShooterRightUpConfig() {
 		OverTalonFXConfig shooter3Config;
-		shooter3Config.MotorId = Motor3ID;
+		shooter3Config.MotorId = MotorRightUpID;
 		shooter3Config.NeutralMode = ControllerNeutralMode::Coast;
 		shooter3Config.Inverted = false;
 		shooter3Config.useFOC = true; // ??????????????
@@ -75,9 +74,9 @@ struct ShooterConstants {
 		return shooter3Config;
 	}
 
-	constexpr static const OverTalonFXConfig Shooter4Config() {
+	constexpr static const OverTalonFXConfig ShooterRightDownConfig() {
 		OverTalonFXConfig shooter4Config;
-		shooter4Config.MotorId = Motor4ID;
+		shooter4Config.MotorId = MotorRightDownID;
 		shooter4Config.NeutralMode = ControllerNeutralMode::Coast;
 		shooter4Config.Inverted = false;
 		shooter4Config.useFOC = true; // ??????????????

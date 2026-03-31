@@ -31,10 +31,10 @@ class Shooter : public frc2::SubsystemBase {
 
  private:
 
- OverTalonFX shooter1Motor{ShooterConstants::Shooter1Config(), robotConstants::rio};
- OverTalonFX shooter2Motor{ShooterConstants::Shooter2Config(), robotConstants::rio};
- OverTalonFX shooter3Motor{ShooterConstants::Shooter3Config(), robotConstants::rio};
- OverTalonFX shooter4Motor{ShooterConstants::Shooter4Config(), robotConstants::rio};
+ OverTalonFX shooterLeftUpMotor{ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio};
+ OverTalonFX shooterLeftDownMotor{ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio};
+ OverTalonFX shooterRightUpMotor{ShooterConstants::ShooterRightUpConfig(), robotConstants::rio};
+ OverTalonFX shooterRightDownMotor{ShooterConstants::ShooterRightDownConfig(), robotConstants::rio};
 
   ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
   

@@ -16,15 +16,15 @@ struct intakeValues {
 struct IntakeConstants {
 
 	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.444_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.444_m };
+	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.30_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.30_m };
 
-	constexpr static const intakeValues IntakeClose{ 0_V, 0_m };
+	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 7.0_V;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
-	constexpr static const double SensorToMechanism = 1/6;
+	constexpr static const double SensorToMechanism = 0.166666;
 	constexpr static const double RotorToSensor = 22.5;
 
 
@@ -36,14 +36,14 @@ struct IntakeConstants {
 	constexpr static const double SliderCanCoderID = 16;
 
 
-	constexpr static OverTalonFXConfig sliderRightMotorConfig() {
+	constexpr static OverTalonFXConfig sliderMotorConfig() {
 		OverTalonFXConfig sliderRightMotorConfig;
 		sliderRightMotorConfig.MotorId = 15;
 		sliderRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
 		sliderRightMotorConfig.Inverted = false;
 		sliderRightMotorConfig.useFOC = true;
 		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
-		sliderRightMotorConfig.PIDConfigs.WithKP(0.6).WithKS(0.0);
+		sliderRightMotorConfig.PIDConfigs.WithKP(75.0).WithKS(0.42);
 
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;
@@ -55,29 +55,11 @@ struct IntakeConstants {
 	}
 
 
-	constexpr static OverTalonFXConfig sliderLeftMotorConfig() {
-		OverTalonFXConfig sliderLeftMotorConfig;
-		sliderLeftMotorConfig.MotorId = 14;
-		sliderLeftMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		sliderLeftMotorConfig.Inverted = false;
-		sliderLeftMotorConfig.useFOC = true;
-		sliderLeftMotorConfig.PIDConfigs.GravityType = 1;
-		
-
-		sliderLeftMotorConfig.ClosedLoopRampRate = 0.05_s;
-		sliderLeftMotorConfig.CurrentLimit = 30_A;
-		sliderLeftMotorConfig.OpenLoopRampRate = 0.0_s;
-		sliderLeftMotorConfig.StatorCurrentLimit = 120_A;
-		sliderLeftMotorConfig.TriggerThreshold = 40_A;
-
-		return sliderLeftMotorConfig;
-	}
-
 	constexpr static OverTalonFXConfig rollersLeftMotorConfig() {
 		OverTalonFXConfig rollersLeftMotorConfig;
 		rollersLeftMotorConfig.MotorId = 17;
 		rollersLeftMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		rollersLeftMotorConfig.Inverted = false;
+		rollersLeftMotorConfig.Inverted = true;
 		rollersLeftMotorConfig.useFOC = true;
 
 		rollersLeftMotorConfig.ClosedLoopRampRate = 0.0_s;
@@ -94,7 +76,7 @@ struct IntakeConstants {
 		OverTalonFXConfig rollersRightMotorConfig;
 		rollersRightMotorConfig.MotorId = 18;
 		rollersRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		rollersRightMotorConfig.Inverted = false;
+		rollersRightMotorConfig.Inverted = true;
 		rollersRightMotorConfig.useFOC = true;
 
 		rollersRightMotorConfig.ClosedLoopRampRate = 0.0_s;
@@ -113,9 +95,9 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.0_tr;
+		SliderCanCoderConfig.Offset = 0.099853515625_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
-		// SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.0_tr;
+		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 
 		return SliderCanCoderConfig;
 	}

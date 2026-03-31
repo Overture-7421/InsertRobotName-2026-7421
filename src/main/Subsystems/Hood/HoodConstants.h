@@ -27,14 +27,14 @@ struct HoodConstants {
 		motorConfig.MotorId = MotorId;
 		motorConfig.NeutralMode = ControllerNeutralMode::Brake;
 		motorConfig.useFOC = true;
-		motorConfig.Inverted = false;
+		motorConfig.Inverted = true;
 
 		motorConfig.CurrentLimit = 30_A;
 		motorConfig.StatorCurrentLimit = 120_A;
 		motorConfig.TriggerThreshold = 40_A;
 		motorConfig.TriggerThresholdTime = 0.5_s;
 		motorConfig.ClosedLoopRampRate = 0.05_s;
-		motorConfig.PIDConfigs.WithKP(150.0).WithKI(0.0).WithKV(1.0);
+		motorConfig.PIDConfigs.WithKP(300.0).WithKI(0.0).WithKV(8.0);
 
 		return motorConfig;
 	}
@@ -42,9 +42,8 @@ struct HoodConstants {
 	constexpr static const CanCoderConfig CANCoderConfig() {
 		CanCoderConfig canCoderConfig;
 		canCoderConfig.CanCoderId = CANCoderId;
-		canCoderConfig.Offset = 0.0_tr;
+		canCoderConfig.Offset = -0.43994140625_tr;
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
-		// canCoderConfig.absoluteDiscontinuityPoint = 0.0_tr;
 		return canCoderConfig;
 	}
 };

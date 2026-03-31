@@ -8,13 +8,13 @@
 
 RobotContainer::RobotContainer(){
 	//Sujto a cambio
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
-	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
-	pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
-	pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCmd(0_tps)));
+	// pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
+	// pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
+	// pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
+	// pathplanner::NamedCommands::registerCommand("StopIndexer", std::move(processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
+	// pathplanner::NamedCommands::registerCommand("ShooterStop", std::move(shooter.setShooterVelocityCmd(0_tps)));
 
-	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close))));
+	// pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close))));
 
 
 
@@ -86,19 +86,29 @@ void RobotContainer::ConfigTestBindings() {
 	//TEST
 
 	//Shooter
-	// test.A().WhileTrue(shooter.setShooterVelocityCmd(40_tps));
-	// test.A().OnFalse(shooter.setShooterVelocityCmd(20_tps));
+	// test.A().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
+	// test.A().OnFalse(shooter.setShooterVelocityCmd(25_tps));
 
 	//Hood
-	// test.B().WhileTrue(hood.setHoodAngleCommand(30.0_deg));
-	// test.B().OnFalse(hood.setHoodAngleCommand(0.0_deg));
+	// test.B().WhileTrue(hood.setHoodAngleCommand(24.0_deg));
+	// test.B().OnFalse(hood.setHoodAngleCommand(2.0_deg));
 
 	//Intake
-	// test.A().WhileTrue(intake.setIntakeCharacterization(0.443_m, 2_V));
-	// test.A().OnFalse(intake.setIntakeCharacterization(0.0_m, 0_V));
+	// test.A().WhileTrue(intake.setIntakeCharacterization(0.30_m, 7_V));
+	// test.A().OnFalse(intake.setIntakeCharacterization(0.10_m, 0_V));
 
-	// test.B().WhileTrue(intake.setIntakeSlowModeCmd(intakeValues{2_V, 0.443_m}));
-	// test.B().OnFalse(intake.setIntakeSlowModeCmd(intakeValues{0_V, 0.0_m}));
+	// test.B().WhileTrue(intake.setIntakeCharacterization(0.30_m, 7_V));
+	// test.B().OnFalse(intake.setIntakeSlowModeCmd(intakeValues{0_V, 0.10_m}));
+
+	//Processor
+	// test.A().WhileTrue(processor.setProcessorCmd(ProcessorValues{6_V, 0_V}));
+	// test.A().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
+
+	test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
+	test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+
+	test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(10.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject)));
+	test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
