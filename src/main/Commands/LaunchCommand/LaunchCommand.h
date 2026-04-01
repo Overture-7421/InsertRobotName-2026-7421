@@ -53,6 +53,11 @@ public:
 
 	LaunchModeManager* launchModeManager = nullptr;
 
+
+	frc::ProfiledPIDController<units::radian> headingController{ //PID 5,0,0
+		// PID constants: 
+				7, 0.0, 0.5, frc::TrapezoidProfile < units::radian > ::Constraints {1200_deg_per_s, 1200_deg_per_s_sq} //Constraints max velocity, max acceleration
+	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 
 	std::function<double()> multiSupplier;

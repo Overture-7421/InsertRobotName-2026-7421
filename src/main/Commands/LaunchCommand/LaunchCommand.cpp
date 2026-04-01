@@ -4,7 +4,7 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper({7, 0, 0.5,{1200_deg_per_s, 1200_deg_per_s_sq}}, chassis) {
+LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper(headingController, chassis) {
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
@@ -83,9 +83,9 @@ void LaunchCommand::Execute() {
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
 	if(shooter->isShooterAtVelocity(shooterSpeed * multiSupplier()) && hood->isHoodAtAngle(hoodAngle) && chassisError < 2_deg){
 		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
-		processor->setProcessorVoltages(ProcessorConstants::Eject);
+		processor->setProcessorVoltages(ProcessorConstants::IndexerEject, shooterSpeed * multiSupplier());
 	} else {
-		processor->setProcessorVoltages(ProcessorConstants::StopProcessor);
+		processor->setProcessorVoltages(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser);
 	}
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());

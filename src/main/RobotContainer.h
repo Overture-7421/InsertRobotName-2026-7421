@@ -34,7 +34,6 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
-#include "Commands/EjectCommand/EjectCommand.h"
 
 
 
@@ -91,13 +90,15 @@ private:
 	void ConfigConsoleBindings();
 	void ConfigTestBindings();
 
-	static AprilTags::Config camIntakeConfig();
-	static AprilTags::Config camStorageConfig();
-	static AprilTags::Config camRadioConfig();
-	static AprilTags::Config camRoboRioConfig();
+	static AprilTags::Config camRightConfig();
+	static AprilTags::Config camLeftConfig();
+	static AprilTags::Config limelightUpConfig();
+	static AprilTags::Config limelightDownConfig();
 
-	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
+	AprilTags camRight{ &tagLayout, &chassis, camRightConfig() };
+	AprilTags camLeft{ &tagLayout, &chassis, camLeftConfig() };
+	AprilTags limelightUp{ &tagLayout, &chassis, limelightUpConfig() };
+	AprilTags limelightDown{ &tagLayout, &chassis, limelightDownConfig() };
 
 	double launchShooterMulti = 1.0;
 

@@ -28,7 +28,7 @@ class Intake : public frc2::SubsystemBase {
   frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
   frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos);
   frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
-  frc2::CommandPtr setPivotCmd(units::meter_t targetDistance);
+  frc2::CommandPtr setSliderCmd(units::meter_t targetDistance);
 
   frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
 

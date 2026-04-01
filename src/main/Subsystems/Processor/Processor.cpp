@@ -5,22 +5,26 @@
 #include "Processor.h"
 
 Processor::Processor(){
-    passerDownMotor.setFollow(passerUpMotor.GetDeviceID(), false);
 }
 
-void Processor::setProcessorVoltages(ProcessorValues processorValues){
-    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
-    passerUpMotor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
+void Processor::setProcessorVoltages(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity){
+    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(indexerVoltage).WithEnableFOC(true));
+    passerDownMotor.SetControl(passerVoltage.WithVelocity(passerVelocity).WithEnableFOC(true));
 }
 
 void Processor::setOnlySpindexer(units::volt_t voltage){
     indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
 }
 
-frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
+void Processor::setOnlyPasserVelocity(units::turns_per_second_t velocity){
+    passerDownMotor.SetControl(passerVoltage.WithVelocity(velocity).WithEnableFOC(true));
+}
+
+
+frc2::CommandPtr Processor::setProcessorCmd(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity){
      return frc2::FunctionalCommand(
-        [this, processorValues] () {
-            setProcessorVoltages(processorValues);
+        [this, indexerVoltage, passerVelocity] () {
+            setProcessorVoltages(indexerVoltage, passerVelocity);
 
         },
 
@@ -41,8 +45,16 @@ frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
     }, {this});
 }
 
+frc2::CommandPtr Processor::setPasserVelocityCmd(units::turns_per_second_t velocity){
+    return frc2::cmd::RunOnce(
+        [this, velocity] {
+            setOnlyPasserVelocity(velocity);
+        }, {this}
+    );
+}
+
 bool Processor::isPasserActive(){
-    return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
+    return units::math::abs(passerDownMotor.GetMotorVoltage().GetValue()) > 0.0_V;
 }
 
 bool Processor::isFuelCharged() {

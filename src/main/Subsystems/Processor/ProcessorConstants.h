@@ -5,19 +5,14 @@
 
 #include "OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h"
 
-struct ProcessorValues {
-
-	units::volt_t spindexer;
-	units::volt_t passer;
-
-};
-
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const ProcessorValues Eject{ 6.0_V, 4.0_V };
-	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
-	constexpr static const ProcessorValues ReverseProcessor{ -6.0_V, -4.0_V };
+	constexpr static const units::volt_t IndexerEject = 6.0_V;
+	constexpr static const units::volt_t StopIndexer = 0.0_V;
+	constexpr static const units::turns_per_second_t StopPasser = 0.0_tps;
+	constexpr static const units::volt_t ReverseIndexer = -6.0_V;
+	constexpr static const units::turns_per_second_t ReversePasser = -4.0_tps;
 
 	constexpr static const double IndexerRightMotorID = 20;
 	constexpr static const double PasserUpMotorID = 21;
@@ -40,24 +35,6 @@ struct ProcessorConstants {
 		return indexer2Config;
 	};
 
-
-	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig PasserUpConfig() {
-		OverTalonFXConfig passer1Config;
-		passer1Config.MotorId = PasserUpMotorID;
-		passer1Config.NeutralMode = ControllerNeutralMode::Coast;
-		passer1Config.Inverted = true;
-
-		passer1Config.CurrentLimit = 30_A;
-		passer1Config.StatorCurrentLimit = 60_A;
-		passer1Config.TriggerThreshold = 75_A;
-		passer1Config.TriggerThresholdTime = 0.5_s;
-		passer1Config.ClosedLoopRampRate = 0.0_s;
-		passer1Config.OpenLoopRampRate = 0.05_s;
-
-		return passer1Config;
-	};
-
 	//Ajustar límites de corriente
 	constexpr static const OverTalonFXConfig PasserDownConfig() {
 		OverTalonFXConfig passer2Config;
@@ -69,8 +46,7 @@ struct ProcessorConstants {
 		passer2Config.StatorCurrentLimit = 60_A;
 		passer2Config.TriggerThreshold = 75_A;
 		passer2Config.TriggerThresholdTime = 0.5_s;
-		passer2Config.ClosedLoopRampRate = 0.0_s;
-		passer2Config.OpenLoopRampRate = 0.05_s;
+		passer2Config.ClosedLoopRampRate = 0.5_s;
 
 		return passer2Config;
 	};

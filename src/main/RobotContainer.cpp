@@ -12,7 +12,7 @@ RobotContainer::RobotContainer(){
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
 
-	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close))));
+	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser), hood.setHoodAngleCommand(HoodConstants::Close))));
 
 
 
@@ -38,7 +38,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	driver.RightBumper().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr());
-	driver.RightBumper().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopProcessor), hood.setHoodAngleCommand(HoodConstants::Close)));
+	driver.RightBumper().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser), hood.setHoodAngleCommand(HoodConstants::Close)));
 
 
 	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
@@ -128,6 +128,9 @@ void RobotContainer::ConfigTestBindings() {
 	// test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(10.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject)));
 	// test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
 
+	//Passer
+	// test.A().WhileTrue(processor.setPasserVelocityCmd(35_tps));
+	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
 
 }
 
@@ -145,30 +148,34 @@ void RobotContainer::UpdateTelemetry() {
 	Logging::WriteDouble("Shoot Multiplier", launchShooterMulti);
 }
 
-AprilTags::Config RobotContainer::camStorageConfig() {
+AprilTags::Config RobotContainer::camRightConfig() {
 	AprilTags::Config config;
-	config.cameraName = "camStorage";
-	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -8.5_in, -6.970297_in, 18.080053_in, {0_deg, -27_deg, 90.0_deg} };};
+	config.backend = VisionBackend::PhotonVision;
+	config.cameraName = "camRight";
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.348978_in, -12.730269_in, 13.438423_in, {0_deg, -25_deg, -90.0_deg} };};
 	return config;
 }
 
-AprilTags::Config RobotContainer::camRadioConfig() {
+AprilTags::Config RobotContainer::camLeftConfig() {
 	AprilTags::Config config;
-	config.cameraName = "camRadio";
-	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -8.5_in , -10.279703_in, 18.080053_in, {0_deg, -27_deg, -90.0_deg} };};
+	config.backend = VisionBackend::PhotonVision;
+	config.cameraName = "camLeft";
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.348978_in , 12.730269_in, 13.438423_in, {0_deg, -25_deg, 90.0_deg} };};
 	return config;
 }
 
-AprilTags::Config RobotContainer::camIntakeConfig() {
+AprilTags::Config RobotContainer::limelightUpConfig() {
 	AprilTags::Config config;
-	config.cameraName = "camIntake";
-	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -3.814079_in, -6.375_in, 18.065336_in, {0_deg, -20_deg, 0.0_deg} };};
+	config.backend = VisionBackend::Limelight;
+	config.cameraName = "limelight-up";
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.345435_m, 0.047625_m, 0.444663_m, {0_deg, -15_deg, 180.0_deg} };};
 	return config;
 }
 
-AprilTags::Config RobotContainer::camRoboRioConfig() {
+AprilTags::Config RobotContainer::limelightDownConfig() {
 	AprilTags::Config config;
-	config.cameraName = "camRoboRio";
-	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -13.199602_in, -6.375_in, 18.100568_in, {0_deg, -20.0_deg, 180.0_deg} };}; //o -160
+	config.backend = VisionBackend::Limelight;
+	config.cameraName = "limelight-down";
+	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.334501_m, 0.047625_m, 0.320287_m, {0_deg, -40.0_deg, 180.0_deg} };};
 	return config;
 }

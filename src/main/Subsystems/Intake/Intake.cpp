@@ -47,22 +47,7 @@ units::meter_t Intake::getIntakePosition() {
 
 
 frc2::CommandPtr Intake::setIntakeCmd(intakeValues targetPos) {
-	return frc2::FunctionalCommand(
-		[this, targetPos]() {
-		setIntakeDistance(targetPos.intake);
-		frc2::cmd::Wait(0.01_s);
-		setRollersVoltage(targetPos.rollers);
-	},
-
-		[]() {
-	},
-
-	[this](bool interrupted) {},
-
-	[this, targetPos] {
-		return (intakeReached(targetPos.intake));
-	}, {this}
-	).ToPtr();
+	return frc2::cmd::Sequence(setSliderCmd(targetPos.intake), setRollersCmd(targetPos.rollers));
 }
 
 frc2::CommandPtr Intake::setIntakeSlowModeCmd(intakeValues targetPos) {
@@ -86,7 +71,7 @@ frc2::CommandPtr Intake::setIntakeSlowModeCmd(intakeValues targetPos) {
 	).ToPtr();
 }
 
-frc2::CommandPtr Intake::setPivotCmd(units::meter_t targetDistance) {
+frc2::CommandPtr Intake::setSliderCmd(units::meter_t targetDistance) {
 	return frc2::FunctionalCommand(
 		[this, targetDistance]() {
 		setIntakeDistance(targetDistance);
@@ -103,12 +88,9 @@ frc2::CommandPtr Intake::setPivotCmd(units::meter_t targetDistance) {
 	).ToPtr();}
 
 frc2::CommandPtr Intake::setIntakeCharacterization(units::meter_t distance, units::volt_t voltage) {
-	return frc2::cmd::RunOnce(
-		[this, distance, voltage] {
-		setIntakeDistance(distance);
-		frc2::cmd::Wait(0.01_s);
-		setRollersVoltage(voltage);
-	}, {this}
+	return frc2::cmd::Sequence(
+		setSliderCmd(distance),
+		setRollersCmd(voltage)
 	);
 }
 

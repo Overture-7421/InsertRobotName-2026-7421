@@ -19,12 +19,15 @@ class Processor : public frc2::SubsystemBase {
  public:
   Processor();
 
-  void setProcessorVoltages(ProcessorValues processorValues);
+  void setProcessorVoltages(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity);
   void setOnlySpindexer(units::volt_t voltage);
+  void setOnlyPasserVelocity(units::turns_per_second_t velocity);
 
-  frc2::CommandPtr setProcessorCmd(ProcessorValues processorValues);
+  frc2::CommandPtr setProcessorCmd(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity);
   frc2::CommandPtr setOnlySpindexerCmd(units::volt_t voltage);
   bool isPasserActive();
+
+  frc2::CommandPtr setPasserVelocityCmd(units::turns_per_second_t velocity);
 
   bool isFuelCharged();
 
@@ -33,11 +36,11 @@ class Processor : public frc2::SubsystemBase {
  private:
 
     OverTalonFX indexerRightMotor{ProcessorConstants::IndexerRightConfig(), robotConstants::rio};
-    OverTalonFX passerUpMotor{ProcessorConstants::PasserUpConfig(), robotConstants::rio};
     OverTalonFX passerDownMotor{ProcessorConstants::PasserDownConfig(), robotConstants::rio};
 
     ctre::phoenix6::controls::VoltageOut spindexerVoltage{0_V};
-    ctre::phoenix6::controls::VoltageOut passerVoltage{0_V};
+  ctre::phoenix6::controls::MotionMagicVelocityVoltage passerVoltage{0.0_tps};
+
 
     ctre::phoenix6::hardware::CANrange canRange {29, robotConstants::rio};
 
