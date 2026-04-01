@@ -77,7 +77,7 @@ PIDConstants Chassis::getRotationPID() {
 // };
 
 
-SwerveModuleConfig Chassis::BackRightConfig() {
+SwerveModuleConfig Chassis::FrontRightConfig() {
 	SwerveModuleConfig config{ feedForwardFrontLeft };
 	config.DriveMotorConfig.MotorId = 2;
 	config.TurnMotorConfig.MotorId = 1;
@@ -91,16 +91,16 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.218994140625_tr;
+	config.EncoderConfig.Offset = -0.034423828125_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;
-	// config.DriveMotorConfig.Inverted = true;
-	config.ModuleName = "Front Left";
+	config.DriveMotorConfig.Inverted = false;
+	config.ModuleName = "Front Right";
 	return config;
 }
 
-SwerveModuleConfig Chassis::BackLeftConfig() {
+SwerveModuleConfig Chassis::BackRightConfig() {
 	SwerveModuleConfig config{ feedForwardFrontRight };
 	config.DriveMotorConfig.MotorId = 4;
 	config.TurnMotorConfig.MotorId = 3;
@@ -114,16 +114,16 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.105712890625_tr;
+	config.EncoderConfig.Offset = -0.149658203125_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;
-	// config.DriveMotorConfig.Inverted = true;
-	config.ModuleName = "Front Right";
+	config.DriveMotorConfig.Inverted = false;
+	config.ModuleName = "Back Right";
 	return config;
 }
 
-SwerveModuleConfig Chassis::FrontRightConfig() {
+SwerveModuleConfig Chassis::FrontLeftConfig() {
 
 	SwerveModuleConfig config{ feedForwardBackLeft };
 	config.DriveMotorConfig.MotorId = 6;
@@ -138,16 +138,16 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = -0.37109375_tr;
+	config.EncoderConfig.Offset = -0.12255859375_tr;
 #endif
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;
-	// config.DriveMotorConfig.Inverted = true;
-	config.ModuleName = "Back Left";
+	config.DriveMotorConfig.Inverted = false;
+	config.ModuleName = "Front Left";
 	return config;
 }
 
-SwerveModuleConfig Chassis::FrontLeftConfig() {
+SwerveModuleConfig Chassis::BackLeftConfig() {
 	SwerveModuleConfig config{ feedForwardBackRight };
 	config.DriveMotorConfig.MotorId = 8;
 	config.TurnMotorConfig.MotorId = 7;
@@ -162,11 +162,11 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.3681640625_tr;
+	config.EncoderConfig.Offset = -0.383056640625_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;
-	// config.DriveMotorConfig.Inverted = true;
-	config.ModuleName = "Back Right";
+	config.DriveMotorConfig.Inverted = false;
+	config.ModuleName = "Back Left";
 	return config;
 }

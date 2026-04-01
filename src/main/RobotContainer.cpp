@@ -98,10 +98,13 @@ void RobotContainer::ConfigConsoleBindings() {
 
 void RobotContainer::ConfigTestBindings() {
 	//TEST
+	//Passer
+	// test.A().WhileTrue(processor.setPasserVelocityCmd(35_tps));
+	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
 
 	//Shooter
-	// test.A().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
-	// test.A().OnFalse(shooter.setShooterVelocityCmd(25_tps));
+	// test.B().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
+	// test.B().OnFalse(shooter.setShooterVelocityCmd(25_tps));
 
 	//Hood
 	// test.B().WhileTrue(hood.setHoodAngleCommand(24.0_deg));
@@ -119,16 +122,14 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
 	//Intake Swallow
-	// test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
-	// test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+	test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
+	test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	//Launch Test
-	// test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(10.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject)));
-	// test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopProcessor)));
+	test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(25.0_deg), processor.setProcessorCmd(ProcessorConstants::IndexerEject, 30_tps), intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
+	test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser)));
 
-	//Passer
-	// test.A().WhileTrue(processor.setPasserVelocityCmd(35_tps));
-	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
+	
 
 }
 
@@ -141,6 +142,7 @@ void RobotContainer::UpdateTelemetry() {
 	shooter.UpdateTelemetry();
 	intake.UpdateTelemetry();
 	hood.UpdateTelemetry();
+	processor.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
 	Logging::WriteDouble("Shoot Multiplier", launchShooterMulti);

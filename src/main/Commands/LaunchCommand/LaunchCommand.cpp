@@ -82,7 +82,7 @@ void LaunchCommand::Execute() {
 
 	//Eject when at position
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	if(shooter->isShooterAtVelocity(shooterSpeed * multiSupplier()) && hood->isHoodAtAngle(hoodAngle) && chassisError < 2_deg){
+	if(shooter->isShooterAtVelocity(shooterSpeed * multiSupplier()) && hood->isHoodAtAngle(hoodAngle) && chassisError < 2_deg && processor->isPasserAtVelocity(shooterSpeed * multiSupplier())){
 		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
 		processor->setProcessorVoltages(ProcessorConstants::IndexerEject, shooterSpeed * multiSupplier());
 	} else {

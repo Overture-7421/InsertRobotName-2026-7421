@@ -46,7 +46,8 @@ void DriveCommand::Execute() {
 		chassis->disableSpeedHelper();
 	}
 	 
-	headingSpeedsHelper.setTargetAngle(targetAngle);
+	// headingSpeedsHelper.setTargetAngle(targetAngle);
+	headingSpeedsHelper.setTargetAngle(90_deg);
 
 	auto xSpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.06, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
@@ -58,7 +59,7 @@ void DriveCommand::Execute() {
 		ySpeed = units::meters_per_second_t(std::clamp(ySpeed.value(), -shootWhileMoveMaxSpeed.value(), shootWhileMoveMaxSpeed.value()));
 	}
 
-	auto rotationSpeed = (gamepad->getTwist() * 1_tps);
+	auto rotationSpeed = (gamepad->getTwist() * -1_tps);
 	// auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * -1_tps); //-0.7
 	// frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
 

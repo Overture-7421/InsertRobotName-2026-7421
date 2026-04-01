@@ -5,11 +5,19 @@
 #include "Processor.h"
 
 Processor::Processor(){
+    passerUpMotor.setSensorToMechanism(ProcessorConstants::SensorToMechanism);
+    passerUpMotor.configureMotionMagic(ProcessorConstants::CruiseVelocity,
+                                          ProcessorConstants::CruiseAcceleration,
+                                          0.0_tr_per_s_cu);
+
+    ctre::phoenix6::configs::TalonFXConfiguration passerUpCTREConfig = passerUpMotor.getCTREConfig();
+    passerUpCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
+    passerUpMotor.GetConfigurator().Apply(passerUpCTREConfig);
 }
 
 void Processor::setProcessorVoltages(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity){
     indexerRightMotor.SetControl(spindexerVoltage.WithOutput(indexerVoltage).WithEnableFOC(true));
-    passerDownMotor.SetControl(passerVoltage.WithVelocity(passerVelocity).WithEnableFOC(true));
+    passerUpMotor.SetControl(passerVoltage.WithVelocity(passerVelocity).WithEnableFOC(true));
 }
 
 void Processor::setOnlySpindexer(units::volt_t voltage){
@@ -17,7 +25,7 @@ void Processor::setOnlySpindexer(units::volt_t voltage){
 }
 
 void Processor::setOnlyPasserVelocity(units::turns_per_second_t velocity){
-    passerDownMotor.SetControl(passerVoltage.WithVelocity(velocity).WithEnableFOC(true));
+    passerUpMotor.SetControl(passerVoltage.WithVelocity(velocity).WithEnableFOC(true));
 }
 
 
@@ -54,11 +62,26 @@ frc2::CommandPtr Processor::setPasserVelocityCmd(units::turns_per_second_t veloc
 }
 
 bool Processor::isPasserActive(){
-    return units::math::abs(passerDownMotor.GetMotorVoltage().GetValue()) > 0.0_V;
+    return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
 }
 
 bool Processor::isFuelCharged() {
     return canRange.GetIsDetected().GetValue();
+}
+
+bool Processor::isPasserAtVelocity(units::turns_per_second_t targetVelocity){
+    units::turns_per_second_t passerError = targetVelocity - passerUpMotor.GetVelocity().GetValue();
+    return units::math::abs(passerError) < ProcessorConstants::RangeOfError;
+}
+
+void Processor::UpdateTelemetry(){
+    frc::SmartDashboard::PutNumber("Processor/PID/ActualVelocity", passerUpMotor.GetVelocity().GetValue().value());
+
+    double targetVelocity = passerUpMotor.GetClosedLoopReference().GetValue();
+    frc::SmartDashboard::PutNumber("Processor/ErrorVelocity", passerUpMotor.GetClosedLoopError().GetValue());
+    frc::SmartDashboard::PutNumber("Processor/PID/TargetVelocity", targetVelocity);
+    frc::SmartDashboard::PutBoolean("Processor/isPasserAtVelocity", isPasserAtVelocity(units::turns_per_second_t(targetVelocity)));
+
 }
 
 // This method will be called once per scheduler run

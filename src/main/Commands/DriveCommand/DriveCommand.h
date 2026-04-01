@@ -42,7 +42,7 @@ private:
 
 	frc::ProfiledPIDController<units::radian> headingController{ //PID 5,0,0
 		// PID constants: 
-				4, 0.0, 0.0, frc::TrapezoidProfile < units::radian > ::Constraints {1000_deg_per_s, 850_deg_per_s / 1_s} //Constraints max velocity, max acceleration
+				2.0, 0.0, 0.25, frc::TrapezoidProfile < units::radian > ::Constraints {720_deg_per_s, 1200_deg_per_s / 1_s} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 

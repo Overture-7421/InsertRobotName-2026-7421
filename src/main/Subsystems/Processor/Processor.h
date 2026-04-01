@@ -28,6 +28,9 @@ class Processor : public frc2::SubsystemBase {
   bool isPasserActive();
 
   frc2::CommandPtr setPasserVelocityCmd(units::turns_per_second_t velocity);
+  bool isPasserAtVelocity(units::turns_per_second_t velocity);
+
+  void UpdateTelemetry();
 
   bool isFuelCharged();
 
@@ -36,7 +39,7 @@ class Processor : public frc2::SubsystemBase {
  private:
 
     OverTalonFX indexerRightMotor{ProcessorConstants::IndexerRightConfig(), robotConstants::rio};
-    OverTalonFX passerDownMotor{ProcessorConstants::PasserDownConfig(), robotConstants::rio};
+    OverTalonFX passerUpMotor{ProcessorConstants::PasserUpConfig(), robotConstants::rio};
 
     ctre::phoenix6::controls::VoltageOut spindexerVoltage{0_V};
   ctre::phoenix6::controls::MotionMagicVelocityVoltage passerVoltage{0.0_tps};
