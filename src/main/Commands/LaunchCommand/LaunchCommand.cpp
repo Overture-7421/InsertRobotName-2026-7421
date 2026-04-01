@@ -27,15 +27,16 @@ void LaunchCommand::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void LaunchCommand::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
-	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
+	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();\
+	bool redAlliance = isRedAlliance();
 	frc::Translation2d targetCoords;
 	
 	if(launchMode == LaunchModes::Pass) {
-		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose);
+		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose, redAlliance);
 	} else {
 		targetCoords = LaunchConstants::HubPose;
 	}
-	if (isRedAlliance()) {
+	if (redAlliance) {
 		targetCoords = pathplanner::FlippingUtil::flipFieldPosition(targetCoords);
 	}
 

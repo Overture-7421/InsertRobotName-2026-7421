@@ -42,7 +42,12 @@ struct HoodConstants {
 	constexpr static const CanCoderConfig CANCoderConfig() {
 		CanCoderConfig canCoderConfig;
 		canCoderConfig.CanCoderId = CANCoderId;
+#ifndef __FRC_ROBORIO__
+		canCoderConfig.Offset = 0_tr;
+#else
 		canCoderConfig.Offset = -0.43994140625_tr;
+#endif 
+
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		return canCoderConfig;
 	}
