@@ -10,33 +10,34 @@ public:
         this->overlap = overlap;
     }
 
-    const frc::Translation2d& GetPassTarget(const frc::Pose2d& chassisPose) {
+    const frc::Translation2d& GetPassTarget(const frc::Pose2d& chassisPose, bool redAlliance) {
         switch (currentTargetSide)
         {
         case TargetSide::None:
             if (chassisPose.Y() > midpoint) {
                 currentTargetSide = TargetSide::Left;
-                return leftPassTarget;
+            }else{
+                currentTargetSide = TargetSide::Right;
             }
-
-            currentTargetSide = TargetSide::Right;
-            return rightPassTarget;
+            break;
         case TargetSide::Left:
             if(chassisPose.Y() < midpoint - overlap) {
                 currentTargetSide = TargetSide::Right;
-                return rightPassTarget;
             }
-
-            return leftPassTarget;
+            break;
         case TargetSide::Right:
             if(chassisPose.Y() > midpoint + overlap) {
                 currentTargetSide = TargetSide::Left;
-                return leftPassTarget;
             }
-
-            return rightPassTarget;
+            break;
         default:
-            return leftPassTarget;
+            break;
+        }
+
+        if (redAlliance){
+            return currentTargetSide == TargetSide::Left ? rightPassTarget : leftPassTarget;
+        }else{
+            return currentTargetSide == TargetSide::Left ? leftPassTarget : rightPassTarget;
         }
     }
 

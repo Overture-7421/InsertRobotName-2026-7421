@@ -43,7 +43,12 @@ struct IntakeConstants {
 		sliderRightMotorConfig.Inverted = false;
 		sliderRightMotorConfig.useFOC = true;
 		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
+#ifndef __FRC_ROBORIO__
+		sliderRightMotorConfig.PIDConfigs.WithKP(0.6).WithKS(0);
+#else
 		sliderRightMotorConfig.PIDConfigs.WithKP(75.0).WithKS(0.42);
+#endif 
+
 
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;
