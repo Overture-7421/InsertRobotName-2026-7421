@@ -11,14 +11,14 @@ void Robot::RobotInit() {
 
 #ifndef __FRC_ROBORIO__
 	simMotorManager.Init({
-	  {4, "Shelby2/motors/back_left_drive"},
-	  {3, "Shelby2/motors/back_left_rotation"},
-	  {2, "Shelby2/motors/back_right_drive"},
-	  {1, "Shelby2/motors/back_right_rotation"},
-	  {8, "Shelby2/motors/front_left_drive"},
-	  {7, "Shelby2/motors/front_left_rotation"},
-	  {6, "Shelby2/motors/front_right_drive"},
-	  {5, "Shelby2/motors/front_right_rotation"},
+	  {8, "Shelby2/motors/back_left_drive"},
+	  {7, "Shelby2/motors/back_left_rotation"},
+	  {4, "Shelby2/motors/back_right_drive"},
+	  {3, "Shelby2/motors/back_right_rotation"},
+	  {6, "Shelby2/motors/front_left_drive"},
+	  {5, "Shelby2/motors/front_left_rotation"},
+	  {2, "Shelby2/motors/front_right_drive"},
+	  {1, "Shelby2/motors/front_right_rotation"},
 
 	  {23, "Shelby2/motors/hood"},
 	  {19, "Shelby2/motors/indexer"},
@@ -34,10 +34,10 @@ void Robot::RobotInit() {
 
 	simCANCoderManager.Init({
 	
-	  {9, "Shelby2/cancoders/back_right_cancoder"},
-	  {12, "Shelby2/cancoders/back_left_cancoder"},
-	  {11, "Shelby2/cancoders/front_left_cancoder"},
-	  {10, "Shelby2/cancoders/front_right_cancoder"},
+	  {12, "Shelby2/cancoders/back_right_cancoder"},
+	  {11, "Shelby2/cancoders/back_left_cancoder"},
+	  {10, "Shelby2/cancoders/front_left_cancoder"},
+	  {9, "Shelby2/cancoders/front_right_cancoder"},
 
 	  {24, "Shelby2/cancoders/hood_cancoder"},
 	  {16, "Shelby2/cancoders/intake_cancoder"}

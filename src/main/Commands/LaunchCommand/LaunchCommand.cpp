@@ -4,7 +4,7 @@
 
 #include "LaunchCommand.h"
 
-LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : multiSupplier(std::move(multiSupplier)), headingSpeedsHelper(headingController, chassis) {
+LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
@@ -82,7 +82,7 @@ void LaunchCommand::Execute() {
 
 	//Eject when at position
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	if(shooter->isShooterAtVelocity(shooterSpeed * multiSupplier()) && hood->isHoodAtAngle(hoodAngle) && chassisError < 2_deg && processor->isPasserAtVelocity(shooterSpeed * multiSupplier())){
+	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 2_deg && processor->isPasserAtVelocity()){
 		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
 		processor->setProcessorVoltages(ProcessorConstants::IndexerEject, shooterSpeed * multiSupplier());
 	} else {

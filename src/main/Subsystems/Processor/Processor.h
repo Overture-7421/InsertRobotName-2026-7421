@@ -28,7 +28,7 @@ class Processor : public frc2::SubsystemBase {
   bool isPasserActive();
 
   frc2::CommandPtr setPasserVelocityCmd(units::turns_per_second_t velocity);
-  bool isPasserAtVelocity(units::turns_per_second_t velocity);
+  bool isPasserAtVelocity();
 
   void UpdateTelemetry();
 

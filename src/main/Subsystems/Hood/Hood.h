@@ -19,7 +19,7 @@ class Hood : public frc2::SubsystemBase {
 
   void setHoodAngle(units::degree_t angle);
   units::degree_t getHoodAngle();
-  bool isHoodAtAngle(units::degree_t targetAngle);
+  bool isHoodAtAngle();
   frc2::CommandPtr setHoodAngleCommand(units::degree_t angle);
 
   void UpdateTelemetry();

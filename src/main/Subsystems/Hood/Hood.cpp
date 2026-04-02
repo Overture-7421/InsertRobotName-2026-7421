@@ -24,8 +24,8 @@ units::degree_t Hood::getHoodAngle(){
     return hoodMotor.GetPosition().GetValue();
 }
 
-bool Hood::isHoodAtAngle(units::degree_t targetAngle){
-    units::degree_t hoodError = targetAngle - hoodMotor.GetPosition().GetValue();
+bool Hood::isHoodAtAngle(){
+    units::degree_t hoodError = units::turn_t(hoodMotor.GetClosedLoopError().GetValue());
     return units::math::abs(hoodError) < HoodConstants::RangeOfError;
 }
 
@@ -45,7 +45,7 @@ void Hood::UpdateTelemetry(){
     double targetAngle = hoodMotor.GetClosedLoopReference().GetValue();
     frc::SmartDashboard::PutNumber("Hood/ErrorAngle", hoodMotor.GetClosedLoopError().GetValue());
     frc::SmartDashboard::PutNumber("Hood/TargetAngle", targetAngle * 360.0);
-    frc::SmartDashboard::PutBoolean("Hood/isHoodAtAngle", isHoodAtAngle(units::turn_t(targetAngle)));
+    frc::SmartDashboard::PutBoolean("Hood/isHoodAtAngle", isHoodAtAngle());
 }
 
 void Hood::Periodic() {}

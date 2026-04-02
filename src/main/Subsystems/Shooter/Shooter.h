@@ -12,30 +12,34 @@
 #include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/Commands.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include "ShooterState.h"
 
 class Shooter : public frc2::SubsystemBase {
- public:
-  Shooter();
+public:
 
+  Shooter();
   void setObjectiveVelocity(units::turns_per_second_t velocity);
   units::turns_per_second_t getShooterVelocity();
-  bool isShooterAtVelocity(units::turns_per_second_t targetVelocity);
+  bool isShooterAtVelocity();
+  const ShooterState& getState();
+
   frc2::CommandPtr setShooterVelocityCmd(units::turns_per_second_t velocity);
-
-
   void UpdateTelemetry();
-
-
   void Periodic() override;
 
- private:
-
- OverTalonFX shooterLeftUpMotor{ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio};
- OverTalonFX shooterLeftDownMotor{ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio};
- OverTalonFX shooterRightUpMotor{ShooterConstants::ShooterRightUpConfig(), robotConstants::rio};
- OverTalonFX shooterRightDownMotor{ShooterConstants::ShooterRightDownConfig(), robotConstants::rio};
+private:
+  OverTalonFX shooterLeftUpMotor{ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio};
+  OverTalonFX shooterLeftDownMotor{ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio};
+  OverTalonFX shooterRightUpMotor{ShooterConstants::ShooterRightUpConfig(), robotConstants::rio};
+  OverTalonFX shooterRightDownMotor{ShooterConstants::ShooterRightDownConfig(), robotConstants::rio};
 
   ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
-  
+  ctre::phoenix6::controls::VoltageOut shooterHoldingVoltageRequest{0.0_V};
+
+  units::turns_per_second_t targetVelocity = 0_tps;
+  units::turns_per_second_t holdingTargetVelocity = 0_tps;
+
+  units::volt_t holdingVoltage = 0_V;
+  units::second_t lastTimeOnTarget = 0_s;
+  ShooterState state = ShooterState::WindUp;
 };

@@ -58,8 +58,8 @@ void TabulateCommand::Execute() {
 	hood->setHoodAngle(hoodAngle);
 	shooter->setObjectiveVelocity(targetVel * 1_tps);
 
-	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity(targetVel * 1_tps));
-	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/HoodIsHoodAngle", hood->isHoodAtAngle(hoodAngle));
+	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/ShooterIsAtVelocity", shooter->isShooterAtVelocity());
+	frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/HoodIsHoodAngle", hood->isHoodAtAngle());
 	//frc::SmartDashboard::PutBoolean("Tabulate/AtPosition/TurretIsAtFieldPos", turret->isAimAtFieldPosition(chassis->getEstimatedPose(), targetCoords));
 }
 

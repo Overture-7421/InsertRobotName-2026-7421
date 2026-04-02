@@ -33,7 +33,6 @@ frc2::CommandPtr Processor::setProcessorCmd(units::volt_t indexerVoltage, units:
      return frc2::FunctionalCommand(
         [this, indexerVoltage, passerVelocity] () {
             setProcessorVoltages(indexerVoltage, passerVelocity);
-
         },
 
         [] () {
@@ -69,8 +68,8 @@ bool Processor::isFuelCharged() {
     return canRange.GetIsDetected().GetValue();
 }
 
-bool Processor::isPasserAtVelocity(units::turns_per_second_t targetVelocity){
-    units::turns_per_second_t passerError = targetVelocity - passerUpMotor.GetVelocity().GetValue();
+bool Processor::isPasserAtVelocity(){
+    units::turns_per_second_t passerError = units::turns_per_second_t(passerUpMotor.GetClosedLoopError().GetValue());
     return units::math::abs(passerError) < ProcessorConstants::RangeOfError;
 }
 
@@ -80,7 +79,7 @@ void Processor::UpdateTelemetry(){
     double targetVelocity = passerUpMotor.GetClosedLoopReference().GetValue();
     frc::SmartDashboard::PutNumber("Processor/ErrorVelocity", passerUpMotor.GetClosedLoopError().GetValue());
     frc::SmartDashboard::PutNumber("Processor/PID/TargetVelocity", targetVelocity);
-    frc::SmartDashboard::PutBoolean("Processor/isPasserAtVelocity", isPasserAtVelocity(units::turns_per_second_t(targetVelocity)));
+    frc::SmartDashboard::PutBoolean("Processor/isPasserAtVelocity", isPasserAtVelocity());
 
 }
 

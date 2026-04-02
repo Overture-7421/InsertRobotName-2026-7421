@@ -46,8 +46,7 @@ void DriveCommand::Execute() {
 		chassis->disableSpeedHelper();
 	}
 	 
-	// headingSpeedsHelper.setTargetAngle(targetAngle);
-	headingSpeedsHelper.setTargetAngle(90_deg);
+	headingSpeedsHelper.setTargetAngle(targetAngle);
 
 	auto xSpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.06, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
@@ -61,7 +60,7 @@ void DriveCommand::Execute() {
 
 	auto rotationSpeed = (gamepad->getTwist() * -1_tps);
 	// auto rotationSpeed = (Utils::ApplyAxisFilter(gamepad->GetRightX(), 0.06, 0.75) * -1_tps); //-0.7
-	// frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
+	frc::SmartDashboard::PutNumber("DriveCommand/RotationSpeed", rotationSpeed.value());
 
 	frc::ChassisSpeeds speeds = frc::ChassisSpeeds::FromFieldRelativeSpeeds(xInput.Calculate(xSpeed), yInput.Calculate(ySpeed), rotationSpeed,
 		chassis->getEstimatedPose().Rotation());
