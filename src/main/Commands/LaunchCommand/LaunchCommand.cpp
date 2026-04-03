@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 #include "LaunchCommand.h"
+#include <frc/Timer.h>
 
 LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
 	this->shooter = shooter;
@@ -21,7 +22,6 @@ LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Inta
 void LaunchCommand::Initialize() { 
 	chassis->enableSpeedHelper(&headingSpeedsHelper);
 
-	intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -82,13 +82,36 @@ void LaunchCommand::Execute() {
 
 	//Eject when at position
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
+	
+	static bool inTargetState = false;
+	static bool startedClosing = false;
+	static units::time::second_t enterTimestamp = 0.0_s;
+	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
+
 	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3_deg){
+
+		if (!inTargetState) {
+			inTargetState = true;
+			startedClosing = false;
+			enterTimestamp = now;
+		}
+
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
 		processor->setProcessorVoltages(ProcessorConstants::Eject);
-		// frc2::cmd::Wait(0.6_s);
-		intake->setRollersCmd(IntakeConstants::IntakeClose.rollers);
-		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
+
+		// after 0.6s start to close
+		if (!startedClosing && (now - enterTimestamp) > 0.6_s) {
+			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
+			startedClosing = true;
+		}
+
+		if (startedClosing) {
+			intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
+			intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
+		}
 	} else {
+		inTargetState = false;
+		startedClosing = false;
 		processor->setProcessorVoltages(ProcessorConstants::Stop);
 	}
 
