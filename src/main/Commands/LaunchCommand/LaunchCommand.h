@@ -75,6 +75,12 @@ public:
 	  }, 0.01_s
 	};
 
+
+	bool inTargetState = false;
+	bool startedClosing = false;
+	units::time::second_t enterTimestamp = 0.0_s;
+
+
 	nt::StructPublisher<frc::Translation2d> targetPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d
 		>("SmartDashboard/MovingTarget").Publish();

@@ -10,7 +10,7 @@ RobotContainer::RobotContainer(){
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(4.0_s));
 
 	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::StopVelocity))));
 
@@ -179,7 +179,7 @@ AprilTags::Config RobotContainer::limelightUpConfig() {
 	AprilTags::Config config;
 	config.backend = VisionBackend::Limelight;
 	config.cameraName = "limelight-up";
-	config.limelightMode = LimelightMode::MegaTag1;
+	config.limelightMode = LimelightMode::MegaTag2;
 	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.345435_m, 0.047625_m, 0.444663_m, {0_deg, -15_deg, 180.0_deg} };};
 	return config;
@@ -189,7 +189,7 @@ AprilTags::Config RobotContainer::limelightDownConfig() {
 	AprilTags::Config config;
 	config.backend = VisionBackend::Limelight;
 	config.cameraName = "limelight-down";
-	config.limelightMode = LimelightMode::MegaTag1;
+	config.limelightMode = LimelightMode::MegaTag2;
 	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.334501_m, 0.047625_m, 0.320287_m, {0_deg, -40.0_deg, 180.0_deg} };};
 	return config;

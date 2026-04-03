@@ -56,6 +56,8 @@ void Shooter::UpdateTelemetry(){
 
 void Shooter::Periodic() {
 
+    // shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true));
+
     if ((units::math::abs(holdingTargetVelocity - targetVelocity) > 0.1_tps)){
         state = ShooterState::WindUp;
     }
@@ -68,7 +70,7 @@ void Shooter::Periodic() {
             lastTimeOnTarget = frc::Timer::GetFPGATimestamp();
             holdingTargetVelocity = targetVelocity;
             state = ShooterState::PreparingToHold;
-        }
+        }   
 
         break;
     }

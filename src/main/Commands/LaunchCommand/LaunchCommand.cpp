@@ -21,7 +21,7 @@ LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Inta
 // Called when the command is initially scheduled.
 void LaunchCommand::Initialize() { 
 	chassis->enableSpeedHelper(&headingSpeedsHelper);
-
+	intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -81,13 +81,8 @@ void LaunchCommand::Execute() {
 	}
 
 	//Eject when at position
-	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	
-	static bool inTargetState = false;
-	static bool startedClosing = false;
-	static units::time::second_t enterTimestamp = 0.0_s;
 	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
-
+	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
 	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3_deg){
 
 		if (!inTargetState) {
@@ -106,13 +101,18 @@ void LaunchCommand::Execute() {
 		}
 
 		if (startedClosing) {
-			intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
 			intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
 		}
+
 	} else {
 		inTargetState = false;
 		startedClosing = false;
 		processor->setProcessorVoltages(ProcessorConstants::Stop);
+	}
+
+
+	if(intake->getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving ){
+		intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
 	}
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());

@@ -22,6 +22,7 @@ struct IntakeConstants {
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 7.0_V;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.17_m;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;
@@ -100,7 +101,7 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.099853515625_tr;
+		SliderCanCoderConfig.Offset = 0.090087890625_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 
