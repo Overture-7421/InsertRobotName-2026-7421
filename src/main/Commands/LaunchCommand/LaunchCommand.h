@@ -54,9 +54,9 @@ public:
 	LaunchModeManager* launchModeManager = nullptr;
 
 
-	frc::ProfiledPIDController<units::radian> headingController{ //PID 5,0,0
+	frc::ProfiledPIDController<units::radian> headingController{
 		// PID constants: 
-				7, 0.0, 0.5, frc::TrapezoidProfile < units::radian > ::Constraints {1200_deg_per_s, 1200_deg_per_s_sq} //Constraints max velocity, max acceleration
+				4.75, 0.0, 0.15, {13_rad_per_s, 18_rad_per_s_sq * 2} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 
@@ -64,14 +64,14 @@ public:
 
 	TargetingWhileMoving targetWhileMoving{ //Tiempo de Vuelo desde que sale la pieza hasta que llega al objetivo
 	  {
-		{1.50_m, 0.94_s},
-		{2.00_m, 1.08_s},
-		{2.50_m, 1.12_s},
-		{3.00_m, 1.16_s},
-		{3.50_m, 1.17_s},
-		{4.00_m, 1.18_s},
-		{4.50_m, 1.23_s},
-		{5.00_m, 1.24_s}
+		{1.45_m, 1.08_s},
+		{1.95_m, 1.09_s},
+		{2.45_m, 1.15_s},
+		{2.95_m, 1.16_s},
+		{3.45_m, 1.17_s},
+		{3.95_m, 1.21_s},
+		{4.45_m, 1.23_s}, //Falta
+		{4.95_m, 1.24_s} //Falta
 	  }, 0.01_s
 	};
 

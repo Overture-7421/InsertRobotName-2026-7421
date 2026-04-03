@@ -14,6 +14,7 @@
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
 #include "Commands/LaunchCommand/LaunchConstants.h"
+#include "Commands/LaunchCommand/PassTargetSwitcher.h"
 
 
 /**
@@ -47,6 +48,13 @@ public:
 	LaunchModeManager* launchModeManager = nullptr;
 
 
+	PassTargetSwitcher passTargetSwitcher {LaunchConstants::LeftPass, LaunchConstants::RightPass, 0.2_m};
+
+	frc::ProfiledPIDController<units::radian> headingController{
+		// PID constants: 
+				4.75, 0.0, 0.15, {13_rad_per_s, 18_rad_per_s_sq * 2} //Constraints max velocity, max acceleration
+	};
+	HeadingSpeedsHelper headingSpeedsHelper;
 
 
 };

@@ -52,13 +52,10 @@ public:
 	std::unique_ptr<frc2::Command> launchCommand;
 
 	Chassis chassis;
-
-	void UpdateTelemetry();
 	Processor processor;
 	Intake intake;
 
-
-
+	void UpdateTelemetry();
 
 private:
 
@@ -74,7 +71,6 @@ private:
 	// frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
 #endif 
 
-	// The robot's subsystems are defined here...
 	Shooter shooter;
 	Hood hood;
 
@@ -102,14 +98,16 @@ private:
 
 	double launchShooterMulti = 1.0;
 
-	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
 
-	frc2::Trigger isHubActive{ [this] {
-		  return shiftManager.GetHubState().isActive;
-	  } };
+	//Leds
+	// LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
 
-	frc2::Trigger isTransitioning{ [this] {
-		  return shiftManager.GetHubState().isTransitioning;
-	  } };
+	// frc2::Trigger isHubActive{ [this] {
+	// 	  return shiftManager.GetHubState().isActive;
+	// }};
+
+	// frc2::Trigger isTransitioning{ [this] {
+	// 	  return shiftManager.GetHubState().isTransitioning;
+	// }};
 
 };

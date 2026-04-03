@@ -12,7 +12,7 @@ RobotContainer::RobotContainer(){
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(5.0_s));
 
-	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser), hood.setHoodAngleCommand(HoodConstants::Close))));
+	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::StopVelocity))));
 
 
 
@@ -38,16 +38,28 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	driver.RightBumper().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr());
-	driver.RightBumper().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser), hood.setHoodAngleCommand(HoodConstants::Close)));
+	driver.RightBumper().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::StopVelocity)));
 
 
-	// driver.LeftBumper().ToggleOnTrue(TabulateCommand(&shooter, &chassis, &turret, &launchModeManager).ToPtr());
 
-	(isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 0, 255, 0 }).ToPtr().IgnoringDisable(true)); //Our turn
-	(isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 0, 255, 0 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Over
+	//Tabulate
+	// driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
 
-	(!isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 107, 53, 170 }).ToPtr().IgnoringDisable(true)); //Inactive
-	(!isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 107, 53, 170 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Our Turn
+	// driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
+	//  	intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
+	// 	frc2::cmd::Wait(0.6_s),
+	// 	intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
+	// driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), intake.setSliderCmd(IntakeConstants::IntakeOpen.intake)));
+
+
+
+	//Leds
+	// (isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 0, 255, 0 }).ToPtr().IgnoringDisable(true)); //Our turn
+	// (isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 0, 255, 0 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Over
+
+	// (!isHubActive && !isTransitioning).WhileTrue(StaticEffect(&leds, "all", { 107, 53, 170 }).ToPtr().IgnoringDisable(true)); //Inactive
+	// (!isHubActive && isTransitioning).WhileTrue(BlinkEffect(&leds, "all", { 107, 53, 170 }, 0.2_s).ToPtr().IgnoringDisable(true)); //Almost Our Turn
+
 }
 
 void RobotContainer::ConfigOperatorBindings() {
@@ -73,19 +85,20 @@ void RobotContainer::ConfigOperatorBindings() {
 }
 
 void RobotContainer::ConfigConsoleBindings() {
+	//The buttons of the console counts from 1 to 12, not from 0(which is the normal)
 
 	console.Button(2).OnTrue(frc2::cmd::RunOnce([this] {
 		launchModeManager.setLaunchMode(LaunchModes::Hub);
 	}));
 
-	console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
+	console.Button(4).OnTrue(frc2::cmd::RunOnce([this] {
 		launchModeManager.setLaunchMode(LaunchModes::Pass);
 	}));
 
-	console.Button(3).WhileTrue(CloseCommand(&intake, &processor));
-	console.Button(3).OnFalse(CloseCommand(&intake, &processor));
+	console.Button(5).WhileTrue(CloseCommand(&intake, &processor));
+	console.Button(5).OnFalse(CloseCommand(&intake, &processor));
 
-	console.Button(5).OnTrue(frc2::cmd::RunOnce([this] {
+	console.Button(1).OnTrue(frc2::cmd::RunOnce([this] {
 		this->launchShooterMulti += 0.03;
 	}));
 
@@ -103,8 +116,8 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
 
 	//Shooter
-	// test.B().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
-	// test.B().OnFalse(shooter.setShooterVelocityCmd(25_tps));
+	test.B().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
+	test.B().OnFalse(shooter.setShooterVelocityCmd(25_tps));
 
 	//Hood
 	// test.B().WhileTrue(hood.setHoodAngleCommand(24.0_deg));
@@ -122,15 +135,14 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().OnFalse(processor.setProcessorCmd(ProcessorConstants::StopProcessor));
 
 	//Intake Swallow
-	test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
-	test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
+	// test.LeftBumper().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
+	// test.LeftBumper().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
-	//Launch Test
-	test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(25.0_deg), processor.setProcessorCmd(ProcessorConstants::IndexerEject, 30_tps), intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
-	test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser)));
+	// //Launch Test
+	// test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(25.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject), intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
+	// test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::Stop)));
 
 	
-
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
@@ -142,7 +154,6 @@ void RobotContainer::UpdateTelemetry() {
 	shooter.UpdateTelemetry();
 	intake.UpdateTelemetry();
 	hood.UpdateTelemetry();
-	processor.UpdateTelemetry();
 
 	frc::SmartDashboard::PutNumber("MatchTime", frc::DriverStation::GetMatchTime().value());
 	Logging::WriteDouble("Shoot Multiplier", launchShooterMulti);
@@ -168,6 +179,8 @@ AprilTags::Config RobotContainer::limelightUpConfig() {
 	AprilTags::Config config;
 	config.backend = VisionBackend::Limelight;
 	config.cameraName = "limelight-up";
+	config.limelightMode = LimelightMode::MegaTag1;
+	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.345435_m, 0.047625_m, 0.444663_m, {0_deg, -15_deg, 180.0_deg} };};
 	return config;
 }
@@ -176,6 +189,8 @@ AprilTags::Config RobotContainer::limelightDownConfig() {
 	AprilTags::Config config;
 	config.backend = VisionBackend::Limelight;
 	config.cameraName = "limelight-down";
+	config.limelightMode = LimelightMode::MegaTag1;
+	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.334501_m, 0.047625_m, 0.320287_m, {0_deg, -40.0_deg, 180.0_deg} };};
 	return config;
 }

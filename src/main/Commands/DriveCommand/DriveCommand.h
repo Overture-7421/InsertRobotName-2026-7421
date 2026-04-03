@@ -40,9 +40,9 @@ private:
 	OverXboxController* gamepad;
 	Processor* processor;
 
-	frc::ProfiledPIDController<units::radian> headingController{ //PID 5,0,0
+	frc::ProfiledPIDController<units::radian> headingController{
 		// PID constants: 
-				2.0, 0.0, 0.25, frc::TrapezoidProfile < units::radian > ::Constraints {720_deg_per_s, 1200_deg_per_s / 1_s} //Constraints max velocity, max acceleration
+				4.75, 0.0, 0.15, {13_rad_per_s, 18_rad_per_s_sq * 2} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 

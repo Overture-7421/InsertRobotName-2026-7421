@@ -82,11 +82,14 @@ void LaunchCommand::Execute() {
 
 	//Eject when at position
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 2_deg && processor->isPasserAtVelocity()){
+	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3_deg){
+		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
+		processor->setProcessorVoltages(ProcessorConstants::Eject);
+		// frc2::cmd::Wait(0.6_s);
+		intake->setRollersCmd(IntakeConstants::IntakeClose.rollers);
 		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
-		processor->setProcessorVoltages(ProcessorConstants::IndexerEject, shooterSpeed * multiSupplier());
 	} else {
-		processor->setProcessorVoltages(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser);
+		processor->setProcessorVoltages(ProcessorConstants::Stop);
 	}
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());

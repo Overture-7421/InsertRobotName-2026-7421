@@ -63,7 +63,7 @@ void Shooter::Periodic() {
     switch (state)
     {
     case ShooterState::WindUp: {
-        shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(false));
+        shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true));
         if(isShooterAtVelocity()) {
             lastTimeOnTarget = frc::Timer::GetFPGATimestamp();
             holdingTargetVelocity = targetVelocity;
@@ -88,7 +88,7 @@ void Shooter::Periodic() {
         break;
     }
     case ShooterState::Holding: {
-        shooterLeftUpMotor.SetControl(shooterHoldingVoltageRequest.WithOutput(holdingVoltage).WithEnableFOC(false));
+        shooterLeftUpMotor.SetControl(shooterHoldingVoltageRequest.WithOutput(holdingVoltage).WithEnableFOC(true));
         break;
     }
     default:

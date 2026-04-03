@@ -2,23 +2,19 @@
 
 #pragma once
 
-
 #include "OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h"
+
+struct processorValues {
+	units::volt_t indexerVoltage;
+	units::volt_t passerVoltage;
+};
 
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const units::volt_t IndexerEject = 6.0_V;
-	constexpr static const units::volt_t StopIndexer = 0.0_V;
-	constexpr static const units::turns_per_second_t StopPasser = 0.0_tps;
-	constexpr static const units::volt_t ReverseIndexer = -6.0_V;
-	constexpr static const units::turns_per_second_t ReversePasser = -4.0_tps;
-
-	constexpr static const units::turns_per_second_t RangeOfError = 2.0_tps;
-
-	constexpr static const double SensorToMechanism = 2.44444;
-	constexpr static const units::turns_per_second_t CruiseVelocity = 90.0_tps;
-	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 205.0_tr_per_s_sq;
+	constexpr static const processorValues Eject = {6.0_V, 8.0_V};
+	constexpr static const processorValues Stop = {0.0_V, 0.0_V};
+	constexpr static const processorValues Reverse = {-8.0_V, -8.0_V};
 
 	constexpr static const double IndexerRightMotorID = 20;
 	constexpr static const double PasserUpMotorID = 21;
@@ -51,9 +47,8 @@ struct ProcessorConstants {
 		passer2Config.StatorCurrentLimit = 60_A;
 		passer2Config.TriggerThreshold = 75_A;
 		passer2Config.TriggerThresholdTime = 0.5_s;
-		passer2Config.ClosedLoopRampRate = 0.5_s;
-		passer2Config.PIDConfigs.WithKP(0.057).WithKS(0.36).WithKV(0.1265); // 0.05, 0.06, 0.1225
-
+		passer2Config.ClosedLoopRampRate = 0.0_s;
+		passer2Config.OpenLoopRampRate = 0.1_s;
 
 		return passer2Config;
 	};

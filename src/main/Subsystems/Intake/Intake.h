@@ -36,7 +36,7 @@ class Intake : public frc2::SubsystemBase {
 
   void Periodic() override;
 
-  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.1_mps}; //0.1 m/s de velocidad máxima de cambio
+  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.4_mps}; //0.1 m/s de velocidad máxima de cambio
 
  private:
  OverTalonFX sliderMotor {IntakeConstants::sliderMotorConfig(), robotConstants::rio};

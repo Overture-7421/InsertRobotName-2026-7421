@@ -20,61 +20,49 @@ namespace LaunchConstants {
 
 	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForHub{
 		{
-		  {1.50_m, 0.0_deg},
-		  {2.00_m, 0.0_deg},
-		  {2.50_m, 1.0_deg},
-		  {3.00_m, 2.0_deg},
-		  {3.50_m, 5.5_deg},
-		  {4.00_m, 7.75_deg},
-		  {4.50_m, 9.5_deg},
-		  {5.00_m, 10.0_deg}
+		  {1.45_m, 3.00_deg},
+		  {1.95_m, 6.00_deg},
+		  {2.45_m, 8.50_deg},
+		  {2.95_m, 12.00_deg},
+		  {3.45_m, 15.50_deg},
+		  {3.95_m, 17.25_deg},
+		  {4.45_m, 9.5_deg}, //Falta
+		  {4.95_m, 10.0_deg} //Falta
 		}
 	};
 
 
 	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForHub{
 	  {
-		  {1.50_m, 27.0_tps},
-		  {2.00_m, 28.0_tps},
-		  {2.50_m, 29.25_tps},
-		  {3.00_m, 30.25_tps},
-		  {3.50_m, 31.75_tps},
-		  {4.00_m, 32.75_tps},
-		  {4.50_m, 33.75_tps},
-		  {5.00_m, 34.75_tps}
+		  {1.45_m, 31.00_tps},
+		  {1.95_m, 32.50_tps},
+		  {2.45_m, 33.50_tps},
+		  {2.95_m, 34.25_tps},
+		  {3.45_m, 35.00_tps},
+		  {3.95_m, 36.00_tps},
+		  {4.45_m, 33.75_tps}, //Falta
+		  {4.95_m, 34.75_tps}  //Falta
 	  }
 	};
 
 	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForPass{
 		{
-		  {3.80_m, 10.0_deg},
-		  {4.80_m, 11.0_deg},
-		  {5.80_m, 12.0_deg},
-		  {6.80_m, 15.5_deg},
-		  {7.80_m, 17.0_deg},
-		  {8.80_m, 20.0_deg},
-		  {9.80_m, 24.0_deg},
-		  {10.80_m, 27.0_deg},
-		  {11.80_m, 28.0_deg},
-		  {12.80_m, 29.0_deg},
-		  {13.80_m, 30.0_deg}
+		  {3.62_m, 16.0_deg},
+		  {4.62_m, 18.0_deg},
+		  {5.62_m, 21.0_deg},
+		  {6.62_m, 23.5_deg},
+		  {7.62_m, 24.0_deg}
 		}
 	};
 
 
 	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForPass{
 	  {
-		  {3.80_m, 31.0_tps},
-		  {4.80_m, 32.0_tps},
-		  {5.80_m, 33.0_tps},
-		  {6.80_m, 34.5_tps},
-		  {7.80_m, 37.0_tps},
-		  {8.80_m, 41.0_tps},
-		  {9.80_m, 45.0_tps},
-		  {10.80_m, 49.0_tps},
-		  {11.80_m, 53.0_tps},
-		  {12.80_m, 57.0_tps},
-		  {13.80_m, 61.0_tps}
+		  {3.62_m, 34.0_tps},
+		  {4.62_m, 36.0_tps},
+		  {5.62_m, 37.0_tps},
+		  {6.62_m, 39.0_tps},
+		  {7.62_m, 41.0_tps}
 		}
 	};
 

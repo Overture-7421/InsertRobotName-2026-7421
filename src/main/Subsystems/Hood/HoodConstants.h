@@ -45,7 +45,7 @@ struct HoodConstants {
 #ifndef __FRC_ROBORIO__
 		canCoderConfig.Offset = 0_tr;
 #else
-		canCoderConfig.Offset = -0.412841796875_tr;
+		canCoderConfig.Offset = 0.294677734375_tr;
 #endif 
 
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;

@@ -9,7 +9,6 @@
 #include <OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h>
 #include "Constants.h"
 #include <frc2/command/FunctionalCommand.h>
-#include <ctre/phoenix6/CANrange.hpp>
 #include <atomic>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <frc2/command/Commands.h>
@@ -19,20 +18,11 @@ class Processor : public frc2::SubsystemBase {
  public:
   Processor();
 
-  void setProcessorVoltages(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity);
-  void setOnlySpindexer(units::volt_t voltage);
-  void setOnlyPasserVelocity(units::turns_per_second_t velocity);
+  void setProcessorVoltages(processorValues voltages);
 
-  frc2::CommandPtr setProcessorCmd(units::volt_t indexerVoltage, units::turns_per_second_t passerVelocity);
-  frc2::CommandPtr setOnlySpindexerCmd(units::volt_t voltage);
+  frc2::CommandPtr setProcessorCmd(processorValues voltages);
+  
   bool isPasserActive();
-
-  frc2::CommandPtr setPasserVelocityCmd(units::turns_per_second_t velocity);
-  bool isPasserAtVelocity();
-
-  void UpdateTelemetry();
-
-  bool isFuelCharged();
 
   void Periodic() override;
 
@@ -42,9 +32,6 @@ class Processor : public frc2::SubsystemBase {
     OverTalonFX passerUpMotor{ProcessorConstants::PasserUpConfig(), robotConstants::rio};
 
     ctre::phoenix6::controls::VoltageOut spindexerVoltage{0_V};
-  ctre::phoenix6::controls::MotionMagicVelocityVoltage passerVoltage{0.0_tps};
-
-
-    ctre::phoenix6::hardware::CANrange canRange {29, robotConstants::rio};
+    ctre::phoenix6::controls::VoltageOut passerVoltage{0_V};
 
 };

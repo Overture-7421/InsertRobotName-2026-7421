@@ -91,7 +91,7 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = -0.034423828125_tr;
+	config.EncoderConfig.Offset = 0.46484375_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;
@@ -114,7 +114,7 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = -0.149658203125_tr;
+	config.EncoderConfig.Offset = 0.352294921875_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;

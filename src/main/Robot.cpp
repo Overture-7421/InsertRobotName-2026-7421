@@ -103,7 +103,7 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {
 
 	frc2::CommandScheduler::GetInstance().CancelAll();
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::StopIndexer, ProcessorConstants::StopPasser));
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::Stop));
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
 }
 
