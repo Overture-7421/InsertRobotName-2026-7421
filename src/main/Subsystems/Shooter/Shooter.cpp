@@ -103,9 +103,8 @@ void Shooter::Periodic() {
 
             ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig = shooterLeftUpMotor.getCTREConfig();
             ctre::phoenix6::configs::Slot1Configs slot1Config {};
-            slot1Config.kS = shooterLeftCTREConfig.Slot0.kS;
+          
             slot1Config.kV = averagekV;
-            slot1Config.kA = shooterLeftCTREConfig.Slot0.kA;
 
             shooterLeftCTREConfig.Slot1 = slot1Config;
             shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
