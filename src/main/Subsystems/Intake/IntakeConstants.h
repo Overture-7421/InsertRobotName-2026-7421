@@ -101,7 +101,7 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.090087890625_tr;
+		SliderCanCoderConfig.Offset = 0.099853515625_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 

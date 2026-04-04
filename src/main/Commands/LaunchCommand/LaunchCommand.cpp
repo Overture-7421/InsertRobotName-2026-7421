@@ -83,7 +83,8 @@ void LaunchCommand::Execute() {
 	//Eject when at position
 	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3_deg){
+	frc::SmartDashboard::PutNumber("LaunchCommand/ChassisError", chassisError.value());
+	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3.0_deg){
 
 		if (!inTargetState) {
 			inTargetState = true;

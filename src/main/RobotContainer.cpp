@@ -43,13 +43,17 @@ void RobotContainer::ConfigDriverBindings() {
 
 
 	//Tabulate
-	// driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
+	driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
 
-	// driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
-	//  	intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
-	// 	frc2::cmd::Wait(0.6_s),
-	// 	intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
-	// driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), intake.setSliderCmd(IntakeConstants::IntakeOpen.intake)));
+	driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
+	 	intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
+		frc2::cmd::Wait(0.6_s),
+		intake.setRollersCmd(IntakeConstants::IntakeClose.rollers),
+		intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)
+		));
+	driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop),
+											intake.setSliderCmd(IntakeConstants::IntakeOpen.intake)
+											));
 
 
 
@@ -116,12 +120,12 @@ void RobotContainer::ConfigTestBindings() {
 	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
 
 	//Shooter
-	test.B().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
-	test.B().OnFalse(shooter.setShooterVelocityCmd(25_tps));
+	// test.B().WhileTrue(shooter.setShooterVelocityCmd(35_tps));
+	// test.B().OnFalse(shooter.setShooterVelocityCmd(25_tps));
 
 	//Hood
-	// test.B().WhileTrue(hood.setHoodAngleCommand(24.0_deg));
-	// test.B().OnFalse(hood.setHoodAngleCommand(2.0_deg));
+	test.B().WhileTrue(hood.setHoodAngleCommand(27.0_deg));
+	test.B().OnFalse(hood.setHoodAngleCommand(2.0_deg));
 
 	//Intake
 	// test.A().WhileTrue(intake.setIntakeCharacterization(0.30_m, 7_V));

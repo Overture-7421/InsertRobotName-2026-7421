@@ -34,7 +34,7 @@ struct HoodConstants {
 		motorConfig.TriggerThreshold = 40_A;
 		motorConfig.TriggerThresholdTime = 0.5_s;
 		motorConfig.ClosedLoopRampRate = 0.05_s;
-		motorConfig.PIDConfigs.WithKP(800.0).WithKI(25.0).WithKV(7.0);
+		motorConfig.PIDConfigs.WithKP(800.0).WithKI(25.0).WithKV(7.0); // 800, 25, 7
 
 		return motorConfig;
 	}
@@ -45,9 +45,9 @@ struct HoodConstants {
 #ifndef __FRC_ROBORIO__
 		canCoderConfig.Offset = 0_tr;
 #else
-		canCoderConfig.Offset = 0.294677734375_tr;
+		canCoderConfig.Offset = -0.3408203125_tr;
 #endif 
-
+		canCoderConfig.absoluteDiscontinuityPoint = 0.95_tr;
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		return canCoderConfig;
 	}
