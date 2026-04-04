@@ -24,7 +24,7 @@ public:
   bool isShooterAtVelocity();
   const ShooterState& getState();
   /**
-  * Whether to keep Holding state, even though target may be off. This is useful when continously shooting fuel, as they slow down the flywheel.
+  * Whether to keep Holding state, even though we may not be at the target. This is useful when continously shooting fuel, as they slow down the flywheel.
   * "Hold" instructs the Shooter to keep Holding PID Slot (No PID gains, only kS,kV,kA) once we initially reach Holding state.
   * "Release" allows Holding state to transition to WindUp if we are no longer at the target. Windup returns to "normal" slot (Both PID gains and kS,kV,kA).
   */
