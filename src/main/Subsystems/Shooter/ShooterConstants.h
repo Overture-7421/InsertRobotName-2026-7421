@@ -35,7 +35,11 @@ struct ShooterConstants {
 		shooter1Config.TriggerThreshold = 60_A;
 		shooter1Config.TriggerThresholdTime = 0.5_s;
 		shooter1Config.ClosedLoopRampRate = 0.5_s;
-		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.275).WithKV(0.1228); // 0.015, 0.275, 0.1228
+#ifndef __FRC_ROBORIO__
+		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
+#else
+		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.275).WithKV(0.1228);
+#endif 
 
 		return shooter1Config;
 	}

@@ -90,6 +90,7 @@ void LaunchCommand::Execute() {
 			inTargetState = true;
 			startedClosing = false;
 			enterTimestamp = now;
+			shooter->Hold();
 		}
 
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
@@ -108,6 +109,7 @@ void LaunchCommand::Execute() {
 	} else {
 		inTargetState = false;
 		startedClosing = false;
+		shooter->Release();
 		processor->setProcessorVoltages(ProcessorConstants::Stop);
 	}
 
@@ -123,6 +125,7 @@ void LaunchCommand::Execute() {
 // Called once the command ends or is interrupted.
 void LaunchCommand::End(bool interrupted) {
 	chassis->disableSpeedHelper();
+	shooter->Release();
 }
 
 // Returns true when the command should end.
