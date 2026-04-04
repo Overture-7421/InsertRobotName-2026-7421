@@ -12,7 +12,7 @@ struct ShooterConstants {
 	constexpr static const units::turns_per_second_t CruiseVelocity = 90.0_tps;
 	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 230.0_tr_per_s_sq;
 
-	constexpr static const units::turns_per_second_t RangeOfError = 0.25_tps;
+	constexpr static const units::turns_per_second_t RangeOfError = 0.1_tps;
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0_tps;
 
@@ -35,7 +35,11 @@ struct ShooterConstants {
 		shooter1Config.TriggerThreshold = 60_A;
 		shooter1Config.TriggerThresholdTime = 0.5_s;
 		shooter1Config.ClosedLoopRampRate = 0.5_s;
+#ifndef __FRC_ROBORIO__
+		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
+#else
 		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.275).WithKV(0.1228);
+#endif 
 
 		return shooter1Config;
 	}

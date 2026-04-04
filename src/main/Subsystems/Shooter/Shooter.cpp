@@ -28,12 +28,20 @@ units::turns_per_second_t Shooter::getShooterVelocity(){
 }
 
 bool Shooter::isShooterAtVelocity(){
-    units::turns_per_second_t shooterError = units::turns_per_second_t(shooterLeftDownMotor.GetClosedLoopError().GetValue());
+    units::turns_per_second_t shooterError = targetVelocity - shooterLeftUpMotor.GetVelocity().GetValue();
     return units::math::abs(shooterError) < ShooterConstants::RangeOfError;
 }
 
 const ShooterState& Shooter::getState() {
     return state;
+}
+
+void Shooter::Hold() {
+    this->shouldHold = true;
+}
+
+void Shooter::Release() {
+    this->shouldHold = false;
 }
 
 frc2::CommandPtr Shooter::setShooterVelocityCmd(units::turns_per_second_t velocity){
@@ -48,52 +56,76 @@ void Shooter::UpdateTelemetry(){
     frc::SmartDashboard::PutNumber("Shooter/PID/ActualVelocity", shooterLeftUpMotor.GetVelocity().GetValue().value());
     frc::SmartDashboard::PutNumber("Shooter/ErrorVelocity", shooterLeftUpMotor.GetClosedLoopError().GetValue());
     frc::SmartDashboard::PutNumber("Shooter/PID/TargetVelocity", targetVelocity.value());
-    frc::SmartDashboard::PutNumber("Shooter/PID/HoldingVelocity", holdingTargetVelocity.value());
     frc::SmartDashboard::PutBoolean("Shooter/isShooterAtVelocity", isShooterAtVelocity());
+    frc::SmartDashboard::PutNumber("Shooter/averagekV", averagekV);
+    frc::SmartDashboard::PutNumber("Shooter/PIDSlot", currentPIDSlot);
     frc::SmartDashboard::PutNumber("Shooter/State", (int) state);
 
 }
 
 void Shooter::Periodic() {
-
-    // shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true));
-
-    if ((units::math::abs(holdingTargetVelocity - targetVelocity) > 0.1_tps)){
-        state = ShooterState::WindUp;
-    }
+    bool isAtTarget = isShooterAtVelocity();
+    units::turns_per_second_t currentVel = shooterLeftUpMotor.GetVelocity().GetValue();
+    units::volt_t currentVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
 
     switch (state)
     {
     case ShooterState::WindUp: {
-        shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true));
-        if(isShooterAtVelocity()) {
+        currentPIDSlot = 0;
+        if(isAtTarget && units::math::abs(targetVelocity) >= 0.001_tps) {
             lastTimeOnTarget = frc::Timer::GetFPGATimestamp();
-            holdingTargetVelocity = targetVelocity;
+            kVEstimator.reset();
+
             state = ShooterState::PreparingToHold;
         }   
 
         break;
     }
     case ShooterState::PreparingToHold: {
+        currentPIDSlot = 0;
         units::second_t currentTime = frc::Timer::GetFPGATimestamp();
-
-        if (!isShooterAtVelocity()) {
+        if (!isAtTarget) {
             state = ShooterState::WindUp;
-            break;
         }
 
-        if(currentTime - lastTimeOnTarget > 0.15_s) {
+
+        if (units::math::abs(currentVel) >= 0.001_tps){
+            kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
+        }
+
+        if(currentTime - lastTimeOnTarget > 0.1_s && kVEstimator.size() == 20) {
+            averagekV = 0.0;
+            for(auto& kV : kVEstimator) {
+                averagekV += kV;
+            }
+
+            averagekV /= (double) kVEstimator.size();
+
+            ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig = shooterLeftUpMotor.getCTREConfig();
+            ctre::phoenix6::configs::Slot1Configs slot1Config {};
+            slot1Config.kS = shooterLeftCTREConfig.Slot0.kS;
+            slot1Config.kV = averagekV;
+            slot1Config.kA = averagekV;
+
+            shooterLeftCTREConfig.Slot1 = slot1Config;
+            shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
             state = ShooterState::Holding;
-            holdingVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
         }
 
         break;
     }
     case ShooterState::Holding: {
-        shooterLeftUpMotor.SetControl(shooterHoldingVoltageRequest.WithOutput(holdingVoltage).WithEnableFOC(true));
+        currentPIDSlot = 1;
+
+        if (!isAtTarget && !shouldHold) {
+            state = ShooterState::WindUp;
+        }
+
         break;
     }
     default:
         break;
     }
+
+    shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true).WithSlot(currentPIDSlot));
 }

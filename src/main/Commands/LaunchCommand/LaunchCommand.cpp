@@ -83,12 +83,13 @@ void LaunchCommand::Execute() {
 	//Eject when at position
 	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	if(shooter->getState() == ShooterState::Holding && hood->isHoodAtAngle() && chassisError < 3_deg){
+	if((shooter->isShooterAtVelocity() || shooter->getState() == ShooterState::Holding) && hood->isHoodAtAngle() && chassisError < 3_deg){
 
 		if (!inTargetState) {
 			inTargetState = true;
 			startedClosing = false;
 			enterTimestamp = now;
+			shooter->Hold();
 		}
 
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
@@ -107,6 +108,7 @@ void LaunchCommand::Execute() {
 	} else {
 		inTargetState = false;
 		startedClosing = false;
+		shooter->Release();
 		processor->setProcessorVoltages(ProcessorConstants::Stop);
 	}
 
@@ -122,6 +124,7 @@ void LaunchCommand::Execute() {
 // Called once the command ends or is interrupted.
 void LaunchCommand::End(bool interrupted) {
 	chassis->disableSpeedHelper();
+	shooter->Release();
 }
 
 // Returns true when the command should end.
