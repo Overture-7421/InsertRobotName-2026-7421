@@ -115,16 +115,13 @@ void RobotContainer::ConfigConsoleBindings() {
 
 void RobotContainer::ConfigTestBindings() {
 	//TEST
-	//Passer
-	// test.A().WhileTrue(processor.setPasserVelocityCmd(35_tps));
-	// test.A().OnFalse(processor.setPasserVelocityCmd(25_tps));
 
 	//Shooter
-	// test.B().WhileTrue(shooter.setShooterVelocityCmd(40_tps));
-	// test.B().OnFalse(shooter.setShooterVelocityCmd(30_tps));
+	test.B().WhileTrue(shooter.setShooterVelocityCmd(40_tps));
+	test.B().OnFalse(shooter.setShooterVelocityCmd(30_tps));
 
 	//Hood
-	// test.B().WhileTrue(hood.setHoodAngleCommand(27.0_deg));
+	// test.B().WhileTrue(hood.setHoodAngleCommand(26.5_deg));
 	// test.B().OnFalse(hood.setHoodAngleCommand(2.0_deg));
 
 	//Intake
