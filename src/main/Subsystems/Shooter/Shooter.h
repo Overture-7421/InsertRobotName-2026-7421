@@ -49,7 +49,7 @@ private:
   ShooterState state = ShooterState::WindUp;
   bool shouldHold = false;
 
-  wpi::circular_buffer<double> kVEstimator {20};
+  wpi::circular_buffer<double> kVEstimator {ShooterConstants::HoldingSamples};
   double averagekV = 0;
   int currentPIDSlot = 0;
 };

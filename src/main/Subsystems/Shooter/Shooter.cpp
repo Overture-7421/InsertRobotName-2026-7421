@@ -91,11 +91,11 @@ void Shooter::Periodic() {
         }
 
 
-        if (units::math::abs(currentVel) >= 0.001_tps){
+        if (units::math::abs(currentVel) >= 0.001_tps & currentTime - lastTimeOnTarget > 1.0_s){
             kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
         }
 
-        if(currentTime - lastTimeOnTarget > 1.0_s && kVEstimator.size() == 20) {
+        if(kVEstimator.size() >= ShooterConstants::HoldingSamples) {
             averagekV = 0.0;
             for(auto& kV : kVEstimator) {
                 averagekV += kV;

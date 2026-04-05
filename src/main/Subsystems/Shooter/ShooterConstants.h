@@ -24,6 +24,8 @@ struct ShooterConstants {
 	constexpr static const int MotorRightUpID = 27;
 	constexpr static const int MotorRightDownID = 28;
 
+	constexpr static const int HoldingSamples = 20;
+
 	constexpr static const OverTalonFXConfig ShooterLeftUpConfig() {
 		OverTalonFXConfig shooter1Config;
 		shooter1Config.MotorId = MotorLeftUpID;
