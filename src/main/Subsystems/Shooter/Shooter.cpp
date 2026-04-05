@@ -33,6 +33,10 @@ bool Shooter::isShooterAtVelocity(){
 }
 
 const ShooterState& Shooter::getState() {
+    if (shouldHold){
+        return ShooterState::Holding;
+    }
+    
     return state;
 }
 
