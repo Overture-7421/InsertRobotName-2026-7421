@@ -97,7 +97,7 @@ void LaunchCommand::Execute() {
 		processor->setProcessorVoltages(ProcessorConstants::Eject);
 
 		// after 0.6s start to close
-		if (!startedClosing && (now - enterTimestamp) > 0.6_s) {
+		if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
 			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 			startedClosing = true;
 		}
