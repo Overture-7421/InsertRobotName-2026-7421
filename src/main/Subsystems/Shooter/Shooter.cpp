@@ -91,7 +91,7 @@ void Shooter::Periodic() {
         }
 
 
-        if (units::math::abs(currentVel) >= 0.001_tps & currentTime - lastTimeOnTarget > 1.0_s){
+        if (units::math::abs(currentVel) >= 0.001_tps && currentTime - lastTimeOnTarget > 0.1_s){
             kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
         }
 
@@ -108,7 +108,7 @@ void Shooter::Periodic() {
 
             shooterLeftCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
           
-            slot1Config.kV = averagekV;
+            slot1Config.kV = averagekV * 0.990;
 
             shooterLeftCTREConfig.Slot1 = slot1Config;
             shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);

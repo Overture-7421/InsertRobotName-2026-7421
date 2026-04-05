@@ -10,8 +10,8 @@
 struct ShooterConstants {
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 90.0_tps;
-	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 400.0_tr_per_s_sq;
-	constexpr static const units::turns_per_second_cubed_t CruiseJerk = 4000.0_tr_per_s_cu;
+	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 300.0_tr_per_s_sq;
+	constexpr static const units::turns_per_second_cubed_t CruiseJerk = 3000.0_tr_per_s_cu;
 
 	constexpr static const units::turns_per_second_t RangeOfError = 0.30_tps;
 
