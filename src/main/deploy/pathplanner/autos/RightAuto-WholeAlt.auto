@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right1"
+                  "pathName": "Right1Alt"
                 }
               },
               {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.0
+                        "waitTime": 4.5
                       }
                     }
                   ]
@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right2"
+                  "pathName": "Right2Alt"
                 }
               },
               {
@@ -84,7 +84,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.5
+                        "waitTime": 6.0
                       }
                     },
                     {

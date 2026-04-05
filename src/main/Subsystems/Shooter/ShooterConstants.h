@@ -10,9 +10,10 @@
 struct ShooterConstants {
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 90.0_tps;
-	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 230.0_tr_per_s_sq;
+	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 400.0_tr_per_s_sq;
+	constexpr static const units::turns_per_second_cubed_t CruiseJerk = 4000.0_tr_per_s_cu;
 
-	constexpr static const units::turns_per_second_t RangeOfError = 0.25_tps;
+	constexpr static const units::turns_per_second_t RangeOfError = 0.30_tps;
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0_tps;
 
@@ -34,11 +35,11 @@ struct ShooterConstants {
 		shooter1Config.StatorCurrentLimit = 120_A;
 		shooter1Config.TriggerThreshold = 60_A;
 		shooter1Config.TriggerThresholdTime = 0.5_s;
-		shooter1Config.ClosedLoopRampRate = 0.5_s;
+		shooter1Config.ClosedLoopRampRate = 0.0_s;
 #ifndef __FRC_ROBORIO__
 		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
 #else
-		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.275).WithKV(0.1228);
+		shooter1Config.PIDConfigs.WithKP(0.0).WithKS(0.0).WithKV(0.0); //0.015, 0.313, 0.1215
 #endif 
 
 		return shooter1Config;
@@ -55,7 +56,7 @@ struct ShooterConstants {
 		shooter2Config.StatorCurrentLimit = 120_A;
 		shooter2Config.TriggerThreshold = 60_A;
 		shooter2Config.TriggerThresholdTime = 0.5_s;
-		shooter2Config.ClosedLoopRampRate = 0.5_s;
+		shooter2Config.ClosedLoopRampRate = 0.0_s;
 
 
 		return shooter2Config;
@@ -72,7 +73,7 @@ struct ShooterConstants {
 		shooter3Config.StatorCurrentLimit = 120_A;
 		shooter3Config.TriggerThreshold = 60_A;
 		shooter3Config.TriggerThresholdTime = 0.5_s;
-		shooter3Config.ClosedLoopRampRate = 0.5_s;
+		shooter3Config.ClosedLoopRampRate = 0.0_s;
 
 
 		return shooter3Config;
@@ -89,7 +90,7 @@ struct ShooterConstants {
 		shooter4Config.StatorCurrentLimit = 120_A;
 		shooter4Config.TriggerThreshold = 60_A;
 		shooter4Config.TriggerThresholdTime = 0.5_s;
-		shooter4Config.ClosedLoopRampRate = 0.5_s;
+		shooter4Config.ClosedLoopRampRate = 0.0_s;
 
 
 		return shooter4Config;

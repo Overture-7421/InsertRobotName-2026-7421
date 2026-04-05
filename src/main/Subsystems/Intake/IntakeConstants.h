@@ -16,8 +16,8 @@ struct intakeValues {
 struct IntakeConstants {
 
 	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.30_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.30_m };
+	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.29_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.29_m };
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
