@@ -22,7 +22,7 @@ public:
   void setObjectiveVelocity(units::turns_per_second_t velocity);
   units::turns_per_second_t getShooterVelocity();
   bool isShooterAtVelocity();
-  const ShooterState& getState();
+  ShooterState getState();
   /**
   * Whether to keep Holding state, even though we may not be at the target. This is useful when continously shooting fuel, as they slow down the flywheel.
   * "Hold" instructs the Shooter to keep Holding PID Slot (No PID gains, only kS,kV,kA) once we initially reach Holding state.

@@ -32,11 +32,11 @@ bool Shooter::isShooterAtVelocity(){
     return units::math::abs(shooterError) < ShooterConstants::RangeOfError;
 }
 
-const ShooterState& Shooter::getState() {
+ShooterState Shooter::getState() {
     if (shouldHold){
         return ShooterState::Holding;
     }
-    
+
     return state;
 }
 
