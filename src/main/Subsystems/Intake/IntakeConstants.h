@@ -20,6 +20,7 @@ struct IntakeConstants {
 	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.29_m };
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
+	constexpr static const intakeValues IntakeClosing{ 7.0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 7.0_V;
 	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.17_m;

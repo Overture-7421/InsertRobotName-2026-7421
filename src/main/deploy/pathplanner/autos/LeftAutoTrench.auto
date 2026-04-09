@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto1"
+                  "pathName": "LeftAuto1Trench"
                 }
               },
               {
@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto2"
+                  "pathName": "LeftAuto2Trench"
                 }
               },
               {

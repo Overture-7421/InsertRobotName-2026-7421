@@ -54,6 +54,8 @@ public:
 	Chassis chassis;
 	Processor processor;
 	Intake intake;
+	Hood hood; 
+
 
 	void UpdateTelemetry();
 
@@ -72,7 +74,6 @@ private:
 #endif 
 
 	Shooter shooter;
-	Hood hood;
 
 	LaunchModeManager launchModeManager;
 	ShiftManager shiftManager;

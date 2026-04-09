@@ -111,6 +111,28 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 	).ToPtr();
 }
 
+frc2::CommandPtr Intake::setIntakeClosingCmd(intakeValues targetPos) {
+	return frc2::FunctionalCommand(
+		[this, targetPos]() {
+		setIntakeDistance(targetPos.intake);
+	},
+
+		[this, targetPos]() {
+			if(getIntakePosition() > IntakeConstants::RollersShouldNotBeMoving){
+				setRollersVoltage(targetPos.rollers);
+			} else {
+				setRollersVoltage(IntakeConstants::RollersStop);
+			}
+	},
+
+	[](bool interrupted) {},
+
+	[this, targetPos] {
+		return intakeReached(targetPos.intake);
+	}, {this}
+	).ToPtr();
+}
+
 // This method will be called once per scheduler run
 void Intake::Periodic() {}
 

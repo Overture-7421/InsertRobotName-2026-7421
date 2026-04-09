@@ -105,6 +105,7 @@ void Robot::TeleopInit() {
 	frc2::CommandScheduler::GetInstance().CancelAll();
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::Stop));
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.hood.setHoodAngleCommand(HoodConstants::Close));
 }
 
 /**

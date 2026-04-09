@@ -71,7 +71,7 @@ void LaunchCommand::Execute() {
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
 		
 	} else {
-		distanceToTarget = 3.1_m;
+		distanceToTarget = 3.07_m;
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
 
@@ -96,10 +96,17 @@ void LaunchCommand::Execute() {
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
 		processor->setProcessorVoltages(ProcessorConstants::Eject);
 
-		// after 0.6s start to close
-		if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
-			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
-			startedClosing = true;
+		if(frc::DriverStation::IsAutonomous()){
+			// after 0.6s start to close
+			if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
+				intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
+				startedClosing = true;
+			}
+		} else {
+			if (!startedClosing && (now - enterTimestamp) > 0.3_s) {
+				intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
+				startedClosing = true;
+			}
 		}
 
 		if (startedClosing) {

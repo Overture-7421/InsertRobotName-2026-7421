@@ -25,10 +25,11 @@ class Intake : public frc2::SubsystemBase {
   units::meter_t getIntakePosition();
 
 
-  frc2::CommandPtr setIntakeCmd(intakeValues targetPos);
-  frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos);
-  frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage);
-  frc2::CommandPtr setSliderCmd(units::meter_t targetDistance);
+  frc2::CommandPtr setIntakeCmd(intakeValues targetPos); //To Open
+  frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos); //It was just for prove logic
+  frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage); // Just Rollers
+  frc2::CommandPtr setSliderCmd(units::meter_t targetDistance); //Just Slider
+  frc2::CommandPtr setIntakeClosingCmd(intakeValues targetPos); //To Close (Because of the range)
 
   frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
 
@@ -36,7 +37,7 @@ class Intake : public frc2::SubsystemBase {
 
   void Periodic() override;
 
-  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.4_mps}; //0.1 m/s de velocidad máxima de cambio
+  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.35_mps}; //0.1 m/s de velocidad máxima de cambio
 
  private:
  OverTalonFX sliderMotor {IntakeConstants::sliderMotorConfig(), robotConstants::rio};

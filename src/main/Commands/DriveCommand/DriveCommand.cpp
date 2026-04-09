@@ -50,9 +50,9 @@ void DriveCommand::Execute() {
 	// headingSpeedsHelper.setTargetAngle(targetAngle);
 
 
-	auto xSpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.10, 0.5)
+	auto xSpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(1), 0.11, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
-	auto ySpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.10, 0.5)
+	auto ySpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.11, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
 
 	if (gamepad->GetHID().GetRightBumperButton()) {

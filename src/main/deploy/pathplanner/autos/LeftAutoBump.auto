@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto1Alt"
+                  "pathName": "LeftAuto1Bump"
                 }
               },
               {
@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto2Alt"
+                  "pathName": "LeftAuto2Bump"
                 }
               },
               {

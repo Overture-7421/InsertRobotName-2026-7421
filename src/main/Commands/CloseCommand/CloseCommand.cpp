@@ -6,7 +6,7 @@
 
 frc2::CommandPtr CloseCommand(Intake* intake, Processor* processor){
     return frc2::cmd::Parallel(
-        intake->setIntakeCmd(IntakeConstants::IntakeClose),
+        intake->setIntakeClosingCmd(IntakeConstants::IntakeClosing),
         processor->setProcessorCmd(ProcessorConstants::Stop)
     );
 }

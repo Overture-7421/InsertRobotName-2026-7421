@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right1Alt"
+                  "pathName": "Right1Bump"
                 }
               },
               {
@@ -68,7 +68,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right2Alt"
+                  "pathName": "Right2Bump"
                 }
               },
               {
