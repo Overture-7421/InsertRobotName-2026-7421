@@ -54,7 +54,7 @@ private:
 	int allianceMulti;
 	double slowMulti = 1;
 
-	units::meters_per_second_t shootWhileMoveMaxSpeed = 1.5_mps;
+	units::meters_per_second_t shootWhileMoveMaxSpeed = 2.0_mps;
 
 	bool speedHelperMoved = false;
 };

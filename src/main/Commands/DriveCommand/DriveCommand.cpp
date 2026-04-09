@@ -56,8 +56,14 @@ void DriveCommand::Execute() {
 		* chassis->getMaxModuleSpeed() * slowMulti;
 
 	if (gamepad->GetHID().GetRightBumperButton()) {
-		xSpeed = units::meters_per_second_t(std::clamp(xSpeed.value(), -shootWhileMoveMaxSpeed.value(), shootWhileMoveMaxSpeed.value()));
-		ySpeed = units::meters_per_second_t(std::clamp(ySpeed.value(), -shootWhileMoveMaxSpeed.value(), shootWhileMoveMaxSpeed.value()));
+		auto vMag = units::math::abs(units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed)));
+
+		if (vMag > shootWhileMoveMaxSpeed){
+			auto vMaxFactor = units::math::pow<2>(shootWhileMoveMaxSpeed) / (units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed));
+			xSpeed *= vMaxFactor;
+			ySpeed *= vMaxFactor;
+		}
+
 	}
 
 	// auto rotationSpeed = (gamepad->getTwist() * 1_tps);
