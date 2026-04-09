@@ -110,6 +110,9 @@ void RobotContainer::ConfigConsoleBindings() {
 		this->launchShooterMulti -= 0.03;
 	}));
 
+	console.Button(99).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr());
+	//Ver si tengo que agregar un OnFalse
+	//Y ponerlo tambien para el oprtr
 
 }
 

@@ -84,7 +84,7 @@ void LaunchCommand::Execute() {
 	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
 	frc::SmartDashboard::PutNumber("LaunchCommand/ChassisError", chassisError.value());
-	if((shooter->isShooterAtVelocity() || shooter->getState() == ShooterState::Holding) && hood->isHoodAtAngle() && chassisError < 3.25_deg){
+	if(frc::DriverStation::IsAutonomous() && hood->isHoodAtAngle() && chassisError < 3.25_deg){
 
 		if (!inTargetState) {
 			inTargetState = true;
@@ -96,18 +96,11 @@ void LaunchCommand::Execute() {
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
 		processor->setProcessorVoltages(ProcessorConstants::Eject);
 
-		if(frc::DriverStation::IsAutonomous()){
-			// after 0.6s start to close
-			if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
-				intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
-				startedClosing = true;
-			}
-		} else {
-			if (!startedClosing && (now - enterTimestamp) > 0.3_s) {
-				intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
-				startedClosing = true;
-			}
+		if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
+			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
+			startedClosing = true;
 		}
+		
 
 		if (startedClosing) {
 			intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
