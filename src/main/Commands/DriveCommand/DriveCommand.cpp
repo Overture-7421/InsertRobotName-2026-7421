@@ -55,7 +55,7 @@ void DriveCommand::Execute() {
 	auto ySpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.11, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
 
-	if (gamepad->GetHID().GetRightBumperButton()) {
+	if (gamepad->GetHID().GetRightTriggerAxis()) {
 		auto vMag = units::math::abs(units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed)));
 
 		if (vMag > shootWhileMoveMaxSpeed){
