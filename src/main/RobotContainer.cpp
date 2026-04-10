@@ -6,11 +6,11 @@
 
 #include <frc2/command/button/Trigger.h>
 
-RobotContainer::RobotContainer(){
+RobotContainer::RobotContainer() {
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(4.0_s));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(3.5_s));
 
 	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity))));
 
@@ -40,6 +40,10 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.RightTrigger().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr());
 	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity)));
 
+
+	//For the Pit
+	driver.Y().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(10_tps), processor.setProcessorCmd(ProcessorConstants::Spit)));
+	driver.Y().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), processor.setProcessorCmd(ProcessorConstants::Stop)));
 
 
 	//Tabulate
@@ -110,9 +114,13 @@ void RobotContainer::ConfigConsoleBindings() {
 		this->launchShooterMulti -= 0.03;
 	}));
 
-	console.Button(99).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr());
+	console.Button(6).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr());
 	//Ver si tengo que agregar un OnFalse
 	//Y ponerlo tambien para el oprtr
+
+	console.Button(3).WhileTrue(frc2::cmd::Parallel(intake.setRollersCmd(IntakeConstants::RollersReverse), processor.setProcessorCmd(ProcessorConstants::Reverse)));
+	console.Button(3).OnFalse(frc2::cmd::Parallel(intake.setRollersCmd(IntakeConstants::RollersStop), processor.setProcessorCmd(ProcessorConstants::Stop)));
+
 
 }
 
@@ -120,8 +128,8 @@ void RobotContainer::ConfigTestBindings() {
 	//TEST
 
 	//Shooter
-	test.B().WhileTrue(shooter.setShooterVelocityCmd(34_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
-	test.B().OnFalse(shooter.setShooterVelocityCmd(0_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	test.B().WhileTrue(shooter.setShooterVelocityCmd(36_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	test.B().OnFalse(shooter.setShooterVelocityCmd(20_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
 
 	//Hood
 	test.A().WhileTrue(hood.setHoodAngleCommand(26.5_deg));
@@ -146,7 +154,7 @@ void RobotContainer::ConfigTestBindings() {
 	// test.RightBumper().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(30_tps), hood.setHoodAngleCommand(25.0_deg), processor.setProcessorCmd(ProcessorConstants::Eject), intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)));
 	// test.RightBumper().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), hood.setHoodAngleCommand(HoodConstants::Close), processor.setProcessorCmd(ProcessorConstants::Stop)));
 
-	
+
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {

@@ -55,7 +55,7 @@ public:
 	Chassis chassis;
 	Processor processor;
 	Intake intake;
-	Hood hood; 
+	Hood hood;
 
 
 	void UpdateTelemetry();
@@ -93,8 +93,8 @@ private:
 	static AprilTags::Config limelightUpConfig();
 	static AprilTags::Config limelightDownConfig();
 
-	AprilTags camRight{ &tagLayout, &chassis, camRightConfig() };
-	AprilTags camLeft{ &tagLayout, &chassis, camLeftConfig() };
+	// AprilTags camRight{ &tagLayout, &chassis, camRightConfig() };
+	// AprilTags camLeft{ &tagLayout, &chassis, camLeftConfig() };
 	AprilTags limelightUp{ &tagLayout, &chassis, limelightUpConfig() };
 	AprilTags limelightDown{ &tagLayout, &chassis, limelightDownConfig() };
 

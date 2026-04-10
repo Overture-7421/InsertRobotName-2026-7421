@@ -18,38 +18,40 @@
 class Shooter : public frc2::SubsystemBase {
 public:
 
-  Shooter();
-  void setObjectiveVelocity(units::turns_per_second_t velocity);
-  units::turns_per_second_t getShooterVelocity();
-  bool isShooterAtVelocity();
-  ShooterState getState();
-  /**
-  * Whether to keep Holding state, even though we may not be at the target. This is useful when continously shooting fuel, as they slow down the flywheel.
-  * "Hold" instructs the Shooter to keep Holding PID Slot (No PID gains, only kS,kV,kA) once we initially reach Holding state.
-  * "Release" allows Holding state to transition to WindUp if we are no longer at the target. Windup returns to "normal" slot (Both PID gains and kS,kV,kA).
-  */
-  void Hold();
-  void Release();
+	Shooter();
+	void setObjectiveVelocity(units::turns_per_second_t velocity);
+	units::turns_per_second_t getShooterVelocity();
+	bool isShooterAtVelocity();
+	ShooterState getState();
+	/**
+	* Whether to keep Holding state, even though we may not be at the target. This is useful when continously shooting fuel, as they slow down the flywheel.
+	* "Hold" instructs the Shooter to keep Holding PID Slot (No PID gains, only kS,kV,kA) once we initially reach Holding state.
+	* "Release" allows Holding state to transition to WindUp if we are no longer at the target. Windup returns to "normal" slot (Both PID gains and kS,kV,kA).
+	*/
+	void Hold();
+	void Release();
 
-  frc2::CommandPtr setShooterVelocityCmd(units::turns_per_second_t velocity);
-  void UpdateTelemetry();
-  void Periodic() override;
+	frc2::CommandPtr setShooterVelocityCmd(units::turns_per_second_t velocity);
+	void UpdateTelemetry();
+	void Periodic() override;
 
 private:
 
-  OverTalonFX shooterLeftUpMotor{ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio};
-  OverTalonFX shooterLeftDownMotor{ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio};
-  OverTalonFX shooterRightUpMotor{ShooterConstants::ShooterRightUpConfig(), robotConstants::rio};
-  OverTalonFX shooterRightDownMotor{ShooterConstants::ShooterRightDownConfig(), robotConstants::rio};
+	OverTalonFX shooterLeftUpMotor{ ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio };
+	OverTalonFX shooterLeftDownMotor{ ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio };
+	OverTalonFX shooterRightUpMotor{ ShooterConstants::ShooterRightUpConfig(), robotConstants::rio };
+	OverTalonFX shooterRightDownMotor{ ShooterConstants::ShooterRightDownConfig(), robotConstants::rio };
 
-  ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
-  units::turns_per_second_t targetVelocity = 0_tps;
+	ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{ 0.0_tps };
+	units::turns_per_second_t targetVelocity = 0_tps;
 
-  units::second_t lastTimeOnTarget = 0_s;
-  ShooterState state = ShooterState::WindUp;
-  bool shouldHold = false;
+	units::second_t lastTimeOnTarget = 0_s;
+	ShooterState state = ShooterState::WindUp;
+	bool shouldHold = false;
 
-  wpi::circular_buffer<double> kVEstimator {ShooterConstants::HoldingSamples};
-  double averagekV = 0;
-  int currentPIDSlot = 0;
+	wpi::circular_buffer<double> kVEstimator{ ShooterConstants::HoldingSamples };
+	double averagekV = 0;
+	int currentPIDSlot = 0;
+
+	ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig;
 };

@@ -16,13 +16,14 @@ struct intakeValues {
 struct IntakeConstants {
 
 	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 0.29_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeOpen{ 10.0_V, 0.29_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.29_m };
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
-	constexpr static const intakeValues IntakeClosing{ 7.0_V, 0.10_m };
+	constexpr static const intakeValues IntakeClosing{ 10.0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
-	constexpr static const units::volt_t RollersEject = 7.0_V;
+	constexpr static const units::volt_t RollersEject = 10.0_V;
+	constexpr static const units::volt_t RollersReverse = -10.0_V;
 	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.17_m;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
@@ -55,7 +56,7 @@ struct IntakeConstants {
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;
 		sliderRightMotorConfig.OpenLoopRampRate = 0.0_s;
-		sliderRightMotorConfig.StatorCurrentLimit = 120_A;
+		sliderRightMotorConfig.StatorCurrentLimit = 180_A;
 		sliderRightMotorConfig.TriggerThreshold = 40_A;
 
 		return sliderRightMotorConfig;
@@ -72,14 +73,14 @@ struct IntakeConstants {
 		rollersLeftMotorConfig.ClosedLoopRampRate = 0.0_s;
 		rollersLeftMotorConfig.CurrentLimit = 20_A;
 		rollersLeftMotorConfig.OpenLoopRampRate = 0.1_s;
-		rollersLeftMotorConfig.StatorCurrentLimit = 120_A;
+		rollersLeftMotorConfig.StatorCurrentLimit = 180_A;
 		rollersLeftMotorConfig.TriggerThreshold = 30_A;
 		rollersLeftMotorConfig.TriggerThresholdTime = 0.5_s;
 
 		return rollersLeftMotorConfig;
 	}
 
-		constexpr static OverTalonFXConfig rollersRightMotorConfig() {
+	constexpr static OverTalonFXConfig rollersRightMotorConfig() {
 		OverTalonFXConfig rollersRightMotorConfig;
 		rollersRightMotorConfig.MotorId = 18;
 		rollersRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;

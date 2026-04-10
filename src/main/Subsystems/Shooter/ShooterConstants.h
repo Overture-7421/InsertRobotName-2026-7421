@@ -10,10 +10,12 @@
 struct ShooterConstants {
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 90.0_tps;
-	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 300.0_tr_per_s_sq;
-	constexpr static const units::turns_per_second_cubed_t CruiseJerk = 3000.0_tr_per_s_cu;
+	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 120.0_tr_per_s_sq;
+	constexpr static const units::turns_per_second_cubed_t CruiseJerk = 2000.0_tr_per_s_cu;
 
-	constexpr static const units::turns_per_second_t RangeOfError = 0.25_tps;
+	constexpr static const units::turns_per_second_t RangeOfError = 0.20_tps;
+	constexpr static const units::turns_per_second_t RangeOfErrorOutOfHold = 0.75_tps;
+
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0.0_tps;
 	constexpr static const units::turns_per_second_t SustainVelocity = 0.0_tps;
@@ -42,7 +44,7 @@ struct ShooterConstants {
 #ifndef __FRC_ROBORIO__
 		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
 #else
-		shooter1Config.PIDConfigs.WithKP(0.05).WithKS(0.24).WithKV(0.1240); //0.05, 0.24, 0.1240
+		shooter1Config.PIDConfigs.WithKP(0.05).WithKS(0.24).WithKV(0.1225); //.WithKP(0.05).WithKI(0.05).WithKV(0.113)
 #endif 
 
 		return shooter1Config;

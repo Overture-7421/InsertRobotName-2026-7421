@@ -5,134 +5,132 @@
 #include "Shooter.h"
 
 Shooter::Shooter() {
-    shooterLeftDownMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), false);
-    shooterRightUpMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), true);
-    shooterRightDownMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), true);
+	shooterLeftDownMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), false);
+	shooterRightUpMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), true);
+	shooterRightDownMotor.setFollow(shooterLeftUpMotor.GetDeviceID(), true);
 
-    shooterLeftUpMotor.setSensorToMechanism(ShooterConstants::SensorToMechanism);
-    shooterLeftUpMotor.configureMotionMagic(ShooterConstants::CruiseVelocity,
-                                         ShooterConstants::CruiseAcceleration,
-                                         ShooterConstants::CruiseJerk);
+	shooterLeftUpMotor.setSensorToMechanism(ShooterConstants::SensorToMechanism);
+	shooterLeftUpMotor.configureMotionMagic(ShooterConstants::CruiseVelocity,
+		ShooterConstants::CruiseAcceleration,
+		ShooterConstants::CruiseJerk);
 
-    ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig = shooterLeftUpMotor.getCTREConfig();
-    shooterLeftCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
-    shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
+	shooterLeftCTREConfig = shooterLeftUpMotor.getCTREConfig();
+	shooterLeftCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
+	shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
 }
 
-void Shooter::setObjectiveVelocity(units::turns_per_second_t velocity){
-    this->targetVelocity = velocity;
+void Shooter::setObjectiveVelocity(units::turns_per_second_t velocity) {
+	this->targetVelocity = velocity;
 }
 
-units::turns_per_second_t Shooter::getShooterVelocity(){
-    return shooterLeftUpMotor.GetVelocity().GetValue();
+units::turns_per_second_t Shooter::getShooterVelocity() {
+	return shooterLeftUpMotor.GetVelocity().GetValue();
 }
 
-bool Shooter::isShooterAtVelocity(){
-    units::turns_per_second_t shooterError = targetVelocity - shooterLeftUpMotor.GetVelocity().GetValue();
-    return units::math::abs(shooterError) < ShooterConstants::RangeOfError;
+bool Shooter::isShooterAtVelocity() {
+	units::turns_per_second_t shooterError = targetVelocity - shooterLeftUpMotor.GetVelocity().GetValue();
+	return units::math::abs(shooterError) < ShooterConstants::RangeOfError;
 }
 
 ShooterState Shooter::getState() {
-    if (shouldHold){
-        return ShooterState::Holding;
-    }
+	if (shouldHold) {
+		return ShooterState::Holding;
+	}
 
-    return state;
+	return state;
 }
 
 void Shooter::Hold() {
-    this->shouldHold = true;
+	this->shouldHold = true;
 }
 
 void Shooter::Release() {
-    this->shouldHold = false;
+	this->shouldHold = false;
 }
 
-frc2::CommandPtr Shooter::setShooterVelocityCmd(units::turns_per_second_t velocity){
-    return frc2::cmd::RunOnce(
-        [this, velocity] {
-            setObjectiveVelocity(velocity);
-        }, {this}
-    );
+frc2::CommandPtr Shooter::setShooterVelocityCmd(units::turns_per_second_t velocity) {
+	return frc2::cmd::RunOnce(
+		[this, velocity] {
+		setObjectiveVelocity(velocity);
+	}, { this }
+		);
 }
 
-void Shooter::UpdateTelemetry(){
-    frc::SmartDashboard::PutNumber("Shooter/PID/ActualVelocity", shooterLeftUpMotor.GetVelocity().GetValue().value());
-    frc::SmartDashboard::PutNumber("Shooter/ErrorVelocity", shooterLeftUpMotor.GetClosedLoopError().GetValue());
-    frc::SmartDashboard::PutNumber("Shooter/PID/TargetVelocity", targetVelocity.value());
-    frc::SmartDashboard::PutBoolean("Shooter/isShooterAtVelocity", isShooterAtVelocity());
-    frc::SmartDashboard::PutNumber("Shooter/averagekV", averagekV);
-    frc::SmartDashboard::PutNumber("Shooter/PIDSlot", currentPIDSlot);
-    frc::SmartDashboard::PutNumber("Shooter/State", (int) state);
-    frc::SmartDashboard::PutBoolean("Shooter/shouldHold", shouldHold);
+void Shooter::UpdateTelemetry() {
+	frc::SmartDashboard::PutNumber("Shooter/PID/ActualVelocity", shooterLeftUpMotor.GetVelocity().GetValue().value());
+	frc::SmartDashboard::PutNumber("Shooter/ErrorVelocity", shooterLeftUpMotor.GetClosedLoopError().GetValue());
+	frc::SmartDashboard::PutNumber("Shooter/PID/TargetVelocity", targetVelocity.value());
+	frc::SmartDashboard::PutBoolean("Shooter/isShooterAtVelocity", isShooterAtVelocity());
+	frc::SmartDashboard::PutNumber("Shooter/averagekV", averagekV);
+	frc::SmartDashboard::PutNumber("Shooter/PIDSlot", currentPIDSlot);
+	frc::SmartDashboard::PutNumber("Shooter/State", (int)state);
+	frc::SmartDashboard::PutBoolean("Shooter/shouldHold", shouldHold);
 
+	frc::SmartDashboard::PutNumber("Shooter/MotorVoltage", shooterLeftUpMotor.GetMotorVoltage().GetValue().value());
 
 }
 
 void Shooter::Periodic() {
-    bool isAtTarget = isShooterAtVelocity();
-    units::turns_per_second_t currentVel = shooterLeftUpMotor.GetVelocity().GetValue();
-    units::volt_t currentVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
+	bool isAtTarget = isShooterAtVelocity();
+	units::turns_per_second_t currentVel = shooterLeftUpMotor.GetVelocity().GetValue();
+	units::volt_t currentVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
 
-    switch (state)
-    {
-    case ShooterState::WindUp: {
-        currentPIDSlot = 0;
-        if(isAtTarget && units::math::abs(targetVelocity) >= 0.001_tps) {
-            lastTimeOnTarget = frc::Timer::GetFPGATimestamp();
-            kVEstimator.reset();
+	switch (state) {
+	case ShooterState::WindUp: {
+		currentPIDSlot = 0;
+		if (isAtTarget && units::math::abs(targetVelocity) >= 0.001_tps) {
+			lastTimeOnTarget = frc::Timer::GetFPGATimestamp();
+			kVEstimator.reset();
 
-            state = ShooterState::PreparingToHold;
-        }   
+			state = ShooterState::PreparingToHold;
+		}
 
-        break;
-    }
-    case ShooterState::PreparingToHold: {
-        currentPIDSlot = 0;
-        units::second_t currentTime = frc::Timer::GetFPGATimestamp();
-        if (!isAtTarget) {
-            state = ShooterState::WindUp;
-        }
+		break;
+	}
+	case ShooterState::PreparingToHold: {
+		currentPIDSlot = 0;
+		units::second_t currentTime = frc::Timer::GetFPGATimestamp();
+		if (!isAtTarget) {
+			state = ShooterState::WindUp;
+		}
 
 
-        if (units::math::abs(currentVel) >= 0.001_tps && currentTime - lastTimeOnTarget > 0.1_s){
-            kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
-        }
+		if (units::math::abs(currentVel) >= 0.001_tps && currentTime - lastTimeOnTarget > .1_s) {
+			kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
+		}
 
-        if(kVEstimator.size() >= ShooterConstants::HoldingSamples) {
-            averagekV = 0.0;
-            for(auto& kV : kVEstimator) {
-                averagekV += kV;
-            }
+		if (kVEstimator.size() >= ShooterConstants::HoldingSamples) {
+			averagekV = 0.0;
+			for (auto& kV : kVEstimator) {
+				averagekV += kV;
+			}
 
-            averagekV /= (double) kVEstimator.size();
+			averagekV /= (double)kVEstimator.size();
 
-            ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig = shooterLeftUpMotor.getCTREConfig();
-            ctre::phoenix6::configs::Slot1Configs slot1Config {};
+			ctre::phoenix6::configs::Slot1Configs slot1Config{};
+			slot1Config.kV = averagekV;
 
-            shooterLeftCTREConfig.Feedback.VelocityFilterTimeConstant = 0.1_s;
-          
-            slot1Config.kV = averagekV * 0.990;
+			shooterLeftCTREConfig.Slot1 = slot1Config;
+			shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
+			state = ShooterState::Holding;
+		}
 
-            shooterLeftCTREConfig.Slot1 = slot1Config;
-            shooterLeftUpMotor.GetConfigurator().Apply(shooterLeftCTREConfig);
-            state = ShooterState::Holding;
-        }
+		break;
+	}
+	case ShooterState::Holding: {
+		currentPIDSlot = 1;
+		units::turns_per_second_t shooterError = targetVelocity - shooterLeftUpMotor.GetVelocity().GetValue();
 
-        break;
-    }
-    case ShooterState::Holding: {
-        currentPIDSlot = 1;
 
-        if (!isAtTarget && !shouldHold) {
-            state = ShooterState::WindUp;
-        }
+		if (units::math::abs(shooterError) > ShooterConstants::RangeOfErrorOutOfHold && !shouldHold) {
+			state = ShooterState::WindUp;
+		}
 
-        break;
-    }
-    default:
-        break;
-    }
+		break;
+	}
+	default:
+		break;
+	}
 
-    shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true).WithSlot(currentPIDSlot));
+	shooterLeftUpMotor.SetControl(shooterVoltageRequest.WithVelocity(targetVelocity).WithEnableFOC(true).WithSlot(currentPIDSlot));
 }
