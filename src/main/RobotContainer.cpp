@@ -8,7 +8,7 @@
 
 RobotContainer::RobotContainer() {
 	//Sujto a cambio
-	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeOpen)));
+	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeAuto)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
 	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(3.5_s));
 
@@ -114,7 +114,7 @@ void RobotContainer::ConfigConsoleBindings() {
 		this->launchShooterMulti -= 0.03;
 	}));
 
-	console.Button(6).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr());
+	console.Button(6).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr().OnlyWhile([this] {return driver.GetHID().GetLeftTriggerAxis() < 0.1;}));
 	//Ver si tengo que agregar un OnFalse
 	//Y ponerlo tambien para el oprtr
 
@@ -193,6 +193,7 @@ AprilTags::Config RobotContainer::limelightUpConfig() {
 	config.cameraName = "limelight-up";
 	config.limelightMode = LimelightMode::MegaTag2;
 	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
+	config.yawCorrectionThreshold = 10_deg;
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.345435_m, 0.047625_m, 0.444663_m, {0_deg, -15_deg, 180.0_deg} };};
 	return config;
 }
@@ -203,6 +204,7 @@ AprilTags::Config RobotContainer::limelightDownConfig() {
 	config.cameraName = "limelight-down";
 	config.limelightMode = LimelightMode::MegaTag2;
 	config.multiTagStdDevs = wpi::array<double, 3>  { 0.5, 0.5, 0.5 };
+	config.yawCorrectionThreshold = 10_deg;
 	config.cameraToRobotSupplier = [] {return frc::Transform3d{ -0.334501_m, 0.047625_m, 0.320287_m, {0_deg, -40.0_deg, 180.0_deg} };};
 	return config;
 }

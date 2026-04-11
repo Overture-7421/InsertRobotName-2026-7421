@@ -16,15 +16,16 @@ struct intakeValues {
 struct IntakeConstants {
 
 	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 10.0_V, 0.29_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.29_m };
+	constexpr static const intakeValues IntakeOpen{ 10.0_V, 0.298_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.298_m };
+	constexpr static const intakeValues IntakeAuto{ 12.0_V, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
 	constexpr static const intakeValues IntakeClosing{ 10.0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::volt_t RollersEject = 10.0_V;
 	constexpr static const units::volt_t RollersReverse = -10.0_V;
-	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.17_m;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.22_m;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;
@@ -34,7 +35,7 @@ struct IntakeConstants {
 	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;
 	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 48_tr_per_s_sq;
 
-	constexpr static const units::meter_t IntakeRangeError = 0.02_m;
+	constexpr static const units::meter_t IntakeRangeError = 0.04_m;
 
 	constexpr static const double SliderCanCoderID = 16;
 
@@ -56,7 +57,7 @@ struct IntakeConstants {
 		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
 		sliderRightMotorConfig.CurrentLimit = 30_A;
 		sliderRightMotorConfig.OpenLoopRampRate = 0.0_s;
-		sliderRightMotorConfig.StatorCurrentLimit = 180_A;
+		sliderRightMotorConfig.StatorCurrentLimit = 120_A;
 		sliderRightMotorConfig.TriggerThreshold = 40_A;
 
 		return sliderRightMotorConfig;
@@ -71,10 +72,10 @@ struct IntakeConstants {
 		rollersLeftMotorConfig.useFOC = true;
 
 		rollersLeftMotorConfig.ClosedLoopRampRate = 0.0_s;
-		rollersLeftMotorConfig.CurrentLimit = 20_A;
+		rollersLeftMotorConfig.CurrentLimit = 50_A;
 		rollersLeftMotorConfig.OpenLoopRampRate = 0.1_s;
-		rollersLeftMotorConfig.StatorCurrentLimit = 180_A;
-		rollersLeftMotorConfig.TriggerThreshold = 30_A;
+		rollersLeftMotorConfig.StatorCurrentLimit = 120_A;
+		rollersLeftMotorConfig.TriggerThreshold = 50_A;
 		rollersLeftMotorConfig.TriggerThresholdTime = 0.5_s;
 
 		return rollersLeftMotorConfig;
@@ -88,10 +89,10 @@ struct IntakeConstants {
 		rollersRightMotorConfig.useFOC = true;
 
 		rollersRightMotorConfig.ClosedLoopRampRate = 0.0_s;
-		rollersRightMotorConfig.CurrentLimit = 20_A;
+		rollersRightMotorConfig.CurrentLimit = 50_A;
 		rollersRightMotorConfig.OpenLoopRampRate = 0.1_s;
 		rollersRightMotorConfig.StatorCurrentLimit = 120_A;
-		rollersRightMotorConfig.TriggerThreshold = 30_A;
+		rollersRightMotorConfig.TriggerThreshold = 50_A;
 		rollersRightMotorConfig.TriggerThresholdTime = 0.5_s;
 
 		return rollersRightMotorConfig;
@@ -103,7 +104,7 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.099853515625_tr;
+		SliderCanCoderConfig.Offset = 0.076904296875_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 

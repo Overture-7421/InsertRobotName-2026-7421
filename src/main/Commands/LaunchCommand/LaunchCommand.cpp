@@ -5,7 +5,7 @@
 #include "LaunchCommand.h"
 #include <frc/Timer.h>
 
-LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
+LaunchCommand::LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
@@ -15,11 +15,11 @@ LaunchCommand::LaunchCommand(Shooter* shooter,Hood* hood, Chassis* chassis, Inta
 	this->driver = driver;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter, hood, processor}); //Intake is crashing
+	AddRequirements({ shooter, hood, processor }); //Intake is crashing
 }
 
 // Called when the command is initially scheduled.
-void LaunchCommand::Initialize() { 
+void LaunchCommand::Initialize() {
 	chassis->enableSpeedHelper(&headingSpeedsHelper);
 	intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 }
@@ -28,10 +28,10 @@ void LaunchCommand::Initialize() {
 void LaunchCommand::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
 	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();\
-	bool redAlliance = isRedAlliance();
+		bool redAlliance = isRedAlliance();
 	frc::Translation2d targetCoords;
-	
-	if(launchMode == LaunchModes::Pass) {
+
+	if (launchMode == LaunchModes::Pass) {
 		targetCoords = passTargetSwitcher.GetPassTarget(chassisPose, redAlliance);
 	} else {
 		targetCoords = LaunchConstants::HubPose;
@@ -47,11 +47,11 @@ void LaunchCommand::Execute() {
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassisPose, speed, accel);
 
 	frc::Rotation2d targetAngle((chassisPose.X() - movingGoalLocation.X()).value(), (chassisPose.Y() - movingGoalLocation.Y()).value());
-  	headingSpeedsHelper.setTargetAngle(targetAngle);
+	headingSpeedsHelper.setTargetAngle(targetAngle);
 
 
 	units::meter_t distanceToTarget = chassisPose.Translation().Distance(movingGoalLocation);
- 	frc::SmartDashboard::PutNumber("LaunchCommand/DistanceTarget", distanceToTarget.value());
+	frc::SmartDashboard::PutNumber("LaunchCommand/DistanceTarget", distanceToTarget.value());
 
 	units::degree_t hoodAngle;
 	units::turns_per_second_t shooterSpeed;
@@ -63,13 +63,13 @@ void LaunchCommand::Execute() {
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
 		shooterSpeed = LaunchConstants::DistanceToShooterForHub[distanceToTarget];
 	}
-	
+
 
 	//Manual
 	if (!driver->GetHID().GetAButton()) {
 		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
-		
+
 	} else {
 		distanceToTarget = 3.07_m;
 		hoodAngle = LaunchConstants::DistanceToHoodForHub[distanceToTarget];
@@ -77,14 +77,14 @@ void LaunchCommand::Execute() {
 
 		hood->setHoodAngle(hoodAngle);
 		shooter->setObjectiveVelocity(shooterSpeed * multiSupplier());
-		
+
 	}
 
 	//Eject when at position
 	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
 	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	frc::SmartDashboard::PutNumber("LaunchCommand/ChassisError", chassisError.value());
-	if(frc::DriverStation::IsAutonomous() && hood->isHoodAtAngle() && chassisError < 3.25_deg){
+	frc::SmartDashboard::PutBoolean("LaunchCommand/ChassisError", chassisError.value() < 3.25);
+	if (frc::DriverStation::IsAutonomous() && hood->isHoodAtAngle() && chassisError < 3.25_deg) {
 
 		if (!inTargetState) {
 			inTargetState = true;
@@ -96,11 +96,11 @@ void LaunchCommand::Execute() {
 		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
 		processor->setProcessorVoltages(ProcessorConstants::Eject);
 
-		if (!startedClosing && (now - enterTimestamp) > 0.7_s) {
+		if (!startedClosing && (now - enterTimestamp) > 1.5_s) {
 			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 			startedClosing = true;
 		}
-		
+
 
 		if (startedClosing) {
 			intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
@@ -114,7 +114,7 @@ void LaunchCommand::Execute() {
 	}
 
 
-	if(intake->getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving ){
+	if (intake->getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving) {
 		intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
 	}
 

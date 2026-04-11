@@ -4,10 +4,12 @@
   "holonomicMode": true,
   "pathFolders": [
     "LeftAuto",
+    "CenterAuto",
     "RightAuto"
   ],
   "autoFolders": [
     "LeftAuto",
+    "CenterAutoTecDroid",
     "RightAuto"
   ],
   "defaultMaxVel": 5.0,

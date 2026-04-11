@@ -44,7 +44,7 @@ struct ShooterConstants {
 #ifndef __FRC_ROBORIO__
 		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
 #else
-		shooter1Config.PIDConfigs.WithKP(0.05).WithKS(0.24).WithKV(0.1225); //.WithKP(0.05).WithKI(0.05).WithKV(0.113)
+		shooter1Config.PIDConfigs.WithKP(0.05).WithKS(0.24).WithKV(0.1233); //.WithKP(0.05).WithKI(0.05).WithKV(0.113)
 #endif 
 
 		return shooter1Config;

@@ -5,13 +5,38 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Center1"
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "EjectCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AfterEject"
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto1Bump"
+                  "pathName": "C2"
                 }
               },
               {
@@ -37,60 +62,9 @@
           }
         },
         {
-          "type": "sequential",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "EjectCommand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AfterEject"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "LeftAuto2Bump"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 6.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeSustain"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "C3"
           }
         },
         {
@@ -116,6 +90,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "LeftAuto",
+  "folder": "CenterAutoTecDroid",
   "choreoAuto": false
 }

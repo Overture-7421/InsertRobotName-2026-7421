@@ -46,7 +46,7 @@ void DriveCommand::Execute() {
 	// 	speedHelperMoved = false;
 	// 	chassis->disableSpeedHelper();
 	// }
-	 
+
 	// headingSpeedsHelper.setTargetAngle(targetAngle);
 
 
@@ -55,10 +55,10 @@ void DriveCommand::Execute() {
 	auto ySpeed = Utils::ApplyAxisFilter(allianceMulti * -gamepad->GetHID().GetRawAxis(0), 0.11, 0.5)
 		* chassis->getMaxModuleSpeed() * slowMulti;
 
-	if (gamepad->GetHID().GetRightTriggerAxis()) {
+	if (gamepad->GetHID().GetRightBumperButton()) {
 		auto vMag = units::math::abs(units::math::sqrt(units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed)));
 
-		if (vMag > shootWhileMoveMaxSpeed){
+		if (vMag > shootWhileMoveMaxSpeed) {
 			auto vMaxFactor = units::math::pow<2>(shootWhileMoveMaxSpeed) / (units::math::pow<2>(xSpeed) + units::math::pow<2>(ySpeed));
 			xSpeed *= vMaxFactor;
 			ySpeed *= vMaxFactor;
