@@ -48,4 +48,6 @@ class Intake : public frc2::SubsystemBase {
  ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
  ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};
 
+ units::volt_t targetRollerVoltage {0_V};
+
 };

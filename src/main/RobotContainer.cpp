@@ -10,7 +10,10 @@ RobotContainer::RobotContainer() {
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeAuto)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(6.5_s));
+	pathplanner::NamedCommands::registerCommand("VisionAlignCmd", std::move(VisionAlignCmd(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, true).ToPtr()).WithTimeout(3.0_s));
+	pathplanner::NamedCommands::registerCommand("VisionAlignCmdInfinite", std::move(VisionAlignCmd(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()));
+
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(EjectCommand(&intake, &shooter, &processor).ToPtr()).WithTimeout(3.2_s));
 
 	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity))));
 
@@ -37,7 +40,7 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftTrigger().WhileTrue(intake.setIntakeCmd(IntakeConstants::IntakeOpen));
 	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
-	driver.RightTrigger().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr());
+	driver.RightTrigger().WhileTrue(VisionAlignCmd(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr());
 	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity)));
 
 

@@ -13,8 +13,8 @@
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
-#include "Commands/LaunchCommand/LaunchConstants.h"
-#include "Commands/LaunchCommand/PassTargetSwitcher.h"
+#include "Commands/VisionAlignCmd/VisionAlignConstants.h"
+#include "Commands/VisionAlignCmd/PassTargetSwitcher.h"
 
 
 /**

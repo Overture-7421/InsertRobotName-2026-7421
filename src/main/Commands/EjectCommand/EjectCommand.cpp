@@ -9,7 +9,7 @@ EjectCommand::EjectCommand(Intake* intake, Shooter* shooter, Processor* processo
 	this->shooter = shooter;
 	this->processor = processor;
 
-	AddRequirements({ shooter, processor }); //Intake is crashing (Probably)
+	AddRequirements({processor }); //Intake is crashing (Probably)
 
 }
 
@@ -39,11 +39,6 @@ void EjectCommand::Execute() {
 
 	if (startedClosing) {
 		intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
-	}
-
-
-	if (intake->getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving) {
-		intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
 	}
 
 }

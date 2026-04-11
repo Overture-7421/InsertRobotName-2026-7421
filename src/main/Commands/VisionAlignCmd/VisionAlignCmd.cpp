@@ -2,30 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-#include "LaunchCommand.h"
+#include "VisionAlignCmd.h"
 #include <frc/Timer.h>
 
-LaunchCommand::LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
+VisionAlignCmd::VisionAlignCmd(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver, bool shouldEnd) : headingSpeedsHelper(headingController, chassis), multiSupplier(std::move(multiSupplier)) {
 	this->shooter = shooter;
 	this->hood = hood;
 	this->chassis = chassis;
-	this->intake = intake;
-	this->processor = processor;
 	this->launchModeManager = launchModeManager;
 	this->driver = driver;
+	this->shouldEnd = shouldEnd;
 
 	// Use addRequirements() here to declare subsystem dependencies.
-	AddRequirements({ shooter, hood, processor }); //Intake is crashing
+	AddRequirements({ shooter, hood }); //Intake is crashing
 }
 
 // Called when the command is initially scheduled.
-void LaunchCommand::Initialize() {
+void VisionAlignCmd::Initialize() {
 	chassis->enableSpeedHelper(&headingSpeedsHelper);
-	intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 }
 
 // Called repeatedly when this Command is scheduled to run
-void LaunchCommand::Execute() {
+void VisionAlignCmd::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
 	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();\
 		bool redAlliance = isRedAlliance();
@@ -80,55 +78,25 @@ void LaunchCommand::Execute() {
 
 	}
 
-	//Eject when at position
-	const units::time::second_t now = frc::Timer::GetFPGATimestamp();
-	units::degree_t chassisError = units::math::abs(targetAngle.Degrees() - chassisPose.Rotation().Degrees());
-	frc::SmartDashboard::PutBoolean("LaunchCommand/ChassisError", chassisError.value() < 3.25);
-	if (frc::DriverStation::IsAutonomous() && hood->isHoodAtAngle() && chassisError < 3.25_deg) {
 
-		if (!inTargetState) {
-			inTargetState = true;
-			startedClosing = false;
-			enterTimestamp = now;
-			shooter->Hold();
-		}
-
-		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
-		processor->setProcessorVoltages(ProcessorConstants::Eject);
-
-		if (!startedClosing && (now - enterTimestamp) > 1.5_s) {
-			intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
-			startedClosing = true;
-		}
-
-
-		if (startedClosing) {
-			intake->setIntakeDistance(intake->intakeSlowModeFilter.Calculate(IntakeConstants::IntakeClose.intake));
-		}
-
-	} else {
-		inTargetState = false;
-		startedClosing = false;
-		shooter->Release();
-		processor->setProcessorVoltages(ProcessorConstants::Stop);
-	}
-
-
-	if (intake->getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving) {
-		intake->setRollersVoltage(IntakeConstants::IntakeClose.rollers);
-	}
+	chassisError = units::math::abs((targetAngle - chassisPose.Rotation()).Degrees());
+	frc::SmartDashboard::PutNumber("LaunchCommand/ChassisError", chassisError.value());
+	frc::SmartDashboard::PutBoolean("LaunchCommand/ChassisErrorBool", chassisError.value() < 3.25);
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
 	targetPublisher.Set(movingGoalLocation);
 }
 
 // Called once the command ends or is interrupted.
-void LaunchCommand::End(bool interrupted) {
+void VisionAlignCmd::End(bool interrupted) {
 	chassis->disableSpeedHelper();
-	shooter->Release();
 }
 
 // Returns true when the command should end.
-bool LaunchCommand::IsFinished() {
-	return false;
+bool VisionAlignCmd::IsFinished() {
+	if (!shouldEnd) {
+		return false;
+	}
+
+	return hood->isHoodAtAngle() && chassisError < 3.25_deg;
 }

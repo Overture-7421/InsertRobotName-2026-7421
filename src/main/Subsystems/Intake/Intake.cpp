@@ -20,7 +20,7 @@ Intake::Intake() {
 }
 
 void Intake::setRollersVoltage(units::volt_t targetVoltage) {
-	rollersRightMotor.SetControl(rollersVoltage.WithOutput(targetVoltage).WithEnableFOC(true));
+	targetRollerVoltage = targetVoltage;
 }
 
 units::turn_t Intake::transformMetersToTurns(units::meter_t distance){
@@ -143,4 +143,12 @@ void Intake::UpdateTelemetry() {
 	frc::SmartDashboard::PutNumber("Intake/ErrorAngle", sliderMotor.GetClosedLoopError().GetValue());
 	frc::SmartDashboard::PutNumber("Intake/TargetAngle", transformTurnsToMeters(units::turn_t(targetDistance)).value());
 	frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::meter_t(targetDistance)));
+
+	if(getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving){
+		rollersRightMotor.SetControl(rollersVoltage.WithOutput(0_V).WithEnableFOC(true));
+	} else {
+		rollersRightMotor.SetControl(rollersVoltage.WithOutput(targetRollerVoltage).WithEnableFOC(true));
+
+	}
+
 }

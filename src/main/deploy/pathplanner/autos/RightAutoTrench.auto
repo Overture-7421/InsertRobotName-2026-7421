@@ -49,6 +49,12 @@
               {
                 "type": "named",
                 "data": {
+                  "name": "VisionAlignCmd"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
                   "name": "EjectCommand"
                 }
               },
@@ -107,6 +113,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "VisionAlignCmd"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {

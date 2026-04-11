@@ -24,7 +24,7 @@
 #include "Subsystems/Shooter/Shooter.h"
 #include "Subsystems/Hood/Hood.h"
 #include <atomic>
-#include "Commands/LaunchCommand/LaunchCommand.h"
+#include "Commands/VisionAlignCmd/VisionAlignCmd.h"
 #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 
 #include "Commands/CloseCommand/CloseCommand.h"

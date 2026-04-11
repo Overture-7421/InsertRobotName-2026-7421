@@ -16,16 +16,16 @@ struct intakeValues {
 struct IntakeConstants {
 
 	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 10.0_V, 0.298_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeOpen{ 8.0_V, 0.298_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.298_m };
-	constexpr static const intakeValues IntakeAuto{ 12.0_V, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeAuto{ 8.0_V, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
 
 	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
-	constexpr static const intakeValues IntakeClosing{ 10.0_V, 0.10_m };
+	constexpr static const intakeValues IntakeClosing{ 8.0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
-	constexpr static const units::volt_t RollersEject = 10.0_V;
-	constexpr static const units::volt_t RollersReverse = -10.0_V;
-	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.22_m;
+	constexpr static const units::volt_t RollersEject = 8.0_V;
+	constexpr static const units::volt_t RollersReverse = -8.0_V;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.25_m;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;

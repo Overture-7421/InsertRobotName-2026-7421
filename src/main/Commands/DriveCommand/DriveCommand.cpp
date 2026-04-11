@@ -6,7 +6,7 @@
 #include <OvertureLib/Gamepads/OverXboxController/OverXboxController.h>
 #include <cmath>
 #include <OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h>
-#include "Commands/LaunchCommand/LaunchConstants.h"
+#include "Commands/VisionAlignCmd/VisionAlignConstants.h"
 
 DriveCommand::DriveCommand(Chassis* chassis, OverXboxController* gamepad, Processor* processor) : headingSpeedsHelper{ headingController,
 		chassis } {

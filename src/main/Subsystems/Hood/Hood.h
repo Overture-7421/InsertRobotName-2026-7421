@@ -32,5 +32,6 @@ class Hood : public frc2::SubsystemBase {
  OverCANCoder hoodCANCoder{HoodConstants::CANCoderConfig(), robotConstants::rio};
 
   ctre::phoenix6::controls::MotionMagicVoltage hoodVoltageRequest{0.0_tr};
+  units::degree_t targetAngle = 0_deg;
 
 };

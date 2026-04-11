@@ -14,7 +14,7 @@
 #include "OvertureLib/Utils/UtilityFunctions/UtilityFunctions.h"
 #include "pathplanner/lib/util/FlippingUtil.h"
 #include "OvertureLib/Math/TargetingWhileMoving/TargetingWhileMoving.h"
-#include "LaunchConstants.h"
+#include "VisionAlignConstants.h"
 #include "Manager/LaunchModeManager/LaunchModeManager.h"
 #include "OvertureLib/Gamepads/OverXboxController/OverXboxController.h"
 #include "PassTargetSwitcher.h"
@@ -26,13 +26,13 @@
  * directly; this is crucially important, or else the decorator functions in
  * Command will *not* work!
  */
-class LaunchCommand
-	: public frc2::CommandHelper<frc2::Command, LaunchCommand> {
+class VisionAlignCmd
+	: public frc2::CommandHelper<frc2::Command, VisionAlignCmd> {
 public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, Intake* intake, Processor* processor, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver);
+	VisionAlignCmd(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver, bool shouldEnd = false);
 
 	void Initialize() override;
 
@@ -46,8 +46,6 @@ public:
 	Shooter* shooter = nullptr;
 	Hood* hood = nullptr;
 	Chassis* chassis = nullptr;
-	Intake* intake = nullptr;
-	Processor* processor = nullptr;
 	OverXboxController* driver = nullptr;
 
 	LaunchModeManager* launchModeManager = nullptr;
@@ -73,11 +71,8 @@ public:
 	  }, 0.01_s
 	};
 
-
-	bool inTargetState = false;
-	bool startedClosing = false;
-	units::time::second_t enterTimestamp = 0.0_s;
-
+	units::degree_t chassisError;
+	bool shouldEnd = false;
 
 	nt::StructPublisher<frc::Translation2d> targetPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d

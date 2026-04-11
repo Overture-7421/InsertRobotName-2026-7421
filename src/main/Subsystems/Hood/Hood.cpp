@@ -16,6 +16,7 @@ Hood::Hood(){
 }
 
 void Hood::setHoodAngle(units::degree_t angle){
+    targetAngle = angle;
     hoodMotor.SetControl(hoodVoltageRequest.WithPosition(angle).WithEnableFOC(false));
 
 }
@@ -25,7 +26,7 @@ units::degree_t Hood::getHoodAngle(){
 }
 
 bool Hood::isHoodAtAngle(){
-    units::degree_t hoodError = units::turn_t(hoodMotor.GetClosedLoopError().GetValue());
+    units::degree_t hoodError = targetAngle - hoodMotor.GetPosition().GetValue();
     return units::math::abs(hoodError) < HoodConstants::RangeOfError;
 }
 
