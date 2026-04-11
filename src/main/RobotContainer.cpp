@@ -10,7 +10,7 @@ RobotContainer::RobotContainer() {
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeAuto)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(3.5_s));
+	pathplanner::NamedCommands::registerCommand("EjectCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &intake, &processor, &launchModeManager, [this] {return launchShooterMulti;}, &driver).ToPtr()).WithTimeout(6.5_s));
 
 	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity))));
 

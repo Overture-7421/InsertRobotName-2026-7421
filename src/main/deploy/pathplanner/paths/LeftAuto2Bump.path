@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5273923841059602,
-        "y": 7.744826158940397
+        "x": 2.501798245618014,
+        "y": 7.845991228070176
       },
       "isLocked": false,
       "linkedName": "LeftAuto1-2Alt"
@@ -52,12 +52,12 @@
         "y": 3.730082781456953
       },
       "prevControl": {
-        "x": 7.088341833823099,
-        "y": 3.864906306536838
+        "x": 7.032061144128552,
+        "y": 4.021052637977325
       },
       "nextControl": {
-        "x": 5.170008278145694,
-        "y": 3.44694536423841
+        "x": 5.39783333333731,
+        "y": 3.1757368421052634
       },
       "isLocked": false,
       "linkedName": null
@@ -68,28 +68,12 @@
         "y": 5.428
       },
       "prevControl": {
-        "x": 6.934172185430462,
-        "y": 4.957011589403972
-      },
-      "nextControl": {
-        "x": 5.481662216210339,
-        "y": 5.712796370232754
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.9690222222222222,
-        "y": 5.574622222222222
-      },
-      "prevControl": {
-        "x": 3.5049666666666663,
-        "y": 5.243311111111111
+        "x": 6.026368421052631,
+        "y": 4.910175438596491
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "LeftAutoBump2-3"
     }
   ],
   "rotationTargets": [
@@ -112,31 +96,9 @@
     {
       "waypointRelativePos": 3.4213075060532594,
       "rotationDegrees": 91.0
-    },
-    {
-      "waypointRelativePos": 3.879668049792511,
-      "rotationDegrees": 90.0
-    },
-    {
-      "waypointRelativePos": 4.473365617433424,
-      "rotationDegrees": 90.0
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Constraints Zone",
-      "minWaypointRelativePos": 3.6254416961130422,
-      "maxWaypointRelativePos": 4.918727915194393,
-      "constraints": {
-        "maxVelocity": 5.5,
-        "maxAcceleration": 5.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0,
-        "nominalVoltage": 12.0,
-        "unlimited": false
-      }
-    }
-  ],
+  "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -149,7 +111,7 @@
   },
   "goalEndState": {
     "velocity": 0.0,
-    "rotation": 135.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "LeftAuto",
