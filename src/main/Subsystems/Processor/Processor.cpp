@@ -4,22 +4,18 @@
 
 #include "Processor.h"
 
-Processor::Processor() = default;
+Processor::Processor(){}
 
-void Processor::setSpindexerPasserVoltage(ProcessorValues processorValues){
-    spindexerMotor.SetControl(spindexerVoltage.WithOutput(processorValues.spindexer).WithEnableFOC(true));
-    passerMotor.SetControl(passerVoltage.WithOutput(processorValues.passer).WithEnableFOC(true));
+void Processor::setProcessorVoltages(processorValues voltages){
+    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltages.indexerVoltage).WithEnableFOC(true));
+    passerUpMotor.SetControl(passerVoltage.WithOutput(voltages.passerVoltage).WithEnableFOC(true));
 }
 
-void Processor::setOnlySpindexer(units::volt_t voltage){
-    spindexerMotor.SetControl(spindexerVoltage.WithOutput(voltage).WithEnableFOC(true));
-}
 
-frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
+frc2::CommandPtr Processor::setProcessorCmd(processorValues voltages){
      return frc2::FunctionalCommand(
-        [this, processorValues] () {
-            setSpindexerPasserVoltage(processorValues);
-
+        [this, voltages] () {
+            setProcessorVoltages(voltages);
         },
 
         [] () {
@@ -29,44 +25,15 @@ frc2::CommandPtr Processor::setProcessorCmd(ProcessorValues processorValues){
 
         [this] {
             return true;
-        }
+        }, {this}
     ).ToPtr();
 }
 
-frc2::CommandPtr Processor::setOnlySpindexerCmd(units::volt_t voltage){
-    return this->RunOnce([this, voltage] {
-    this->setOnlySpindexer(voltage);
-    });
-}
-
 bool Processor::isPasserActive(){
-    return passerMotor.GetMotorVoltage().GetValue() > 0.0_V;
-}
-
-bool Processor::isFuelCharged() {
-    return canRange.GetIsDetected().GetValue();
-}
-
-void Processor::notifyIntakeRunning(bool running) {
-    m_intakeRequested.store(running);
+    return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
 }
 
 // This method will be called once per scheduler run
 void Processor::Periodic() {
-    // const bool wantPreload =  m_intakeRequested.load();
-    // const bool hasBall = isFuelCharged();
-
-    // // opcional: telemetría para depurar
-    // frc::SmartDashboard::PutBoolean("Processor/WantPreload", wantPreload);
-    // frc::SmartDashboard::PutBoolean("Processor/HasBall", hasBall);
-
-    // if (wantPreload && !hasBall) {
-    //     // aplicar voltajes para mover una bola hacia el CANrange
-    //     // setSpindexerPasserVoltage(ProcessorConstants::PreloadProcessor);
-    // } else {
-    //     // parar si no queremos o ya hay bola
-    //     // setSpindexerPasserVoltage(ProcessorConstants::StopProcessor);
-    // }
-
 
 }

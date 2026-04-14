@@ -11,39 +11,36 @@ void Robot::RobotInit() {
 
 #ifndef __FRC_ROBORIO__
 	simMotorManager.Init({
-	  {8, "Rebuilt2026/motors/back_right_drive"},
-	  {6, "Rebuilt2026/motors/back_left_drive"},
-	  {2, "Rebuilt2026/motors/front_left_drive"},
-	  {4, "Rebuilt2026/motors/front_right_drive"},
+	  {8, "Shelby2/motors/back_left_drive"},
+	  {7, "Shelby2/motors/back_left_rotation"},
+	  {4, "Shelby2/motors/back_right_drive"},
+	  {3, "Shelby2/motors/back_right_rotation"},
+	  {6, "Shelby2/motors/front_left_drive"},
+	  {5, "Shelby2/motors/front_left_rotation"},
+	  {2, "Shelby2/motors/front_right_drive"},
+	  {1, "Shelby2/motors/front_right_rotation"},
 
-	  {7, "Rebuilt2026/motors/back_right_rotation"},
-	  {5, "Rebuilt2026/motors/back_left_rotation"},
-	  {1, "Rebuilt2026/motors/front_left_rotation"},
-	  {3, "Rebuilt2026/motors/front_right_rotation"},
-
-
-	  {17,"Rebuilt2026/motors/spindexer"},
-	  {21,"Rebuilt2026/motors/shooterWheels"},
-	  {16,"Rebuilt2026/motors/intakeRollers"},
-	  {14,"Rebuilt2026/motors/intake"},
-	  {19,"Rebuilt2026/motors/hood"},
-	  {26,"Rebuilt2026/motors/elevatorRight"},
-	  {25,"Rebuilt2026/motors/elevatorLeft"}
+	  {23, "Shelby2/motors/hood"},
+	  {19, "Shelby2/motors/indexer"},
+	  {15, "Shelby2/motors/intake"},
+	  {18, "Shelby2/motors/intake_roller"},
+	  {21, "Shelby2/motors/passer"},
+	  {25, "Shelby2/motors/shooter"}
 
 
 		});
 
-	simPigeonManager.Init("Rebuilt2026/imu");
+	simPigeonManager.Init("Shelby2/imu");
 
 	simCANCoderManager.Init({
 	
-	  {11, "Rebuilt2026/cancoders/back_right_cancoder"},
-	  {10, "Rebuilt2026/cancoders/back_left_cancoder"},
-	  {9, "Rebuilt2026/cancoders/front_left_cancoder"},
-	  {12, "Rebuilt2026/cancoders/front_right_cancoder"},
+	  {12, "Shelby2/cancoders/back_right_cancoder"},
+	  {11, "Shelby2/cancoders/back_left_cancoder"},
+	  {10, "Shelby2/cancoders/front_left_cancoder"},
+	  {9, "Shelby2/cancoders/front_right_cancoder"},
 
-	  {20, "Rebuilt2026/cancoders/hood"},
-	  {15, "Rebuilt2026/cancoders/intake"}
+	  {24, "Shelby2/cancoders/hood_cancoder"},
+	  {16, "Shelby2/cancoders/intake_cancoder"}
 	
 		});
 
@@ -82,7 +79,6 @@ void Robot::RobotPeriodic() {
  * robot is disabled.
  */
 void Robot::DisabledInit() {
-	frc2::CommandScheduler::GetInstance().Cancel(m_container.launchCommand.get());
 
 }
 
@@ -99,7 +95,6 @@ void Robot::AutonomousInit() {
 		frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);
 	}
 
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
 
 }
 
@@ -108,10 +103,9 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {
 
 	frc2::CommandScheduler::GetInstance().CancelAll();
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::StopProcessor));
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setIntakeCmd(IntakeConstants::IntakeSustainWithoutRollers));
-
-	frc2::CommandScheduler::GetInstance().Schedule(m_container.launchCommand.get());
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::Stop));
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
+	frc2::CommandScheduler::GetInstance().Schedule(m_container.hood.setHoodAngleCommand(HoodConstants::Close));
 }
 
 /**

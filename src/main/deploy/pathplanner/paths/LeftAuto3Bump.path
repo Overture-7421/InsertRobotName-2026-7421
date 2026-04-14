@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.419228070175438,
-        "y": 7.54
+        "x": 6.029,
+        "y": 5.428
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4997725146198837,
-        "y": 7.510766666667422
+        "x": 5.652429824561404,
+        "y": 5.435280701754387
       },
       "isLocked": false,
-      "linkedName": "LeftAuto2-3"
+      "linkedName": "LeftAutoBump2-3"
     },
     {
       "anchor": {
-        "x": 1.2345111111111111,
-        "y": 4.658644444444445
+        "x": 2.969,
+        "y": 5.575
       },
       "prevControl": {
-        "x": 1.2540000000000002,
-        "y": 6.461366666666666
+        "x": 3.5122280701754383,
+        "y": 5.3557192982456145
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 135.0
   },
   "reversed": false,
   "folder": "LeftAuto",
   "idealStartingState": {
-    "velocity": 0,
-    "rotation": -90.0
+    "velocity": 0.0,
+    "rotation": 90.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

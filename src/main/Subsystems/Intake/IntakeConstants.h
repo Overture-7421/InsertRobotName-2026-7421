@@ -10,104 +10,106 @@
 
 struct intakeValues {
 	units::volt_t rollers;
-	units::degree_t intake;
+	units::meter_t intake;
 };
 
 struct IntakeConstants {
 
-	constexpr static const intakeValues IntakeOpen{ 7.0_V, 140.0_deg }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeGiver{ 7.0_V, 100.0_deg };
-	constexpr static const intakeValues IntakeSustain{ 7.0_V, 140.0_deg };
-	constexpr static const intakeValues SustainAfterGiver{ 2.0_V, 140.0_deg };
-	constexpr static const intakeValues IntakeSustainWithoutRollers{ 0_V, 140.0_deg };
-	constexpr static const intakeValues IntakeClose{ 0_V, 0_deg };
-	constexpr static const intakeValues IntakeInitial{ 0_V, 0_deg };
+	//En teoria solo se puede extender 0.4445 metros maximo
+	constexpr static const intakeValues IntakeOpen{ 8.0_V, 0.298_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.298_m };
+	constexpr static const intakeValues IntakeAuto{ 8.0_V, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
+
+	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
+	constexpr static const intakeValues IntakeClosing{ 8.0_V, 0.10_m };
 	constexpr static const units::volt_t RollersStop = 0_V;
-	constexpr static const units::volt_t RollersEject = 7.0_V;
+	constexpr static const units::volt_t RollersEject = 8.0_V;
+	constexpr static const units::volt_t RollersReverse = -8.0_V;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.25_m;
+
+	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
+	constexpr static const double SensorToMechanism = 0.166666;
+	constexpr static const double RotorToSensor = 22.5;
 
 
-	constexpr static const double intakeRotorToSensor = 15.8667;
-	constexpr static const units::turns_per_second_t IntakeCruiseVelocity = 7_tps;
-	constexpr static const units::turns_per_second_squared_t IntakeCruiseAcceleration = 12_tr_per_s_sq;
-	constexpr static const units::degree_t IntakeRangeError = 3_deg;
+	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;
+	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 48_tr_per_s_sq;
 
-	constexpr static OverTalonFXConfig intakeMotorConfig() {
-		OverTalonFXConfig intakeMotorConfig;
-		intakeMotorConfig.MotorId = 24;
-		intakeMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		intakeMotorConfig.Inverted = true;
-		intakeMotorConfig.useFOC = true;
-		intakeMotorConfig.PIDConfigs.GravityType = 1;
-		intakeMotorConfig.PIDConfigs.WithKP(45.0).WithKG(0.5);
+	constexpr static const units::meter_t IntakeRangeError = 0.04_m;
 
-		intakeMotorConfig.ClosedLoopRampRate = 0.05_s;
-		intakeMotorConfig.CurrentLimit = 30_A;
-		intakeMotorConfig.OpenLoopRampRate = 0.0_s;
-		intakeMotorConfig.StatorCurrentLimit = 120_A;
-		intakeMotorConfig.TriggerThreshold = 40_A;
+	constexpr static const double SliderCanCoderID = 16;
 
-		return intakeMotorConfig;
+
+	constexpr static OverTalonFXConfig sliderMotorConfig() {
+		OverTalonFXConfig sliderRightMotorConfig;
+		sliderRightMotorConfig.MotorId = 15;
+		sliderRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+		sliderRightMotorConfig.Inverted = false;
+		sliderRightMotorConfig.useFOC = true;
+		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
+#ifndef __FRC_ROBORIO__
+		sliderRightMotorConfig.PIDConfigs.WithKP(0.6).WithKS(0);
+#else
+		sliderRightMotorConfig.PIDConfigs.WithKP(75.0).WithKS(0.42);
+#endif 
+
+
+		sliderRightMotorConfig.ClosedLoopRampRate = 0.05_s;
+		sliderRightMotorConfig.CurrentLimit = 30_A;
+		sliderRightMotorConfig.OpenLoopRampRate = 0.0_s;
+		sliderRightMotorConfig.StatorCurrentLimit = 120_A;
+		sliderRightMotorConfig.TriggerThreshold = 40_A;
+
+		return sliderRightMotorConfig;
 	}
 
 
-	constexpr static OverTalonFXConfig intakeSecondMotorConfig() {
-		OverTalonFXConfig intakeSecondMotorConfig;
-		intakeSecondMotorConfig.MotorId = 14;
-		intakeSecondMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		intakeSecondMotorConfig.Inverted = false;
-		intakeSecondMotorConfig.useFOC = true;
-		intakeSecondMotorConfig.PIDConfigs.GravityType = 1;
-		intakeSecondMotorConfig.PIDConfigs.WithKP(45.0).WithKG(0.5);
+	constexpr static OverTalonFXConfig rollersLeftMotorConfig() {
+		OverTalonFXConfig rollersLeftMotorConfig;
+		rollersLeftMotorConfig.MotorId = 17;
+		rollersLeftMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+		rollersLeftMotorConfig.Inverted = true;
+		rollersLeftMotorConfig.useFOC = true;
 
-		intakeSecondMotorConfig.ClosedLoopRampRate = 0.05_s;
-		intakeSecondMotorConfig.CurrentLimit = 30_A;
-		intakeSecondMotorConfig.OpenLoopRampRate = 0.0_s;
-		intakeSecondMotorConfig.StatorCurrentLimit = 120_A;
-		intakeSecondMotorConfig.TriggerThreshold = 40_A;
+		rollersLeftMotorConfig.ClosedLoopRampRate = 0.0_s;
+		rollersLeftMotorConfig.CurrentLimit = 50_A;
+		rollersLeftMotorConfig.OpenLoopRampRate = 0.1_s;
+		rollersLeftMotorConfig.StatorCurrentLimit = 120_A;
+		rollersLeftMotorConfig.TriggerThreshold = 50_A;
+		rollersLeftMotorConfig.TriggerThresholdTime = 0.5_s;
 
-		return intakeSecondMotorConfig;
+		return rollersLeftMotorConfig;
 	}
 
-	constexpr static OverTalonFXConfig rollersMotorConfig() {
-		OverTalonFXConfig rollersMotorConfig;
-		rollersMotorConfig.MotorId = 16;
-		rollersMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
-		rollersMotorConfig.Inverted = false;
-		rollersMotorConfig.useFOC = true;
+	constexpr static OverTalonFXConfig rollersRightMotorConfig() {
+		OverTalonFXConfig rollersRightMotorConfig;
+		rollersRightMotorConfig.MotorId = 18;
+		rollersRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+		rollersRightMotorConfig.Inverted = true;
+		rollersRightMotorConfig.useFOC = true;
 
-		rollersMotorConfig.ClosedLoopRampRate = 0.0_s;
-		rollersMotorConfig.CurrentLimit = 20_A;
-		rollersMotorConfig.OpenLoopRampRate = 0.1_s;
-		rollersMotorConfig.StatorCurrentLimit = 120_A;
-		rollersMotorConfig.TriggerThreshold = 30_A;
-		rollersMotorConfig.TriggerThresholdTime = 0.5_s;
+		rollersRightMotorConfig.ClosedLoopRampRate = 0.0_s;
+		rollersRightMotorConfig.CurrentLimit = 50_A;
+		rollersRightMotorConfig.OpenLoopRampRate = 0.1_s;
+		rollersRightMotorConfig.StatorCurrentLimit = 120_A;
+		rollersRightMotorConfig.TriggerThreshold = 50_A;
+		rollersRightMotorConfig.TriggerThresholdTime = 0.5_s;
 
-		return rollersMotorConfig;
+		return rollersRightMotorConfig;
 	}
 
-	constexpr static CanCoderConfig intakeCanCoderConfig() {
+	constexpr static CanCoderConfig SliderCanCoderConfig() {
 
 		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
 
-		CanCoderConfig intakeCanCoderConfig;
-		intakeCanCoderConfig.CanCoderId = 15;
-		intakeCanCoderConfig.Offset = 0.13818359375_tr;
-		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::Clockwise_Positive;
-		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
+		CanCoderConfig SliderCanCoderConfig;
+		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
+		SliderCanCoderConfig.Offset = 0.076904296875_tr;
+		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
+		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 
-		return intakeCanCoderConfig;
+		return SliderCanCoderConfig;
 	}
 
-	constexpr static CanCoderConfig intakeSecondCanCoderConfig() {
 
-		// ALL REDUCTIONS, LIMITS AND POSITIONS ARE PLACEHOLDERS (TO BE DEFINED)
-
-		CanCoderConfig intakeCanCoderConfig;
-		intakeCanCoderConfig.CanCoderId = 40;
-		intakeCanCoderConfig.Offset = 0.0537109375_tr;
-		intakeCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
-		intakeCanCoderConfig.absoluteDiscontinuityPoint = 0.67_tr;
-
-		return intakeCanCoderConfig;
-	}
 };

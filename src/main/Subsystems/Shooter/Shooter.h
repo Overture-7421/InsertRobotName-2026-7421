@@ -12,36 +12,46 @@
 #include <frc2/command/FunctionalCommand.h>
 #include <frc2/command/Commands.h>
 #include <frc/smartdashboard/SmartDashboard.h>
-
+#include "ShooterState.h"
+#include <wpi/circular_buffer.h>
 
 class Shooter : public frc2::SubsystemBase {
- public:
-  Shooter();
+public:
 
-  void setObjectiveVelocity(units::turns_per_second_t velocity);
-  units::turns_per_second_t getShooterVelocity();
-  bool isShooterAtVelocity(units::turns_per_second_t targetVelocity);
-  frc2::CommandPtr setShooterVelocityCommand(units::turns_per_second_t velocity);
+	Shooter();
+	void setObjectiveVelocity(units::turns_per_second_t velocity);
+	units::turns_per_second_t getShooterVelocity();
+	bool isShooterAtVelocity();
+	ShooterState getState();
+	/**
+	* Whether to keep Holding state, even though we may not be at the target. This is useful when continously shooting fuel, as they slow down the flywheel.
+	* "Hold" instructs the Shooter to keep Holding PID Slot (No PID gains, only kS,kV,kA) once we initially reach Holding state.
+	* "Release" allows Holding state to transition to WindUp if we are no longer at the target. Windup returns to "normal" slot (Both PID gains and kS,kV,kA).
+	*/
+	void Hold();
+	void Release();
 
-  void setHoodAngle(units::degree_t angle);
-  units::degree_t getHoodAngle();
-  bool isHoodAtAngle(units::degree_t targetAngle);
-  frc2::CommandPtr setHoodAngleCommand(units::degree_t angle);
+	frc2::CommandPtr setShooterVelocityCmd(units::turns_per_second_t velocity);
+	void UpdateTelemetry();
+	void Periodic() override;
 
-  void UpdateTelemetry();
+private:
 
+	OverTalonFX shooterLeftUpMotor{ ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio };
+	OverTalonFX shooterLeftDownMotor{ ShooterConstants::ShooterLeftDownConfig(), robotConstants::rio };
+	OverTalonFX shooterRightUpMotor{ ShooterConstants::ShooterRightUpConfig(), robotConstants::rio };
+	OverTalonFX shooterRightDownMotor{ ShooterConstants::ShooterRightDownConfig(), robotConstants::rio };
 
-  void Periodic() override;
+	ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{ 0.0_tps };
+	units::turns_per_second_t targetVelocity = 0_tps;
 
- private:
+	units::second_t lastTimeOnTarget = 0_s;
+	ShooterState state = ShooterState::WindUp;
+	bool shouldHold = false;
 
- OverTalonFX shooterLeftMotor{ShooterConstants::ShooterLeftConfig(), robotConstants::rio};
- OverTalonFX shooterRightMotor{ShooterConstants::ShooterRightConfig(), robotConstants::rio};
+	wpi::circular_buffer<double> kVEstimator{ ShooterConstants::HoldingSamples };
+	double averagekV = 0;
+	int currentPIDSlot = 0;
 
- OverTalonFX hoodMotor{ShooterConstants::HoodConfig(), robotConstants::rio};
- OverCANCoder hoodCANCoder{ShooterConstants::HoodCANConfig(), robotConstants::rio};
-
-  ctre::phoenix6::controls::MotionMagicVelocityVoltage shooterVoltageRequest{0.0_tps};
-  ctre::phoenix6::controls::MotionMagicVoltage hoodVoltageRequest{0.0_tr};
-  
+	ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig;
 };

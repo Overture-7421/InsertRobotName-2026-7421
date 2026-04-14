@@ -3,13 +3,13 @@
   "robotLength": 0.89535,
   "holonomicMode": true,
   "pathFolders": [
-    "CentersAuto",
     "LeftAuto",
+    "CenterAuto",
     "RightAuto"
   ],
   "autoFolders": [
     "LeftAuto",
-    "RightAutoOutsider",
+    "CenterAutoTecDroid",
     "RightAuto"
   ],
   "defaultMaxVel": 5.0,

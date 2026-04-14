@@ -2,62 +2,57 @@
 
 #pragma once
 
-
 #include "OvertureLib/MotorControllers/OverTalonFX/OverTalonFX.h"
 
-struct ProcessorValues {
-
-	units::volt_t spindexer;
-	units::volt_t passer;
-
+struct processorValues {
+	units::volt_t indexerVoltage;
+	units::volt_t passerVoltage;
 };
 
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const ProcessorValues Eject{ 5.0_V, 6.0_V };
-	constexpr static const ProcessorValues StopProcessor{ 0.0_V, 0.0_V };
-	constexpr static const ProcessorValues ReverseProcessor{ -5.0_V, -6.0_V };
+	constexpr static const processorValues Eject = { 6.0_V, 8.0_V };
+	constexpr static const processorValues Stop = { 0.0_V, 0.0_V };
+	constexpr static const processorValues Reverse = { -6.0_V, 0.0_V };
 
-	// constexpr static const ProcessorValues PreloadProcessor{6.0_V, 6.0_V};
+	constexpr static const processorValues Spit = { 3.0_V, 3.0_V };
 
-	constexpr static const double SpindexerMotorID = 17;
-	constexpr static const double PasserMotorID = 18;
-
+	constexpr static const double IndexerRightMotorID = 20;
+	constexpr static const double PasserUpMotorID = 21;
 
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig SpindexerConfig() {
-		OverTalonFXConfig spindexerConfig;
-		spindexerConfig.MotorId = SpindexerMotorID;
-		spindexerConfig.NeutralMode = ControllerNeutralMode::Coast;
-		spindexerConfig.Inverted = false;
+	constexpr static const OverTalonFXConfig IndexerRightConfig() {
+		OverTalonFXConfig indexer2Config;
+		indexer2Config.MotorId = IndexerRightMotorID;
+		indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
+		indexer2Config.Inverted = true;
 
-		spindexerConfig.CurrentLimit = 30_A;
-		spindexerConfig.StatorCurrentLimit = 120_A;
-		spindexerConfig.TriggerThreshold = 75_A;
-		spindexerConfig.TriggerThresholdTime = 0.5_s;
-		spindexerConfig.ClosedLoopRampRate = 0.0_s;
-		spindexerConfig.OpenLoopRampRate = 0.1_s;
+		indexer2Config.CurrentLimit = 30_A;
+		indexer2Config.StatorCurrentLimit = 120_A;
+		indexer2Config.TriggerThreshold = 75_A;
+		indexer2Config.TriggerThresholdTime = 0.5_s;
+		indexer2Config.ClosedLoopRampRate = 0.0_s;
+		indexer2Config.OpenLoopRampRate = 0.1_s;
 
-		return spindexerConfig;
+		return indexer2Config;
 	};
 
-
 	//Ajustar límites de corriente
-	constexpr static const OverTalonFXConfig PasserConfig() {
-		OverTalonFXConfig passerConfig;
-		passerConfig.MotorId = PasserMotorID;
-		passerConfig.NeutralMode = ControllerNeutralMode::Coast;
-		passerConfig.Inverted = false;
+	constexpr static const OverTalonFXConfig PasserUpConfig() {
+		OverTalonFXConfig passer2Config;
+		passer2Config.MotorId = PasserUpMotorID;
+		passer2Config.NeutralMode = ControllerNeutralMode::Coast;
+		passer2Config.Inverted = true;
 
-		passerConfig.CurrentLimit = 30_A;
-		passerConfig.StatorCurrentLimit = 60_A;
-		passerConfig.TriggerThreshold = 75_A;
-		passerConfig.TriggerThresholdTime = 0.5_s;
-		passerConfig.ClosedLoopRampRate = 0.0_s;
-		passerConfig.OpenLoopRampRate = 0.05_s;
+		passer2Config.CurrentLimit = 30_A;
+		passer2Config.StatorCurrentLimit = 60_A;
+		passer2Config.TriggerThreshold = 75_A;
+		passer2Config.TriggerThresholdTime = 0.5_s;
+		passer2Config.ClosedLoopRampRate = 0.0_s;
+		passer2Config.OpenLoopRampRate = 0.1_s;
 
-		return passerConfig;
+		return passer2Config;
 	};
 
 };

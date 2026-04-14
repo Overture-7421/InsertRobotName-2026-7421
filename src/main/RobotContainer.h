@@ -22,10 +22,10 @@
 
 
 #include "Subsystems/Shooter/Shooter.h"
+#include "Subsystems/Hood/Hood.h"
 #include <atomic>
-#include "Commands/LaunchCommand/LaunchCommand.h"
-// #include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
-#include "Lib/AprilTags.h"
+#include "Commands/VisionAlignCmd/VisionAlignCmd.h"
+#include <OvertureLib/Subsystems/Vision/AprilTags/AprilTags.h>
 
 #include "Commands/CloseCommand/CloseCommand.h"
 
@@ -34,6 +34,7 @@
 #include <OvertureLib/Subsystems/LedsManager/Effects/StaticEffect/StaticEffect.h>
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
+#include "Commands/EjectCommand/EjectCommand.h"
 
 
 
@@ -52,41 +53,34 @@ public:
 	std::unique_ptr<frc2::Command> launchCommand;
 
 	Chassis chassis;
-
-	void UpdateTelemetry();
 	Processor processor;
 	Intake intake;
+	Hood hood;
 
 
-
+	void UpdateTelemetry();
 
 private:
 
 	OverXboxController driver{ 0, 0.20, 0.2 };
 	OverXboxController oprtr{ 1, 0.20, 0.2 };
 	OverConsole console{ 2 };
-	// OverXboxController test{ 3, 0.20, 0.2 };
+	OverXboxController test{ 3, 0.20, 0.2 };
 
 #ifndef __FRC_ROBORIO__
 	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
 #else
-	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltAndyMark);
+	frc::AprilTagFieldLayout tagLayout = frc::AprilTagFieldLayout::LoadField(frc::AprilTagField::k2026RebuiltWelded);
 	// frc::AprilTagFieldLayout tagLayout{ "/home/lvuser/deploy/tag_layout/7421-field.json" };
 #endif 
 
-
 	Shooter shooter;
-	//Turret turret{ &chassis };
-	
 
 	LaunchModeManager launchModeManager;
 	ShiftManager shiftManager;
 
 
-	// The robot's subsystems are defined here...
 	frc::SendableChooser<frc2::Command*> autoChooser;
-
-	// necessary robot controllers and subsystems
 
 	void ConfigureBindings();
 	void ConfigDriverBindings();
@@ -94,30 +88,28 @@ private:
 	void ConfigConsoleBindings();
 	void ConfigTestBindings();
 
-	static AprilTags::Config camIntakeConfig();
-	static AprilTags::Config camStorageConfig();
-	static AprilTags::Config camRadioConfig();
-	static AprilTags::Config camRoboRioConfig();
-	//static AprilTags::Config camTurretConfig(Turret* turret);
+	static AprilTags::Config camRightConfig();
+	static AprilTags::Config camLeftConfig();
+	static AprilTags::Config limelightUpConfig();
+	static AprilTags::Config limelightDownConfig();
 
-	AprilTags camIntake{ &tagLayout, &chassis, camIntakeConfig() };
-	AprilTags camRadio{ &tagLayout, &chassis, camRadioConfig() };
-	//AprilTags camTurret{ &tagLayout, &chassis, camTurretConfig(&turret) };
+	AprilTags camRight{ &tagLayout, &chassis, camRightConfig() };
+	AprilTags camLeft{ &tagLayout, &chassis, camLeftConfig() };
+	AprilTags limelightUp{ &tagLayout, &chassis, limelightUpConfig() };
+	AprilTags limelightDown{ &tagLayout, &chassis, limelightDownConfig() };
 
-	// std::atomic<const frc::Translation2d*> selectedTarget{ &LaunchConstants::HubPose };
-
-	double launchShooterMulti = 1.02;
+	double launchShooterMulti = 1.0;
 
 
+	//Leds
+	// LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
 
-	LedsManager leds{ 8, 240, {{"all", {0, 239}}} };
+	// frc2::Trigger isHubActive{ [this] {
+	// 	  return shiftManager.GetHubState().isActive;
+	// }};
 
-	frc2::Trigger isHubActive{ [this] {
-		  return shiftManager.GetHubState().isActive;
-	  } };
-
-	frc2::Trigger isTransitioning{ [this] {
-		  return shiftManager.GetHubState().isTransitioning;
-	  } };
+	// frc2::Trigger isTransitioning{ [this] {
+	// 	  return shiftManager.GetHubState().isTransitioning;
+	// }};
 
 };

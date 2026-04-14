@@ -5,29 +5,23 @@
     "data": {
       "commands": [
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto1"
+                  "pathName": "LeftAuto1Bump"
                 }
               },
               {
-                "type": "deadline",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
                       "type": "named",
                       "data": {
                         "name": "SwallowCommand"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.5
                       }
                     }
                   ]
@@ -37,11 +31,23 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "named",
+          "data": {
+            "name": "IntakeSustain"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "sequential",
+                "type": "named",
+                "data": {
+                  "name": "VisionAlignCmd"
+                }
+              },
+              {
+                "type": "deadline",
                 "data": {
                   "commands": [
                     {
@@ -51,9 +57,9 @@
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "named",
                       "data": {
-                        "waitTime": 2.0
+                        "name": "VisionAlignCmdInfinite"
                       }
                     }
                   ]
@@ -62,24 +68,24 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "LaunchCommand"
+                  "name": "AfterEject"
                 }
               }
             ]
           }
         },
         {
-          "type": "deadline",
+          "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto2"
+                  "pathName": "LeftAuto2Bump"
                 }
               },
               {
-                "type": "deadline",
+                "type": "sequential",
                 "data": {
                   "commands": [
                     {
@@ -91,7 +97,13 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 2.0
+                        "waitTime": 6.0
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "IntakeSustain"
                       }
                     }
                   ]
@@ -101,13 +113,19 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
+          "data": {
+            "pathName": "LeftAuto3Bump"
+          }
+        },
+        {
+          "type": "sequential",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "named",
                 "data": {
-                  "pathName": "LeftAuto3DirectClimb"
+                  "name": "VisionAlignCmd"
                 }
               },
               {
@@ -115,31 +133,24 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "sequential",
+                      "type": "named",
                       "data": {
-                        "commands": [
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "EjectCommand"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 1.5
-                            }
-                          }
-                        ]
+                        "name": "EjectCommand"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "LaunchCommand"
+                        "name": "VisionAlignCmdInfinite"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AfterEject"
                 }
               }
             ]
