@@ -9,6 +9,7 @@ Processor::Processor(){}
 void Processor::setProcessorVoltages(processorValues voltages){
     indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltages.indexerVoltage).WithEnableFOC(true));
     passerUpMotor.SetControl(passerVoltage.WithOutput(voltages.passerVoltage).WithEnableFOC(true));
+    passerDownMotor.setFollow(ProcessorConstants::PasserUpMotorID, false);
 }
 
 

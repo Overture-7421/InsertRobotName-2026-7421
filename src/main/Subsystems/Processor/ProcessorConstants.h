@@ -20,6 +20,7 @@ struct ProcessorConstants {
 
 	constexpr static const double IndexerRightMotorID = 20;
 	constexpr static const double PasserUpMotorID = 21;
+	constexpr static const double PasserDownMotorID = 29;
 
 	//Ajustar límites de corriente
 	constexpr static const OverTalonFXConfig IndexerRightConfig() {
@@ -54,5 +55,22 @@ struct ProcessorConstants {
 
 		return passer2Config;
 	};
+
+	constexpr static const OverTalonFXConfig PasserDownConfig() {
+		OverTalonFXConfig passerDownConfig;
+		passerDownConfig.MotorId = PasserDownMotorID;
+		passerDownConfig.NeutralMode = ControllerNeutralMode::Coast;
+		passerDownConfig.Inverted = false;
+
+		passerDownConfig.CurrentLimit = 30_A;
+		passerDownConfig.StatorCurrentLimit = 60_A;
+		passerDownConfig.TriggerThreshold = 75_A;
+		passerDownConfig.TriggerThresholdTime = 0.5_s;
+		passerDownConfig.ClosedLoopRampRate = 0.0_s;
+		passerDownConfig.OpenLoopRampRate = 0.05_s;
+
+		return passerDownConfig;
+	};
+
 
 };

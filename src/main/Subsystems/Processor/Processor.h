@@ -30,6 +30,7 @@ class Processor : public frc2::SubsystemBase {
 
     OverTalonFX indexerRightMotor{ProcessorConstants::IndexerRightConfig(), robotConstants::rio};
     OverTalonFX passerUpMotor{ProcessorConstants::PasserUpConfig(), robotConstants::rio};
+    OverTalonFX passerDownMotor{ProcessorConstants::PasserDownConfig(), robotConstants::rio};
 
     ctre::phoenix6::controls::VoltageOut spindexerVoltage{0_V};
     ctre::phoenix6::controls::VoltageOut passerVoltage{0_V};
