@@ -15,21 +15,25 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	//En teoria solo se puede extender 0.4445 metros maximo
-	constexpr static const intakeValues IntakeOpen{ 8.0_V, 0.298_m }; //Poner todas las posiciones del intake, nada esta puesto bien.
-	constexpr static const intakeValues IntakeSustain{ 0.0_V, 0.298_m };
-	constexpr static const intakeValues IntakeAuto{ 8.0_V, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
-
-	constexpr static const intakeValues IntakeClose{ 0_V, 0.10_m };
-	constexpr static const intakeValues IntakeClosing{ 8.0_V, 0.10_m };
+	constexpr static const units::volt_t RollersActive = 7.0_V;
+	constexpr static const units::volt_t RollersActiveAuto = 7.0_V;
 	constexpr static const units::volt_t RollersStop = 0_V;
-	constexpr static const units::volt_t RollersEject = 8.0_V;
-	constexpr static const units::volt_t RollersReverse = -8.0_V;
+	constexpr static const units::meter_t SliderOpen = 0.298_m;
+	constexpr static const units::meter_t SliderClose = 0.10_m;
 	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.25_m;
+
+	constexpr static const intakeValues IntakeOpen{ RollersActive, SliderOpen }; //Poner todas las posiciones del intake, nada esta puesto bien.
+	constexpr static const intakeValues IntakeSustain{ RollersStop, SliderOpen };
+	constexpr static const intakeValues IntakeAuto{ RollersActiveAuto, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
+
+	constexpr static const intakeValues IntakeClose{ RollersStop, SliderClose };
+	constexpr static const intakeValues IntakeClosing{ RollersActive, SliderClose };
+	constexpr static const units::volt_t RollersEject = RollersActive;
+	constexpr static const units::volt_t RollersReverse = -RollersActive;
 
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;
-	constexpr static const double RotorToSensor = 22.5;
+	constexpr static const double RotorToSensor = 38.4; //Dicen que es el doble. Antes 22.5 
 
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;
@@ -50,7 +54,7 @@ struct IntakeConstants {
 #ifndef __FRC_ROBORIO__
 		sliderRightMotorConfig.PIDConfigs.WithKP(0.6).WithKS(0);
 #else
-		sliderRightMotorConfig.PIDConfigs.WithKP(75.0).WithKS(0.42);
+		sliderRightMotorConfig.PIDConfigs.WithKP(30.0).WithKS(0.37); //75 0.42
 #endif 
 
 
@@ -104,7 +108,7 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.076904296875_tr;
+		SliderCanCoderConfig.Offset = 0.078125_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 

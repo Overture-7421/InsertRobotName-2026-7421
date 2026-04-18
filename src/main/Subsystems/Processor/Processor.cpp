@@ -4,34 +4,35 @@
 
 #include "Processor.h"
 
-Processor::Processor(){}
+Processor::Processor() {
+	passerDownMotor.setFollow(ProcessorConstants::PasserUpMotorID, false);
+}
 
-void Processor::setProcessorVoltages(processorValues voltages){
-    indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltages.indexerVoltage).WithEnableFOC(true));
-    passerUpMotor.SetControl(passerVoltage.WithOutput(voltages.passerVoltage).WithEnableFOC(true));
-    passerDownMotor.setFollow(ProcessorConstants::PasserUpMotorID, false);
+void Processor::setProcessorVoltages(processorValues voltages) {
+	indexerRightMotor.SetControl(spindexerVoltage.WithOutput(voltages.indexerVoltage).WithEnableFOC(true));
+	passerUpMotor.SetControl(passerVoltage.WithOutput(voltages.passerVoltage).WithEnableFOC(true));
 }
 
 
-frc2::CommandPtr Processor::setProcessorCmd(processorValues voltages){
-     return frc2::FunctionalCommand(
-        [this, voltages] () {
-            setProcessorVoltages(voltages);
-        },
+frc2::CommandPtr Processor::setProcessorCmd(processorValues voltages) {
+	return frc2::FunctionalCommand(
+		[this, voltages]() {
+		setProcessorVoltages(voltages);
+	},
 
-        [] () {
-        },
+		[]() {
+	},
 
-        [this] (bool interrupted){},
+	[this](bool interrupted) {},
 
-        [this] {
-            return true;
-        }, {this}
-    ).ToPtr();
+	[this] {
+		return true;
+	}, { this }
+		).ToPtr();
 }
 
-bool Processor::isPasserActive(){
-    return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
+bool Processor::isPasserActive() {
+	return units::math::abs(passerUpMotor.GetMotorVoltage().GetValue()) > 0.0_V;
 }
 
 // This method will be called once per scheduler run

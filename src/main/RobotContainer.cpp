@@ -50,17 +50,17 @@ void RobotContainer::ConfigDriverBindings() {
 
 
 	//Tabulate
-	// driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
+	driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
 
-	// driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
-	//  	intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
-	// 	frc2::cmd::Wait(0.7_s),
-	// 	intake.setRollersCmd(IntakeConstants::IntakeClose.rollers),
-	// 	intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)
-	// 	).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
-	// driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop),
-	// 										intake.setSliderCmd(IntakeConstants::IntakeOpen.intake)
-	// 										));
+	driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
+		intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
+		frc2::cmd::Wait(0.7_s),
+		intake.setRollersCmd(IntakeConstants::IntakeClose.rollers),
+		intake.setIntakeSlowModeCmd(IntakeConstants::IntakeClose)
+	).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop),
+		intake.setSliderCmd(IntakeConstants::IntakeOpen.intake)
+	));
 
 
 
@@ -131,15 +131,15 @@ void RobotContainer::ConfigTestBindings() {
 	//TEST
 
 	//Shooter
-	test.B().WhileTrue(shooter.setShooterVelocityCmd(36_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	test.B().WhileTrue(shooter.setShooterVelocityCmd(40_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
 	test.B().OnFalse(shooter.setShooterVelocityCmd(20_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
 
 	//Hood
-	test.A().WhileTrue(hood.setHoodAngleCommand(26.5_deg));
-	test.A().OnFalse(hood.setHoodAngleCommand(2.0_deg));
+	// test.A().WhileTrue(hood.setHoodAngleCommand(26.5_deg));
+	// test.A().OnFalse(hood.setHoodAngleCommand(2.0_deg));
 
 	//Intake
-	// test.A().WhileTrue(intake.setIntakeCharacterization(0.30_m, 7_V));
+	// test.A().WhileTrue(intake.setIntakeCharacterization(0.30_m, 0_V));
 	// test.A().OnFalse(intake.setIntakeCharacterization(0.10_m, 0_V));
 
 	// test.B().WhileTrue(intake.setIntakeCharacterization(0.30_m, 7_V));

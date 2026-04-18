@@ -12,7 +12,7 @@ struct processorValues {
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const processorValues Eject = { 6.0_V, 8.0_V };
+	constexpr static const processorValues Eject = { 4.0_V, 8.0_V };
 	constexpr static const processorValues Stop = { 0.0_V, 0.0_V };
 	constexpr static const processorValues Reverse = { -6.0_V, 0.0_V };
 
