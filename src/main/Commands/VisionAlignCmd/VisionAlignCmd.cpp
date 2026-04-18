@@ -25,7 +25,7 @@ void VisionAlignCmd::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void VisionAlignCmd::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
-	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();\
+	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
 		bool redAlliance = isRedAlliance();
 	frc::Translation2d targetCoords;
 
@@ -98,5 +98,5 @@ bool VisionAlignCmd::IsFinished() {
 		return false;
 	}
 
-	return hood->isHoodAtAngle() && chassisError < 3.25_deg;
+	return hood->isHoodAtAngle() && chassisError < 3.25_deg && shooter->getState() == ShooterState::Holding;
 }

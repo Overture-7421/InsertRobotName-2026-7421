@@ -17,8 +17,8 @@ struct HoodConstants {
 
 	constexpr static const units::degree_t Close = 1.0_deg;
 
-	constexpr static const double RotorToSensor = 12.0;
-	constexpr static const double SensorToMechanism = 10.66666;
+	constexpr static const double RotorToSensor = 18.666666;
+	constexpr static const double SensorToMechanism = 6.857142;
 
 	constexpr static const int MotorId = 23;
 	constexpr static const int CANCoderId = 24;

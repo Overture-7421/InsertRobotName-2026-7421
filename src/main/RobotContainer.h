@@ -35,6 +35,7 @@
 #include "Manager/ShiftManager/ShiftManager.h"
 #include "Commands/TabulateCommand/TabulateCommand.h"
 #include "Commands/EjectCommand/EjectCommand.h"
+#include "Commands/LaunchCommand/LaunchCommand.h"
 
 
 

@@ -44,6 +44,10 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity)));
 
 
+	//Todo el disparo automatico (Hay que probarlo)
+	// driver.X().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this]{return launchShooterMulti;}, &driver, &intake, &processor));
+
+
 	//For the Pit
 	driver.Y().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(10_tps), processor.setProcessorCmd(ProcessorConstants::Spit)));
 	driver.Y().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), processor.setProcessorCmd(ProcessorConstants::Stop)));
