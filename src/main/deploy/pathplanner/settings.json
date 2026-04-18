@@ -20,9 +20,9 @@
   "robotMass": 61.0,
   "robotMOI": 6.884,
   "robotTrackwidth": 0.546,
-  "driveWheelRadius": 0.0508,
-  "driveGearing": 6.03,
-  "maxDriveSpeed": 5.0,
+  "driveWheelRadius": 0.051,
+  "driveGearing": 7.03,
+  "maxDriveSpeed": 4.541,
   "driveMotorType": "krakenX60",
   "driveCurrentLimit": 60.0,
   "wheelCOF": 1.1,
@@ -37,8 +37,6 @@
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
   "robotFeatures": [
-    "{\"name\":\"Turret\",\"type\":\"circle\",\"data\":{\"center\":{\"x\":-0.13208,\"y\":0.10668},\"radius\":0.158242,\"strokeWidth\":0.02,\"filled\":false}}",
-    "{\"name\":\"Intake\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.53,\"y\":0.0},\"size\":{\"width\":0.8,\"length\":0.171389294},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}",
-    "{\"name\":\"Climber\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":-0.2159,\"y\":-0.289},\"size\":{\"width\":0.22,\"length\":0.1651},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
+    "{\"name\":\"Intake\",\"type\":\"rounded_rect\",\"data\":{\"center\":{\"x\":0.53,\"y\":0.0},\"size\":{\"width\":0.8,\"length\":0.171389294},\"borderRadius\":0.05,\"strokeWidth\":0.02,\"filled\":false}}"
   ]
 }

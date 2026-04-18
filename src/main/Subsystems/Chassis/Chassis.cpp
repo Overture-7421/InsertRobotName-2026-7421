@@ -25,7 +25,7 @@ Chassis::Chassis() : SwerveChassis() {
 }
 
 units::meters_per_second_t Chassis::getMaxModuleSpeed() {
-	return 5.304_mps; //5mps
+	return 4.541_mps; //5mps
 }
 
 units::meter_t Chassis::getDriveBaseRadius() {
@@ -83,7 +83,7 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 	config.TurnMotorConfig.MotorId = 1;
 	config.EncoderConfig.CanCoderId = 9;
 	config.CanBus = robotConstants::OverCANivore;
-	config.DriveGearRatio = 6.033333;
+	config.DriveGearRatio = 7.03;
 	config.TurnGearRatio = 287.0 / 11.0;
 	config.WheelDiameter = 4.0_in;
 	config.DriveMotorConfig.CurrentLimit = 30_A;
@@ -106,7 +106,7 @@ SwerveModuleConfig Chassis::BackRightConfig() {
 	config.TurnMotorConfig.MotorId = 3;
 	config.EncoderConfig.CanCoderId = 12;
 	config.CanBus = robotConstants::OverCANivore;
-	config.DriveGearRatio = 6.033333;
+	config.DriveGearRatio = 7.03;
 	config.TurnGearRatio = 287.0 / 11.0;
 	config.WheelDiameter = 4.0_in;
 	config.DriveMotorConfig.CurrentLimit = 30_A;
@@ -130,7 +130,7 @@ SwerveModuleConfig Chassis::FrontLeftConfig() {
 	config.TurnMotorConfig.MotorId = 5;
 	config.EncoderConfig.CanCoderId = 10;
 	config.CanBus = robotConstants::OverCANivore;
-	config.DriveGearRatio = 6.033333;
+	config.DriveGearRatio = 7.03;
 	config.TurnGearRatio = 287.0 / 11.0;
 	config.WheelDiameter = 4.0_in;
 	config.DriveMotorConfig.CurrentLimit = 30_A;
@@ -153,7 +153,7 @@ SwerveModuleConfig Chassis::BackLeftConfig() {
 	config.TurnMotorConfig.MotorId = 7;
 	config.EncoderConfig.CanCoderId = 11;
 	config.CanBus = robotConstants::OverCANivore;
-	config.DriveGearRatio = 6.033333;
+	config.DriveGearRatio = 7.03;
 	config.TurnGearRatio = 287.0 / 11.0;
 	config.WheelDiameter = 4.0_in;
 	config.DriveMotorConfig.CurrentLimit = 30_A;
