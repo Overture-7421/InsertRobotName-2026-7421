@@ -8,7 +8,7 @@
 
 struct HoodConstants {
 
-	//28.5 degrees is the maximum
+	//27.5 degrees is the maximum
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 2.0_tps;
 	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 6.0_tr_per_s_sq;
@@ -46,9 +46,9 @@ struct HoodConstants {
 #ifndef __FRC_ROBORIO__
 		canCoderConfig.Offset = 0_tr;
 #else
-		canCoderConfig.Offset = -0.523193359375_tr;
+		canCoderConfig.Offset = -0.781982421875_tr;
 #endif 
-		canCoderConfig.absoluteDiscontinuityPoint = 1.0_tr;
+		canCoderConfig.absoluteDiscontinuityPoint = 0.95_tr;
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		return canCoderConfig;
 	}

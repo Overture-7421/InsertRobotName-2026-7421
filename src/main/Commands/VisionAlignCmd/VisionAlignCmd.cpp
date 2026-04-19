@@ -26,7 +26,7 @@ void VisionAlignCmd::Initialize() {
 void VisionAlignCmd::Execute() {
 	auto launchMode = launchModeManager->getLaunchMode();
 	const frc::Pose2d& chassisPose = chassis->getEstimatedPose();
-		bool redAlliance = isRedAlliance();
+	bool redAlliance = isRedAlliance();
 	frc::Translation2d targetCoords;
 
 	if (launchMode == LaunchModes::Pass) {
@@ -40,12 +40,15 @@ void VisionAlignCmd::Execute() {
 
 
 	targetWhileMoving.setTargetLocation(targetCoords);
+
 	frc::ChassisSpeeds speed = frc::ChassisSpeeds::FromRobotRelativeSpeeds(chassis->getCurrentSpeeds(), chassisPose.Rotation());
 	ChassisAccels accel = ChassisAccels::FromRobotRelativeAccels(chassis->getCurrentAccels(), chassisPose.Rotation());
 	frc::Translation2d movingGoalLocation = targetWhileMoving.getMovingTarget(chassisPose, speed, accel);
 
 	frc::Rotation2d targetAngle((chassisPose.X() - movingGoalLocation.X()).value(), (chassisPose.Y() - movingGoalLocation.Y()).value());
 	headingSpeedsHelper.setTargetAngle(targetAngle);
+	// headingSpeedsHelper.setTargetAngle(90_deg);
+
 
 
 	units::meter_t distanceToTarget = chassisPose.Translation().Distance(movingGoalLocation);
@@ -94,9 +97,15 @@ void VisionAlignCmd::End(bool interrupted) {
 
 // Returns true when the command should end.
 bool VisionAlignCmd::IsFinished() {
-	if (!shouldEnd) {
+
+	bool check = hood->isHoodAtAngle() && chassisError < 3.25_deg && (shooter->getState() == ShooterState::Holding);
+
+
+	if (shouldEnd == true) {
 		return false;
 	}
 
-	return hood->isHoodAtAngle() && chassisError < 3.25_deg && shooter->getState() == ShooterState::Holding;
+	frc::SmartDashboard::PutBoolean("CHECK/IsFinished", !shouldEnd);
+
+	return check;
 }

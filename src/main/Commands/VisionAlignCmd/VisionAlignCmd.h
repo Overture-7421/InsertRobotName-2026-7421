@@ -53,7 +53,7 @@ public:
 
 	frc::ProfiledPIDController<units::radian> headingController{
 		// PID constants: 
-				4.75, 0.0, 0.15, {10_rad_per_s, 14_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
+				4.5, 0.0, 0.0, {10_rad_per_s, 14_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 
@@ -78,6 +78,6 @@ public:
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d
 		>("SmartDashboard/MovingTarget").Publish();
 
-	PassTargetSwitcher passTargetSwitcher {LaunchConstants::LeftPass, LaunchConstants::RightPass, 0.2_m};
+	PassTargetSwitcher passTargetSwitcher{ LaunchConstants::LeftPass, LaunchConstants::RightPass, 0.2_m };
 
 };

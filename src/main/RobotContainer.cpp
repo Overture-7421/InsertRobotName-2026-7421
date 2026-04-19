@@ -45,7 +45,9 @@ void RobotContainer::ConfigDriverBindings() {
 
 
 	//Todo el disparo automatico (Hay que probarlo)
-	// driver.X().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this]{return launchShooterMulti;}, &driver, &intake, &processor));
+	driver.X().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor));
+	driver.X().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity)));
+
 
 
 	//For the Pit
@@ -135,12 +137,12 @@ void RobotContainer::ConfigTestBindings() {
 	//TEST
 
 	//Shooter
-	test.B().WhileTrue(shooter.setShooterVelocityCmd(40_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
-	test.B().OnFalse(shooter.setShooterVelocityCmd(20_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	test.B().WhileTrue(shooter.setShooterVelocityCmd(37_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	test.B().OnFalse(shooter.setShooterVelocityCmd(0_tps).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
 
 	//Hood
-	// test.A().WhileTrue(hood.setHoodAngleCommand(26.5_deg));
-	// test.A().OnFalse(hood.setHoodAngleCommand(2.0_deg));
+	test.A().WhileTrue(hood.setHoodAngleCommand(25.5_deg));
+	test.A().OnFalse(hood.setHoodAngleCommand(2.0_deg));
 
 	//Intake
 	// test.A().WhileTrue(intake.setIntakeCharacterization(0.30_m, 0_V));

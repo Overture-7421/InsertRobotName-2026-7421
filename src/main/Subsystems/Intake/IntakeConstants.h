@@ -20,7 +20,7 @@ struct IntakeConstants {
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::meter_t SliderOpen = 0.298_m;
 	constexpr static const units::meter_t SliderClose = 0.10_m;
-	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.25_m;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.22_m;
 
 	constexpr static const intakeValues IntakeOpen{ RollersActive, SliderOpen }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeSustain{ RollersStop, SliderOpen };

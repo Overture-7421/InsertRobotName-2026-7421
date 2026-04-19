@@ -13,41 +13,41 @@
 
 
 class Intake : public frc2::SubsystemBase {
- public:
-  units::turn_t transformMetersToTurns(units::meter_t distance);
-  units::meter_t transformTurnsToMeters(units::turn_t angle);
-  Intake();
-  
-  
-  void setRollersVoltage(units::volt_t targetVoltage);
-  void setIntakeDistance(units::meter_t targetDistance);
-  bool intakeReached(units::meter_t targetDistance);
-  units::meter_t getIntakePosition();
+public:
+	units::turn_t transformMetersToTurns(units::meter_t distance);
+	units::meter_t transformTurnsToMeters(units::turn_t angle);
+	Intake();
 
 
-  frc2::CommandPtr setIntakeCmd(intakeValues targetPos); //To Open
-  frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos); //It was just for prove logic
-  frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage); // Just Rollers
-  frc2::CommandPtr setSliderCmd(units::meter_t targetDistance); //Just Slider
-  frc2::CommandPtr setIntakeClosingCmd(intakeValues targetPos); //To Close (Because of the range)
+	void setRollersVoltage(units::volt_t targetVoltage);
+	void setIntakeDistance(units::meter_t targetDistance);
+	bool intakeReached(units::meter_t targetDistance);
+	units::meter_t getIntakePosition();
 
-  frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
 
-  void UpdateTelemetry();
+	frc2::CommandPtr setIntakeCmd(intakeValues targetPos); //To Open
+	frc2::CommandPtr setIntakeSlowModeCmd(intakeValues targetPos); //It was just for prove logic
+	frc2::CommandPtr setRollersCmd(units::volt_t targetVoltage); // Just Rollers
+	frc2::CommandPtr setSliderCmd(units::meter_t targetDistance); //Just Slider
+	frc2::CommandPtr setIntakeClosingCmd(intakeValues targetPos); //To Close (Because of the range)
 
-  void Periodic() override;
+	frc2::CommandPtr setIntakeCharacterization(units::meter_t distance, units::volt_t voltage);
 
-  frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter {0.35_mps}; //0.1 m/s de velocidad máxima de cambio
+	void UpdateTelemetry();
 
- private:
- OverTalonFX sliderMotor {IntakeConstants::sliderMotorConfig(), robotConstants::rio};
- OverTalonFX rollersRightMotor {IntakeConstants::rollersRightMotorConfig(), robotConstants::rio};
- OverTalonFX rollersLeftMotor {IntakeConstants::rollersLeftMotorConfig(), robotConstants::rio};
- OverCANCoder sliderRightCanCoder {IntakeConstants::SliderCanCoderConfig(), robotConstants::rio};
+	void Periodic() override;
 
- ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage {0_tr};
- ctre::phoenix6::controls::VoltageOut rollersVoltage {0_V};
+	frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter{ 0.30_mps }; //0.1 m/s de velocidad máxima de cambio
 
- units::volt_t targetRollerVoltage {0_V};
+private:
+	OverTalonFX sliderMotor{ IntakeConstants::sliderMotorConfig(), robotConstants::rio };
+	OverTalonFX rollersRightMotor{ IntakeConstants::rollersRightMotorConfig(), robotConstants::rio };
+	OverTalonFX rollersLeftMotor{ IntakeConstants::rollersLeftMotorConfig(), robotConstants::rio };
+	OverCANCoder sliderRightCanCoder{ IntakeConstants::SliderCanCoderConfig(), robotConstants::rio };
+
+	ctre::phoenix6::controls::MotionMagicVoltage intakeVoltage{ 0_tr };
+	ctre::phoenix6::controls::VoltageOut rollersVoltage{ 0_V };
+
+	units::volt_t targetRollerVoltage{ 0_V };
 
 };

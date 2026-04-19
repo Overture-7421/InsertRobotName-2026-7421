@@ -12,11 +12,11 @@ struct processorValues {
 struct ProcessorConstants {
 
 	//Ajustar Voltage
-	constexpr static const processorValues Eject = { 4.0_V, 8.0_V };
+	constexpr static const processorValues Eject = { 8.0_V, .0_V };
 	constexpr static const processorValues Stop = { 0.0_V, 0.0_V };
 	constexpr static const processorValues Reverse = { -6.0_V, 0.0_V };
 
-	constexpr static const processorValues Spit = { 3.0_V, 3.0_V };
+	constexpr static const processorValues Spit = { 3.0_V, 3.0_V }; //3,3
 
 	constexpr static const double IndexerRightMotorID = 20;
 	constexpr static const double PasserUpMotorID = 21;
@@ -27,7 +27,7 @@ struct ProcessorConstants {
 		OverTalonFXConfig indexer2Config;
 		indexer2Config.MotorId = IndexerRightMotorID;
 		indexer2Config.NeutralMode = ControllerNeutralMode::Coast;
-		indexer2Config.Inverted = true;
+		indexer2Config.Inverted = false;
 
 		indexer2Config.CurrentLimit = 30_A;
 		indexer2Config.StatorCurrentLimit = 120_A;
