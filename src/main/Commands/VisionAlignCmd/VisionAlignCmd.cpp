@@ -101,7 +101,7 @@ bool VisionAlignCmd::IsFinished() {
 	bool check = hood->isHoodAtAngle() && chassisError < 3.25_deg && (shooter->getState() == ShooterState::Holding);
 
 
-	if (shouldEnd == true) {
+	if (shouldEnd) {
 		return false;
 	}
 
