@@ -113,12 +113,6 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "LeftAuto3Bump"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
