@@ -20,13 +20,13 @@ namespace LaunchConstants {
 
 	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForHub{
 		{
-		  {1.45_m, 5.00_deg},
-		  {1.95_m, 8.50_deg},
-		  {2.45_m, 11.50_deg},
-		  {2.95_m, 15.50_deg},
-		  {3.45_m, 18.00_deg},
-		  {3.95_m, 21.00_deg},
-		  {4.45_m, 25.00_deg}
+		  {1.45_m, 3.00_deg},
+		  {1.95_m, 6.00_deg},
+		  {2.45_m, 9.00_deg},
+		  {2.95_m, 12.00_deg},
+		  {3.45_m, 15.00_deg},
+		  {3.95_m, 18.00_deg},
+		  {4.45_m, 20.00_deg}
 		}
 	};
 
@@ -38,8 +38,8 @@ namespace LaunchConstants {
 		  {2.45_m, 34.00_tps},
 		  {2.95_m, 35.00_tps},
 		  {3.45_m, 36.00_tps},
-		  {3.95_m, 36.75_tps},
-		  {4.45_m, 38.00_tps},
+		  {3.95_m, 37.00_tps},
+		  {4.45_m, 37.50_tps},
 	  }
 	};
 

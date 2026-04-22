@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5012888888888885,
-        "y": 0.7511222222222216
+        "x": 2.2369950331125823,
+        "y": 1.2907450331125825
       },
       "isLocked": false,
       "linkedName": "Right1-2Alt"
     },
     {
       "anchor": {
-        "x": 3.651133333333333,
-        "y": 0.6244444444444435
+        "x": 3.638162251655629,
+        "y": 0.6881705298013252
       },
       "prevControl": {
-        "x": 3.401369293744568,
-        "y": 0.6135851383753681
+        "x": 3.0936672185430463,
+        "y": 0.7389900662251647
       },
       "nextControl": {
-        "x": 4.138771080043948,
-        "y": 0.645646085605772
+        "x": 4.124148535556988,
+        "y": 0.6428118099705331
       },
       "isLocked": false,
       "linkedName": null
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 5.806144721233689,
-        "y": 0.8018623962040328
+        "y": 0.8478890728476813
       },
       "prevControl": {
         "x": 5.458544696095203,
-        "y": 0.4377099889160958
+        "y": 0.4837366655597444
       },
       "nextControl": {
         "x": 6.215411387900357,
-        "y": 1.2306179517595877
+        "y": 1.2766446284032362
       },
       "isLocked": false,
       "linkedName": null
@@ -64,32 +64,32 @@
     },
     {
       "anchor": {
-        "x": 6.6130842230130495,
-        "y": 4.95491103202847
+        "x": 6.600215231788079,
+        "y": 4.281837748344371
       },
       "prevControl": {
-        "x": 6.032087781731911,
-        "y": 5.040984578884934
+        "x": 6.027822274420149,
+        "y": 4.413488128538995
       },
       "nextControl": {
-        "x": 7.62305125805154,
-        "y": 4.805286286096843
+        "x": 7.326208609271523,
+        "y": 4.114859271523178
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.097247924080665,
-        "y": 2.760035587188612
+        "x": 7.1084105960264905,
+        "y": 2.873410596026489
       },
       "prevControl": {
-        "x": 7.592170818505337,
-        "y": 3.104329774614472
+        "x": 7.492985809330901,
+        "y": 3.2366205197028743
       },
       "nextControl": {
-        "x": 6.1896865844085065,
-        "y": 2.1286885682862393
+        "x": 6.45501655629139,
+        "y": 2.256316225165564
       },
       "isLocked": false,
       "linkedName": null
@@ -100,8 +100,8 @@
         "y": 2.4758888888888886
       },
       "prevControl": {
-        "x": 3.0859555555555556,
-        "y": 2.8266888888888873
+        "x": 3.514743377483444,
+        "y": 2.583013245033113
       },
       "nextControl": null,
       "isLocked": false,
@@ -114,11 +114,11 @@
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 1.39609236234459,
+      "waypointRelativePos": 1.5326876513317087,
       "rotationDegrees": 0.0
     },
     {
-      "waypointRelativePos": 2.2489626556016695,
+      "waypointRelativePos": 2.1283292978208066,
       "rotationDegrees": 90.0
     },
     {
@@ -130,16 +130,30 @@
       "rotationDegrees": -90.0
     },
     {
-      "waypointRelativePos": 5.648312611012429,
+      "waypointRelativePos": 5.738498789346256,
       "rotationDegrees": -90.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 2.713780918727937,
+      "maxWaypointRelativePos": 4.587985865724403,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 8.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 8.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -155,5 +169,5 @@
     "velocity": 0,
     "rotation": -139.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

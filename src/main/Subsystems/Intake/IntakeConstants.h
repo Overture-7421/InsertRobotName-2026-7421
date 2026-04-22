@@ -20,13 +20,14 @@ struct IntakeConstants {
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::meter_t SliderOpen = 0.298_m;
 	constexpr static const units::meter_t SliderClose = 0.10_m;
-	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.22_m;
+	constexpr static const units::meter_t RollersShouldNotBeMoving = 0.20_m;
 
 	constexpr static const intakeValues IntakeOpen{ RollersActive, SliderOpen }; //Poner todas las posiciones del intake, nada esta puesto bien.
 	constexpr static const intakeValues IntakeSustain{ RollersStop, SliderOpen };
 	constexpr static const intakeValues IntakeAuto{ RollersActiveAuto, IntakeOpen.intake }; //Poner todas las posiciones del intake, nada esta puesto bien.
 
 	constexpr static const intakeValues IntakeClose{ RollersStop, SliderClose };
+	constexpr static const intakeValues IntakeCloseTabulation{ RollersActive, SliderClose };
 	constexpr static const intakeValues IntakeClosing{ RollersActive, SliderClose };
 	constexpr static const units::volt_t RollersEject = RollersActive;
 	constexpr static const units::volt_t RollersReverse = -RollersActive;
@@ -34,6 +35,7 @@ struct IntakeConstants {
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;
 	constexpr static const double RotorToSensor = 38.4; //Dicen que es el doble. Antes 22.5 
+	constexpr static const units::current::ampere_t CurrentLimimtStuckFuels = 20_A;
 
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;

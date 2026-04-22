@@ -32,7 +32,7 @@ public:
 	/* You should consider using the more terse Command factories API instead
 	 * https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands
 	 */
-	VisionAlignCmd(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver, bool shouldEnd = false);
+	VisionAlignCmd(Shooter* shooter, Hood* hood, Chassis* chassis, LaunchModeManager* launchModeManager, std::function<double()> multiSupplier, OverXboxController* driver, bool shouldEnd = true);
 
 	void Initialize() override;
 
@@ -53,7 +53,7 @@ public:
 
 	frc::ProfiledPIDController<units::radian> headingController{
 		// PID constants: 
-				4.5, 0.0, 0.0, {10_rad_per_s, 14_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
+				5.5, 0.0, 0.15, {9_rad_per_s, 4_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 
@@ -72,7 +72,7 @@ public:
 	};
 
 	units::degree_t chassisError;
-	bool shouldEnd = false;
+	bool shouldEnd = true;
 
 	nt::StructPublisher<frc::Translation2d> targetPublisher =
 		nt::NetworkTableInstance::GetDefault().GetStructTopic < frc::Translation2d

@@ -14,6 +14,8 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 #include "ShooterState.h"
 #include <wpi/circular_buffer.h>
+#include <frc2/command/sysid/SysIdRoutine.h>
+#include <units/voltage.h>
 
 class Shooter : public frc2::SubsystemBase {
 public:
@@ -35,6 +37,14 @@ public:
 	void UpdateTelemetry();
 	void Periodic() override;
 
+	frc2::CommandPtr sysIdQuasistatic(frc2::sysid::Direction direction) {
+		return sysIdRoutine.Quasistatic(direction);
+	}
+
+	frc2::CommandPtr sysIdDynamic(frc2::sysid::Direction direction) {
+		return sysIdRoutine.Dynamic(direction);
+	}
+
 private:
 
 	OverTalonFX shooterLeftUpMotor{ ShooterConstants::ShooterLeftUpConfig(), robotConstants::rio };
@@ -54,4 +64,20 @@ private:
 	int currentPIDSlot = 0;
 
 	ctre::phoenix6::configs::TalonFXConfiguration shooterLeftCTREConfig;
+
+	frc2::sysid::SysIdRoutine sysIdRoutine{
+	frc2::sysid::Config{0.5_V / 1_s, 3.5_V, 10_s, {}},
+	frc2::sysid::Mechanism{
+		[this](units::volt_t driveVoltage) {
+			shooterLeftUpMotor.SetVoltage(driveVoltage);
+		},
+		[this](frc::sysid::SysIdRoutineLog* log) {
+
+		log->Motor("Shooter")
+			.voltage(shooterLeftUpMotor.GetMotorVoltage().GetValue())
+			.position(shooterLeftUpMotor.GetPosition().GetValue())
+			.velocity(shooterLeftUpMotor.GetVelocity().GetValue());
+		},
+		this} };
+
 };

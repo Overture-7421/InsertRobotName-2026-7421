@@ -8,14 +8,14 @@
 
 struct HoodConstants {
 
-	//27.5 degrees is the maximum
+	//36.5 degrees is the maximum
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 2.0_tps;
 	constexpr static const units::turns_per_second_squared_t CruiseAcceleration = 6.0_tr_per_s_sq;
 
 	constexpr static const units::degree_t RangeOfError = 0.5_deg;
 
-	constexpr static const units::degree_t Close = 1.0_deg;
+	constexpr static const units::degree_t Close = 2.0_deg;
 
 	constexpr static const double RotorToSensor = 18.666666;
 	constexpr static const double SensorToMechanism = 6.857142;
@@ -35,7 +35,7 @@ struct HoodConstants {
 		motorConfig.TriggerThreshold = 40_A;
 		motorConfig.TriggerThresholdTime = 0.5_s;
 		motorConfig.ClosedLoopRampRate = 0.05_s;
-		motorConfig.PIDConfigs.WithKP(400.0).WithKI(30.0).WithKV(10.8); // 375, 30, 9
+		motorConfig.PIDConfigs.WithKP(275.0).WithKI(40.0).WithKV(10.0); // 375, 30, 9
 
 		return motorConfig;
 	}
@@ -46,7 +46,7 @@ struct HoodConstants {
 #ifndef __FRC_ROBORIO__
 		canCoderConfig.Offset = 0_tr;
 #else
-		canCoderConfig.Offset = -0.781982421875_tr;
+		canCoderConfig.Offset = -0.003173828125_tr;
 #endif 
 		canCoderConfig.absoluteDiscontinuityPoint = 0.95_tr;
 		canCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;

@@ -15,7 +15,7 @@ Intake::Intake() {
 
 	sliderMotor.configureMotionMagic(IntakeConstants::CruiseVelocity, IntakeConstants::CruiseAcceleration, 0.0_tr_per_s_cu);
 
-	rollersLeftMotor.setFollow(rollersRightMotor.GetDeviceID(),true);
+	rollersLeftMotor.setFollow(rollersRightMotor.GetDeviceID(), true);
 
 }
 
@@ -23,12 +23,12 @@ void Intake::setRollersVoltage(units::volt_t targetVoltage) {
 	targetRollerVoltage = targetVoltage;
 }
 
-units::turn_t Intake::transformMetersToTurns(units::meter_t distance){
-	return units::turn_t(distance.value()/(IntakeConstants::PinionDiameter.value()*M_PI));	
+units::turn_t Intake::transformMetersToTurns(units::meter_t distance) {
+	return units::turn_t(distance.value() / (IntakeConstants::PinionDiameter.value() * M_PI));
 }
 
-units::meter_t Intake::transformTurnsToMeters(units::turn_t angle){
-	return units::meter_t (angle.value()*(IntakeConstants::PinionDiameter.value()*M_PI));
+units::meter_t Intake::transformTurnsToMeters(units::turn_t angle) {
+	return units::meter_t(angle.value() * (IntakeConstants::PinionDiameter.value() * M_PI));
 }
 
 bool Intake::intakeReached(units::meter_t targetDistance) {
@@ -63,12 +63,12 @@ frc2::CommandPtr Intake::setIntakeSlowModeCmd(intakeValues targetPos) {
 
 	},
 
-	[this](bool interrupted) {},
+		[this](bool interrupted) {},
 
-	[this, targetPos] {
+		[this, targetPos] {
 		return (intakeReached(targetPos.intake));
-	}, {this}
-	).ToPtr();
+	}, { this }
+		).ToPtr();
 }
 
 frc2::CommandPtr Intake::setSliderCmd(units::meter_t targetDistance) {
@@ -84,8 +84,9 @@ frc2::CommandPtr Intake::setSliderCmd(units::meter_t targetDistance) {
 
 	[this, targetDistance] {
 		return (intakeReached(targetDistance));
-	}, {this}
-	).ToPtr();}
+	}, { this }
+		).ToPtr();
+}
 
 frc2::CommandPtr Intake::setIntakeCharacterization(units::meter_t distance, units::volt_t voltage) {
 	return frc2::cmd::Sequence(
@@ -107,8 +108,8 @@ frc2::CommandPtr Intake::setRollersCmd(units::volt_t targetVoltage) {
 
 	[] {
 		return true;
-	}, {this}
-	).ToPtr();
+	}, { this }
+		).ToPtr();
 }
 
 frc2::CommandPtr Intake::setIntakeClosingCmd(intakeValues targetPos) {
@@ -118,19 +119,19 @@ frc2::CommandPtr Intake::setIntakeClosingCmd(intakeValues targetPos) {
 	},
 
 		[this, targetPos]() {
-			if(getIntakePosition() > IntakeConstants::RollersShouldNotBeMoving){
-				setRollersVoltage(targetPos.rollers);
-			} else {
-				setRollersVoltage(IntakeConstants::RollersStop);
-			}
+		if (getIntakePosition() > IntakeConstants::RollersShouldNotBeMoving) {
+			setRollersVoltage(targetPos.rollers);
+		} else {
+			setRollersVoltage(IntakeConstants::RollersStop);
+		}
 	},
 
-	[](bool interrupted) {},
+		[](bool interrupted) {},
 
-	[this, targetPos] {
+		[this, targetPos] {
 		return intakeReached(targetPos.intake);
-	}, {this}
-	).ToPtr();
+	}, { this }
+		).ToPtr();
 }
 
 // This method will be called once per scheduler run
@@ -144,11 +145,15 @@ void Intake::UpdateTelemetry() {
 	frc::SmartDashboard::PutNumber("Intake/TargetAngle", transformTurnsToMeters(units::turn_t(targetDistance)).value());
 	frc::SmartDashboard::PutBoolean("Intake/isIntakeAtAngle", intakeReached(units::meter_t(targetDistance)));
 
-	if(getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving){
+	if (getIntakePosition() < IntakeConstants::RollersShouldNotBeMoving) {
 		rollersRightMotor.SetControl(rollersVoltage.WithOutput(0_V).WithEnableFOC(true));
 	} else {
 		rollersRightMotor.SetControl(rollersVoltage.WithOutput(targetRollerVoltage).WithEnableFOC(true));
 
+	}
+
+	if (sliderMotor.GetSupplyCurrent().GetValue() > IntakeConstants::CurrentLimimtStuckFuels) {
+		setIntakeDistance(IntakeConstants::SliderOpen);
 	}
 
 }

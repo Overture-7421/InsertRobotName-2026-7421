@@ -47,8 +47,6 @@ void VisionAlignCmd::Execute() {
 
 	frc::Rotation2d targetAngle((chassisPose.X() - movingGoalLocation.X()).value(), (chassisPose.Y() - movingGoalLocation.Y()).value());
 	headingSpeedsHelper.setTargetAngle(targetAngle);
-	// headingSpeedsHelper.setTargetAngle(90_deg);
-
 
 
 	units::meter_t distanceToTarget = chassisPose.Translation().Distance(movingGoalLocation);
@@ -101,11 +99,11 @@ bool VisionAlignCmd::IsFinished() {
 	bool check = hood->isHoodAtAngle() && chassisError < 3.25_deg && (shooter->getState() == ShooterState::Holding);
 
 
-	if (shouldEnd) {
+	if (!shouldEnd) {
 		return false;
 	}
 
-	frc::SmartDashboard::PutBoolean("CHECK/IsFinished", !shouldEnd);
+	frc::SmartDashboard::PutBoolean("CHECK/IsFinished", shouldEnd);
 
 	return check;
 }

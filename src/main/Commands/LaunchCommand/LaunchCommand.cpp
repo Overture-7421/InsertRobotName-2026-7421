@@ -10,7 +10,7 @@ frc2::CommandPtr LaunchCommand(Shooter* shooter, Hood* hood, Chassis* chassis, L
 
 		frc2::cmd::Parallel(
 			EjectCommand(intake, shooter, processor).ToPtr(),
-			VisionAlignCmd(shooter, hood, chassis, launchModeManager, multiSupplier, driver, true).ToPtr()
+			VisionAlignCmd(shooter, hood, chassis, launchModeManager, multiSupplier, driver, false).ToPtr()
 		)
 
 	);

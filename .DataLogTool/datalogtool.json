@@ -1,0 +1,10 @@
+{
+  "download": {
+    "deleteAfter": false,
+    "localDir": "C:\\Users\\lomar\\Desktop\\Overture\\Logs",
+    "serverTeam": "7421"
+  },
+  "output": {
+    "outputFolder": "C:\\Users\\lomar\\Desktop\\Overture\\Logs"
+  }
+}
