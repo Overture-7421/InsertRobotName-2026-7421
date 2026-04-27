@@ -19,6 +19,8 @@ struct ShooterConstants {
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0.0_tps;
 	constexpr static const units::turns_per_second_t SustainVelocity = 0.0_tps;
+	constexpr static const units::turns_per_second_t SustainVelocityAuto = 20.0_tps;
+	constexpr static const units::turns_per_second_t ReverseVelocity = -5.0_tps;
 
 	constexpr static const double SensorToMechanism = 1.4;
 
@@ -44,8 +46,8 @@ struct ShooterConstants {
 #ifndef __FRC_ROBORIO__
 		shooter1Config.PIDConfigs.WithKP(0.015).WithKS(0.0).WithKV(0.1195);
 #else
-		shooter1Config.PIDConfigs.WithKP(0.033).WithKS(0.25).WithKV(0.170);
-#endif 
+		shooter1Config.PIDConfigs.WithKP(0.03).WithKS(0.25).WithKV(0.171);
+#endif 	
 
 		return shooter1Config;
 	}

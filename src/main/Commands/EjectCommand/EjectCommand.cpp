@@ -28,10 +28,13 @@ void EjectCommand::Execute() {
 		shooter->Hold();
 	}
 
-	intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
 	processor->setProcessorVoltages(ProcessorConstants::Eject);
 
-	if (!startedClosing && (now - enterTimestamp) > 2.5_s) {
+	if (!startedClosing && (now - enterTimestamp) > 0.75_s) {
+		intake->setRollersVoltage(IntakeConstants::IntakeOpen.rollers);
+	}
+
+	if (!startedClosing && (now - enterTimestamp) > 1.40_s) {
 		intake->intakeSlowModeFilter.Reset(intake->getIntakePosition());
 		startedClosing = true;
 	}

@@ -37,7 +37,7 @@ public:
 
 	void Periodic() override;
 
-	frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter{ 0.30_mps }; //0.1 m/s de velocidad máxima de cambio
+	frc::SlewRateLimiter<units::length::meter> intakeSlowModeFilter{ 0.13_mps }; //0.1 m/s de velocidad máxima de cambio
 
 private:
 	OverTalonFX sliderMotor{ IntakeConstants::sliderMotorConfig(), robotConstants::rio };

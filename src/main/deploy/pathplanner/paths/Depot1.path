@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.712408940397351,
-        "y": 5.995182119205298
+        "x": 3.507483443708609,
+        "y": 4.049519867549668
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.712408940397351,
-        "y": 5.995182119205298
+        "x": 3.259012510040204,
+        "y": 4.021911986030957
       },
       "isLocked": false,
-      "linkedName": "Center2-3"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.5273923841059602,
-        "y": 4.027740066225165
+        "x": 2.8831291390728477,
+        "y": 4.049519867549668
       },
       "prevControl": {
-        "x": 2.476572847682119,
-        "y": 4.848112582781456
+        "x": 3.1662665562913914,
+        "y": 4.027740066225165
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center1-2"
     }
   ],
   "rotationTargets": [],
@@ -34,7 +34,7 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 7.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -45,10 +45,10 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "CenterAuto",
+  "folder": "DepotAuto",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }

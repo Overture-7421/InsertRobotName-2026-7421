@@ -82,21 +82,23 @@ void VisionAlignCmd::Execute() {
 
 	chassisError = units::math::abs((targetAngle - chassisPose.Rotation()).Degrees());
 	frc::SmartDashboard::PutNumber("LaunchCommand/ChassisError", chassisError.value());
-	frc::SmartDashboard::PutBoolean("LaunchCommand/ChassisErrorBool", chassisError.value() < 3.25);
+	frc::SmartDashboard::PutBoolean("LaunchCommand/ChassisErrorBool", chassisError.value() < 1.25);
 
 	frc::SmartDashboard::PutNumber("LaunchCmd", multiSupplier());
 	targetPublisher.Set(movingGoalLocation);
+
 }
 
 // Called once the command ends or is interrupted.
 void VisionAlignCmd::End(bool interrupted) {
+
 	chassis->disableSpeedHelper();
 }
 
 // Returns true when the command should end.
 bool VisionAlignCmd::IsFinished() {
 
-	bool check = hood->isHoodAtAngle() && chassisError < 3.25_deg && (shooter->getState() == ShooterState::Holding);
+	bool check = hood->isHoodAtAngle() && chassisError < 1.25_deg && (shooter->getState() == ShooterState::Holding);
 
 
 	if (!shouldEnd) {

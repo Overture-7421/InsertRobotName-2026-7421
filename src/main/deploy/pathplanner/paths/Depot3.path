@@ -1,0 +1,95 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.8831291390728477,
+        "y": 4.049519867549668
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 0.4365314569536425,
+        "y": 5.044130794701987
+      },
+      "isLocked": false,
+      "linkedName": "Depot2-3"
+    },
+    {
+      "anchor": {
+        "x": 3.478443708609271,
+        "y": 7.534288079470198
+      },
+      "prevControl": {
+        "x": 0.9665066225165555,
+        "y": 7.476208609271522
+      },
+      "nextControl": {
+        "x": 4.478176516459951,
+        "y": 7.557403288900272
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.670943708609271,
+        "y": 7.418129139072847
+      },
+      "prevControl": {
+        "x": 5.420943708609271,
+        "y": 7.418129139072847
+      },
+      "nextControl": {
+        "x": 6.191451750975989,
+        "y": 7.418129139072847
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.40067880794702,
+        "y": 7.418129139072847
+      },
+      "prevControl": {
+        "x": 7.384755794701988,
+        "y": 7.421759105960264
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.9552058111380162,
+      "rotationDegrees": 0.0
+    },
+    {
+      "waypointRelativePos": 1.503631961259069,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 8.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": "DepotAuto",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}

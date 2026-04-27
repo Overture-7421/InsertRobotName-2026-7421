@@ -53,7 +53,7 @@ public:
 
 	frc::ProfiledPIDController<units::radian> headingController{
 		// PID constants: 
-				5.5, 0.0, 0.15, {9_rad_per_s, 4_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
+				6.0, 0.0, 0.0, {9_rad_per_s, 4_rad_per_s_sq * 1.00} //Constraints max velocity, max acceleration
 	};
 	HeadingSpeedsHelper headingSpeedsHelper;
 

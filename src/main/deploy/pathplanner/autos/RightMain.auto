@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto1Trench"
+                  "pathName": "Right1Main"
                 }
               },
               {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.5
+                        "waitTime": 3.3
                       }
                     }
                   ]
@@ -49,13 +49,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "VisionAlignCmd"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EjectCommand"
+                  "name": "LaunchCommand"
                 }
               },
               {
@@ -74,13 +68,19 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "LeftAuto2Trench"
+                  "pathName": "Right2Main"
                 }
               },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -90,7 +90,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.5
+                        "waitTime": 5.2
                       }
                     },
                     {
@@ -112,13 +112,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "VisionAlignCmd"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EjectCommand"
+                  "name": "LaunchCommand"
                 }
               },
               {
@@ -134,6 +128,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "LeftAuto",
+  "folder": "RightAutos",
   "choreoAuto": false
 }

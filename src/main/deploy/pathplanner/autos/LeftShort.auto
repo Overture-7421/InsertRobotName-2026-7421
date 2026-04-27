@@ -5,19 +5,13 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "Center1"
-          }
-        },
-        {
           "type": "sequential",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "EjectCommand"
+                  "name": "LaunchCommand"
                 }
               },
               {
@@ -36,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "C2"
+                  "pathName": "LeftShort"
                 }
               },
               {
@@ -48,6 +42,12 @@
                       "data": {
                         "name": "SwallowCommand"
                       }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.5
+                      }
                     }
                   ]
                 }
@@ -58,38 +58,13 @@
         {
           "type": "named",
           "data": {
-            "name": "IntakeSustain"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "C3"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "EjectCommand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AfterEject"
-                }
-              }
-            ]
+            "name": "CloseCmd"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "CenterAutoTecDroid",
+  "folder": "LeftAutos",
   "choreoAuto": false
 }

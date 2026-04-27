@@ -5,13 +5,19 @@
     "data": {
       "commands": [
         {
+          "type": "path",
+          "data": {
+            "pathName": "Depot1"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right1Trench"
+                  "pathName": "Depot2"
                 }
               },
               {
@@ -27,70 +33,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 4.0
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "IntakeSustain"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "VisionAlignCmd"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "EjectCommand"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AfterEject"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Right2Trench"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "SwallowCommand"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 5.5
+                        "waitTime": 3.15
                       }
                     },
                     {
@@ -110,25 +53,50 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "LaunchCommand"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "AfterEject"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Depot3"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
                       "type": "named",
                       "data": {
-                        "name": "VisionAlignCmd"
+                        "name": "SwallowCommand"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 3.15
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "EjectCommand"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "AfterEject"
+                        "name": "IntakeSustain"
                       }
                     }
                   ]
@@ -136,11 +104,17 @@
               }
             ]
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CloseCmd"
+          }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RightAuto",
+  "folder": "DepotAuto",
   "choreoAuto": false
 }

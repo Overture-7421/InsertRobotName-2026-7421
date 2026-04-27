@@ -62,11 +62,11 @@ frc::Rotation3d Chassis::getRotation3d() {
 }
 
 PIDConstants Chassis::getTranslationPID() {
-	return {6.0, 0.0, 0.0};
+	return { 6.0, 0.0, 0.0 };
 }
 
 PIDConstants Chassis::getRotationPID() {
-	return {6.0, 0.0, 0.0};
+	return { 6.0, 0.0, 0.0 };
 }
 
 // ctre::phoenix6::configs::Pigeon2Configuration Chassis::PigeonConfig(){
@@ -91,7 +91,7 @@ SwerveModuleConfig Chassis::FrontRightConfig() {
 #ifndef __FRC_ROBORIO__
 	config.EncoderConfig.Offset = 0.0_tr;
 #else
-	config.EncoderConfig.Offset = 0.46484375_tr;
+	config.EncoderConfig.Offset = 0.464111328125_tr;
 #endif 
 	config.TurnMotorConfig.PIDConfigs.WithKP(40).WithKS(0.15);
 	config.TurnMotorConfig.Inverted = false;

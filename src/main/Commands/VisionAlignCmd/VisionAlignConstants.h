@@ -45,26 +45,26 @@ namespace LaunchConstants {
 
 	static const InterpolatingTable<units::meter_t, units::degree_t> DistanceToHoodForPass{
 		{
-		  {3.75_m, 15.0_deg},
-		  {4.75_m, 18.0_deg},
-		  {5.75_m, 21.0_deg},
-		  {6.75_m, 24.0_deg},
-		  {7.75_m, 27.0_deg},
-		  {8.75_m, 28.5_deg},
-		  {9.75_m, 28.5_deg}
+		  {3.75_m, 21.0_deg},
+		  {4.75_m, 23.0_deg},
+		  {5.75_m, 25.0_deg},
+		  {6.75_m, 28.0_deg},
+		  {7.75_m, 31.0_deg},
+		  {8.75_m, 34.0_deg},
+		  {9.75_m, 36.25_deg}
 		}
 	};
 
 
 	static const InterpolatingTable<units::meter_t, units::turns_per_second_t> DistanceToShooterForPass{
 	  {
-		  {3.75_m, 35.0_tps},
+		  {3.75_m, 36.0_tps},
 		  {4.75_m, 37.0_tps},
-		  {5.75_m, 39.0_tps},
-		  {6.75_m, 41.0_tps},
-		  {7.75_m, 41.5_tps},
-		  {8.75_m, 41.5_tps},
-		  {9.75_m, 41.5_tps}
+		  {5.75_m, 38.0_tps},
+		  {6.75_m, 40.0_tps},
+		  {7.75_m, 42.0_tps},
+		  {8.75_m, 44.0_tps},
+		  {9.75_m, 46.0_tps}
 		}
 	};
 

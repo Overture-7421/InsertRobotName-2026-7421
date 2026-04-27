@@ -15,8 +15,8 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const units::volt_t RollersActive = 7.0_V;
-	constexpr static const units::volt_t RollersActiveAuto = 7.0_V;
+	constexpr static const units::volt_t RollersActive = 8.0_V;
+	constexpr static const units::volt_t RollersActiveAuto = 8.0_V;
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::meter_t SliderOpen = 0.298_m;
 	constexpr static const units::meter_t SliderClose = 0.10_m;
@@ -49,7 +49,7 @@ struct IntakeConstants {
 	constexpr static OverTalonFXConfig sliderMotorConfig() {
 		OverTalonFXConfig sliderRightMotorConfig;
 		sliderRightMotorConfig.MotorId = 15;
-		sliderRightMotorConfig.NeutralMode = ControllerNeutralMode::Brake;
+		sliderRightMotorConfig.NeutralMode = ControllerNeutralMode::Coast;
 		sliderRightMotorConfig.Inverted = false;
 		sliderRightMotorConfig.useFOC = true;
 		sliderRightMotorConfig.PIDConfigs.GravityType = 1;
@@ -110,7 +110,7 @@ struct IntakeConstants {
 
 		CanCoderConfig SliderCanCoderConfig;
 		SliderCanCoderConfig.CanCoderId = SliderCanCoderID;
-		SliderCanCoderConfig.Offset = 0.078125_tr;
+		SliderCanCoderConfig.Offset = 0.06787109375_tr;
 		SliderCanCoderConfig.SensorDirection = ctre::phoenix6::signals::SensorDirectionValue::CounterClockwise_Positive;
 		SliderCanCoderConfig.absoluteDiscontinuityPoint = 0.75_tr;
 

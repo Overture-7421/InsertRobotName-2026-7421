@@ -10,15 +10,15 @@ RobotContainer::RobotContainer() {
 	//Sujto a cambio
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeAuto)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
-	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor)));
-	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity))));
+	pathplanner::NamedCommands::registerCommand("CloseCmd", std::move(CloseCommand(&intake, &processor)));
+	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor)).WithTimeout(5.0_s));
+	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocityAuto), frc2::cmd::RunOnce([this] {chassis.setXMode(false);}))));
 
 
 	autoChooser = pathplanner::AutoBuilder::buildAutoChooser();
 	frc::SmartDashboard::PutData("AutoChooser", &autoChooser);
 	ConfigureBindings();
 }
-
 void RobotContainer::ConfigureBindings() {
 	ConfigDriverBindings();
 	ConfigOperatorBindings();
@@ -28,6 +28,7 @@ void RobotContainer::ConfigureBindings() {
 
 void RobotContainer::ConfigDriverBindings() {
 	//Button A Disparo Manual pegado al climb zone
+	//Right Bumper es Modo Lento de Chassis
 
 	chassis.SetDefaultCommand(DriveCommand(&chassis, &driver, &processor).ToPtr());
 	driver.Back().OnTrue(ResetHeading(&chassis));
@@ -36,24 +37,43 @@ void RobotContainer::ConfigDriverBindings() {
 	driver.LeftTrigger().OnFalse(intake.setIntakeCmd(IntakeConstants::IntakeSustain));
 
 	driver.RightTrigger().WhileTrue(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor));
-	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity)));
+	driver.RightTrigger().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity), frc2::cmd::RunOnce([this] {chassis.setXMode(false);})));
 
 	//For the Pit
 	driver.Y().WhileTrue(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(10_tps), processor.setProcessorCmd(ProcessorConstants::Spit)));
 	driver.Y().OnFalse(frc2::cmd::Parallel(shooter.setShooterVelocityCmd(0_tps), processor.setProcessorCmd(ProcessorConstants::Stop)));
 
 
-	//Tabulate
-	driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
+	//Los de abajo los tenia el operador
+	driver.B().WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr().OnlyWhile([this] {return driver.GetHID().GetLeftTriggerAxis() < 0.1;}));
+	driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocity), frc2::cmd::RunOnce([this] {chassis.setXMode(false);})));
 
-	driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
-		intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
-		frc2::cmd::Wait(2.5_s),
-		intake.setIntakeSlowModeCmd(IntakeConstants::IntakeCloseTabulation)
-	).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
-	driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop),
-		intake.setIntakeCmd(IntakeConstants::IntakeSustain)
-	));
+	driver.LeftBumper().WhileTrue(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Pass);
+	}));
+	driver.LeftBumper().OnFalse(frc2::cmd::RunOnce([this] {
+		launchModeManager.setLaunchMode(LaunchModes::Hub);
+	}));
+
+	driver.X().WhileTrue(CloseCommand(&intake, &processor));
+	driver.X().OnFalse(CloseCommand(&intake, &processor));
+
+	driver.POVDown().WhileTrue(frc2::cmd::Parallel(intake.setRollersCmd(IntakeConstants::RollersReverse), processor.setProcessorCmd(ProcessorConstants::Reverse), shooter.setShooterVelocityCmd(ShooterConstants::ReverseVelocity)));
+	driver.POVDown().OnFalse(frc2::cmd::Parallel(intake.setRollersCmd(IntakeConstants::RollersStop), processor.setProcessorCmd(ProcessorConstants::Stop), shooter.setShooterVelocityCmd(ShooterConstants::StopVelocity)));
+
+
+
+	//Tabulate
+	// driver.A().ToggleOnTrue(TabulateCommand(&shooter, &hood, &chassis, &launchModeManager).ToPtr());
+
+	// driver.B().WhileTrue(frc2::cmd::Sequence(processor.setProcessorCmd(ProcessorConstants::Eject),
+	// 	intake.setRollersCmd(IntakeConstants::IntakeOpen.rollers),
+	// 	frc2::cmd::Wait(2.5_s),
+	// 	intake.setIntakeSlowModeCmd(IntakeConstants::IntakeCloseTabulation)
+	// ).BeforeStarting(frc2::cmd::RunOnce([this] {shooter.Hold();})).FinallyDo([this] {shooter.Release();}));
+	// driver.B().OnFalse(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop),
+	// 	intake.setIntakeCmd(IntakeConstants::IntakeSustain)
+	// ));
 
 
 
@@ -110,7 +130,6 @@ void RobotContainer::ConfigConsoleBindings() {
 		this->launchShooterMulti -= 0.03;
 	}));
 
-	console.Button(6).WhileTrue(EjectCommand(&intake, &shooter, &processor).ToPtr().OnlyWhile([this] {return driver.GetHID().GetLeftTriggerAxis() < 0.1;}));
 	//Ver si tengo que agregar un OnFalse
 	//Y ponerlo tambien para el oprtr
 

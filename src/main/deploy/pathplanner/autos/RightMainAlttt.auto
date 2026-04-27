@@ -11,7 +11,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right1Bump"
+                  "pathName": "Right1Main"
                 }
               },
               {
@@ -27,7 +27,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.0
+                        "waitTime": 3.3
                       }
                     }
                   ]
@@ -68,13 +68,19 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Right2Bump"
+                  "pathName": "Right2MainAlttt"
                 }
               },
               {
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
@@ -84,7 +90,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 6.0
+                        "waitTime": 5.2
                       }
                     },
                     {
@@ -122,6 +128,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "RightAuto",
+  "folder": "RightAutos",
   "choreoAuto": false
 }

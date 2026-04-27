@@ -3,14 +3,14 @@
   "robotLength": 0.89535,
   "holonomicMode": true,
   "pathFolders": [
-    "LeftAuto",
-    "CenterAuto",
-    "RightAuto"
+    "DepotAuto",
+    "LeftAutos",
+    "RightAutos"
   ],
   "autoFolders": [
-    "LeftAuto",
-    "CenterAutoTecDroid",
-    "RightAuto"
+    "DepotAuto",
+    "LeftAutos",
+    "RightAutos"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 4.0,

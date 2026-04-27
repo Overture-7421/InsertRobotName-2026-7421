@@ -1,0 +1,109 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.8831291390728477,
+        "y": 4.049519867549668
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.8686092715231792,
+        "y": 4.848112582781456
+      },
+      "isLocked": false,
+      "linkedName": "Center1-2"
+    },
+    {
+      "anchor": {
+        "x": 0.9084271523178808,
+        "y": 7.534288079470198
+      },
+      "prevControl": {
+        "x": 1.7360596026490063,
+        "y": 7.570587748344369
+      },
+      "nextControl": {
+        "x": 0.3317369318166673,
+        "y": 7.5089946487464605
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 0.41475165562913896,
+        "y": 5.966142384105961
+      },
+      "prevControl": {
+        "x": 0.42731749749391,
+        "y": 6.713809975059837
+      },
+      "nextControl": {
+        "x": 0.40023178807947013,
+        "y": 5.102210264900662
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.8831291390728477,
+        "y": 4.049519867549668
+      },
+      "prevControl": {
+        "x": 2.904908940397351,
+        "y": 5.276448675496688
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Depot2-3"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.5072639225181659,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 2.004842615012121,
+      "rotationDegrees": -90.0
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 1.216961130742058,
+      "maxWaypointRelativePos": 2.192226148409894,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 7.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 7.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "DepotAuto",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "useDefaultConstraints": false
+}
