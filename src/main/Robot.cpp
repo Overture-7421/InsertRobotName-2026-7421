@@ -33,7 +33,7 @@ void Robot::RobotInit() {
 	simPigeonManager.Init("Shelby2/imu");
 
 	simCANCoderManager.Init({
-	
+
 	  {12, "Shelby2/cancoders/back_right_cancoder"},
 	  {11, "Shelby2/cancoders/back_left_cancoder"},
 	  {10, "Shelby2/cancoders/front_left_cancoder"},
@@ -41,7 +41,7 @@ void Robot::RobotInit() {
 
 	  {24, "Shelby2/cancoders/hood_cancoder"},
 	  {16, "Shelby2/cancoders/intake_cancoder"}
-	
+
 		});
 
 	simDutyCycleEncoderManager.Init({});
@@ -106,6 +106,9 @@ void Robot::TeleopInit() {
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.processor.setProcessorCmd(ProcessorConstants::Stop));
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.intake.setRollersCmd(IntakeConstants::IntakeSustain.rollers));
 	frc2::CommandScheduler::GetInstance().Schedule(m_container.hood.setHoodAngleCommand(HoodConstants::Close));
+
+	m_container.chassis.setXMode(false);
+
 }
 
 /**

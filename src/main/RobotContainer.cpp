@@ -11,7 +11,7 @@ RobotContainer::RobotContainer() {
 	pathplanner::NamedCommands::registerCommand("SwallowCommand", std::move(intake.setIntakeCmd(IntakeConstants::IntakeAuto)));
 	pathplanner::NamedCommands::registerCommand("IntakeSustain", std::move(intake.setIntakeCmd(IntakeConstants::IntakeSustain)));
 	pathplanner::NamedCommands::registerCommand("CloseCmd", std::move(CloseCommand(&intake, &processor)));
-	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor)).WithTimeout(5.0_s));
+	pathplanner::NamedCommands::registerCommand("LaunchCommand", std::move(LaunchCommand(&shooter, &hood, &chassis, &launchModeManager, [this] {return launchShooterMulti;}, &driver, &intake, &processor)).WithTimeout(4.8_s));
 	pathplanner::NamedCommands::registerCommand("AfterEject", std::move(frc2::cmd::Parallel(processor.setProcessorCmd(ProcessorConstants::Stop), hood.setHoodAngleCommand(HoodConstants::Close), shooter.setShooterVelocityCmd(ShooterConstants::SustainVelocityAuto), frc2::cmd::RunOnce([this] {chassis.setXMode(false);}))));
 
 

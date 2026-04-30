@@ -75,6 +75,11 @@ void Shooter::Periodic() {
 	units::turns_per_second_t currentVel = shooterLeftUpMotor.GetVelocity().GetValue();
 	units::volt_t currentVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
 
+	if (targetVelocity == ShooterConstants::SustainVelocity && currentVel > ShooterConstants::SustainVelocity) {
+		shooterLeftUpMotor.SetVoltage(0_V);
+		return;
+	}
+
 	switch (state) {
 	case ShooterState::WindUp: {
 		currentPIDSlot = 0;
@@ -95,7 +100,7 @@ void Shooter::Periodic() {
 		}
 
 
-		if (units::math::abs(currentVel) >= 0.001_tps && currentTime - lastTimeOnTarget > .1_s) {
+		if (units::math::abs(currentVel) >= 0.001_tps && currentTime - lastTimeOnTarget > .05_s) {
 			kVEstimator.emplace_front(units::math::abs(currentVoltage / currentVel).value());
 		}
 
