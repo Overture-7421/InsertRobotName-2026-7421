@@ -15,8 +15,8 @@ struct intakeValues {
 
 struct IntakeConstants {
 
-	constexpr static const units::volt_t RollersActive = 8.0_V;
-	constexpr static const units::volt_t RollersActiveAuto = 8.0_V;
+	constexpr static const units::volt_t RollersActive = 10.0_V;
+	constexpr static const units::volt_t RollersActiveAuto = 10.0_V;
 	constexpr static const units::volt_t RollersStop = 0_V;
 	constexpr static const units::meter_t SliderOpen = 0.298_m;
 	constexpr static const units::meter_t SliderClose = 0.10_m;
@@ -35,7 +35,7 @@ struct IntakeConstants {
 	constexpr static const units::meter_t PinionDiameter = 0.0254_m;
 	constexpr static const double SensorToMechanism = 0.166666;
 	constexpr static const double RotorToSensor = 38.4; //Dicen que es el doble. Antes 22.5 
-	constexpr static const units::current::ampere_t CurrentLimimtStuckFuels = 20_A;
+	constexpr static const units::current::ampere_t CurrentLimimtStuckFuels = 40_A;
 
 
 	constexpr static const units::turns_per_second_t CruiseVelocity = 24_tps;
@@ -119,3 +119,4 @@ struct IntakeConstants {
 
 
 };
+	

@@ -75,7 +75,7 @@ void Shooter::Periodic() {
 	units::turns_per_second_t currentVel = shooterLeftUpMotor.GetVelocity().GetValue();
 	units::volt_t currentVoltage = shooterLeftUpMotor.GetMotorVoltage().GetValue();
 
-	if (targetVelocity == ShooterConstants::SustainVelocity && currentVel > ShooterConstants::SustainVelocity) {
+	if ((targetVelocity == ShooterConstants::SustainVelocity || targetVelocity == ShooterConstants::SustainVelocityAuto) && (currentVel > ShooterConstants::SustainVelocity || currentVel > ShooterConstants::SustainVelocityAuto)) {
 		shooterLeftUpMotor.SetVoltage(0_V);
 		return;
 	}

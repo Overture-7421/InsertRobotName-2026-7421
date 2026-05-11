@@ -98,7 +98,13 @@ void VisionAlignCmd::End(bool interrupted) {
 // Returns true when the command should end.
 bool VisionAlignCmd::IsFinished() {
 
-	bool check = hood->isHoodAtAngle() && chassisError < 1.25_deg && (shooter->getState() == ShooterState::Holding);
+	bool check = false;
+	if (launchModeManager->getLaunchMode() == LaunchModes::Pass) {
+		check = hood->isHoodAtAngle() && chassisError < 8_deg && shooter->isShooterAtVelocity();
+	} else {
+		check = hood->isHoodAtAngle() && chassisError < 1.25_deg && (shooter->getState() == ShooterState::Holding);
+
+	}
 
 
 	if (!shouldEnd) {

@@ -18,7 +18,7 @@ struct ShooterConstants {
 
 
 	constexpr static const units::turns_per_second_t StopVelocity = 0.0_tps;
-	constexpr static const units::turns_per_second_t SustainVelocity = 20.0_tps;
+	constexpr static const units::turns_per_second_t SustainVelocity = 0.0_tps; //20
 	constexpr static const units::turns_per_second_t SustainVelocityAuto = 20.0_tps;
 	constexpr static const units::turns_per_second_t ReverseVelocity = -5.0_tps;
 
